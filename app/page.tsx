@@ -1,3 +1,10 @@
+import Header from "@/src/components/header/Header"
+
 export default async function Home() {
-  return <div>Home page</div>
+  return (
+    <>
+      <Header />
+      <div>Home page</div>
+    </>
+  )
 }
