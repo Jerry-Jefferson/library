@@ -1,34 +1,34 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const DATABASE_URI = process.env.DATABASE_URI!
+const DATABASE_URI = process.env.DATABASE_URI!;
 
 if (!DATABASE_URI) {
-  throw new Error("❌ DATABASE_URI не задан")
+  throw new Error("❌ DATABASE_URI не задан");
 }
 
 declare global {
   var mongooseConn:
     | {
-        conn: typeof mongoose | null
-        promise: Promise<typeof mongoose> | null
+        conn: typeof mongoose | null;
+        promise: Promise<typeof mongoose> | null;
       }
-    | undefined
+    | undefined;
 }
 
 const cached = global.mongooseConn || {
   conn: null,
   promise: null,
-}
+};
 
-global.mongooseConn = cached
+global.mongooseConn = cached;
 
 export async function connectMongo() {
-  if (cached.conn) return cached.conn
+  if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(DATABASE_URI)
+    cached.promise = mongoose.connect(DATABASE_URI);
   }
 
-  cached.conn = await cached.promise
-  return cached.conn
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
