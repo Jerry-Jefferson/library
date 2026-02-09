@@ -1,28 +1,28 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-require("dotenv").config({ path: ".env.local" })
+require("dotenv").config({ path: ".env.local" });
 
-const mongoose = require("mongoose")
-const { Author } = require("../models/author.ts")
-const { Book } = require("../models/book.ts")
+const mongoose = require("mongoose");
+const { Author } = require("../src/models/author");
+const { Book } = require("../src/models/book");
 
-const DATABASE_URI = process.env.DATABASE_URI
-if (!DATABASE_URI) throw new Error("DATABASE_URI не задан")
+const DATABASE_URI = process.env.DATABASE_URI;
+if (!DATABASE_URI) throw new Error("DATABASE_URI не задан");
 
 async function connectMongo() {
-  return mongoose.connect(DATABASE_URI)
+  return mongoose.connect(DATABASE_URI);
 }
 
 // ===== helpers =====
 function randomBetween(min: number, max: number) {
-  return Math.random() * (max - min) + min
+  return Math.random() * (max - min) + min;
 }
 
 function round2(num: number) {
-  return Math.round(num * 100) / 100
+  return Math.round(num * 100) / 100;
 }
 
 function dateMsAgo(ms: number) {
-  return new Date(Date.now() - ms)
+  return new Date(Date.now() - ms);
 }
 
 // ===== данные =====
@@ -77,9 +77,9 @@ const AUTHORS = [
     bio: "Автор документальной и биографической литературы.",
     birthDay: new Date("1976-12-02"),
   },
-]
+];
 
-const GENRES = ["adventure", "fantasy", "drama", "detective", "science fiction", "historical"]
+const GENRES = ["adventure", "fantasy", "drama", "detective", "science fiction", "historical"];
 
 const BOOK_TITLES = [
   "Последний горизонт",
@@ -112,45 +112,45 @@ const BOOK_TITLES = [
   "Сердце бури",
   "Тайна старого архива",
   "За последней чертой",
-]
+];
 
 // ===== seed =====
 async function seed() {
-  await connectMongo()
-  console.log("✅ Подключение к MongoDB")
+  await connectMongo();
+  console.log("✅ Подключение к MongoDB");
 
   // очищаем
-  await Author.deleteMany({})
-  await Book.deleteMany({})
+  await Author.deleteMany({});
+  await Book.deleteMany({});
 
   // создаём авторов
-  const authors = await Author.insertMany(AUTHORS)
-  console.log("✅ Создано авторов:", authors.length)
+  const authors = await Author.insertMany(AUTHORS);
+  console.log("✅ Создано авторов:", authors.length);
 
-  const books = []
+  const books = [];
 
   const DISTRIBUTION = [
     { count: 20, rating: [0, 2], createdAt: dateMsAgo(365 * 24 * 60 * 60 * 1000) }, // 1 год
     { count: 30, rating: [2, 3], createdAt: dateMsAgo(30 * 24 * 60 * 60 * 1000) }, // 1 месяц
     { count: 20, rating: [3, 4], createdAt: dateMsAgo(14 * 24 * 60 * 60 * 1000) }, // 2 недели
     { count: 30, rating: [4, 5], createdAt: dateMsAgo(2 * 24 * 60 * 60 * 1000) }, // 2 дня
-  ]
+  ];
 
-  let bookIndex = 1
+  let bookIndex = 1;
 
   for (let authorIndex = 0; authorIndex < authors.length; authorIndex++) {
-    const author = authors[authorIndex]
+    const author = authors[authorIndex];
 
     for (let j = 0; j < 10; j++) {
       const dist = DISTRIBUTION.find(
         (d) =>
           bookIndex <=
           DISTRIBUTION.slice(0, DISTRIBUTION.indexOf(d) + 1).reduce((sum, x) => sum + x.count, 0)
-      )
+      );
 
-      if (!dist) throw new Error("Распределение не найдено")
+      if (!dist) throw new Error("Распределение не найдено");
 
-      const title = BOOK_TITLES[Math.floor(Math.random() * BOOK_TITLES.length)]
+      const title = BOOK_TITLES[Math.floor(Math.random() * BOOK_TITLES.length)];
 
       books.push({
         title,
@@ -160,18 +160,18 @@ async function seed() {
         genres: [GENRES[bookIndex % GENRES.length]],
         rating: round2(randomBetween(dist.rating[0], dist.rating[1])),
         createdAt: dist.createdAt,
-      })
+      });
 
-      bookIndex++
+      bookIndex++;
     }
   }
 
-  await Book.insertMany(books)
+  await Book.insertMany(books);
 
-  console.log(`✅ Создано книг: ${books.length}`)
-  console.log("🎉 Seed успешно завершён")
+  console.log(`✅ Создано книг: ${books.length}`);
+  console.log("🎉 Seed успешно завершён");
 
-  process.exit(0)
+  process.exit(0);
 }
 
-seed()
+seed();

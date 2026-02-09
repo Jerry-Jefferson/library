@@ -1,15 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #122017;
+  --foreground: #ffffff;
+  --primary: #4ade80;
+  --hover: #42c371;
+  --bookcardback: #1a2b21;
+  --authorcardback: #222222;
+  --secondary: #808d9a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--hover);
+  --color-card-book: var(--bookcardback);
+  --color-card-author: var(--authorcardback);
+  --color-secondary: var(--secondary);
+  
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
 }
 
 @media (prefers-color-scheme: dark) {
