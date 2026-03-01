@@ -1,15 +1,16 @@
-import { NAV_LINKS_ROLE } from "@/src/constants/navigationLinks";
-import { Role } from "@/src/types/roles";
-import HeaderView from "../../client/headerView/HeaderView";
-
-function getSession() {
-  return { user: { role: "GUEST" as const } };
-}
+import { auth } from "@/src/auth";
+import { NAV_LINKS_ROLE, SessionRoles } from "@/src/shared/constants/navigationLinks";
+import { roles } from "@/src/shared/constants/roles";
+import HeaderView from "../../client/headerView/headerView";
 
 export async function Header() {
-  const session = getSession();
-  const role: Role = session?.user.role ?? "GUEST";
-  const links = NAV_LINKS_ROLE[role] ?? [];
+  const session = await auth();
 
-  return <HeaderView links={links} />;
+  const role: SessionRoles = session?.user.role ?? roles.guest;
+  const Logged = Boolean(session);
+  const userName = session?.user?.name;
+
+  const links = NAV_LINKS_ROLE[role];
+
+  return <HeaderView links={links} Logged={Logged} userName={userName} />;
 }

@@ -1,20 +1,40 @@
 import mongoose, { Schema } from "mongoose";
-import { Role } from "../types/roles";
-
-type UserRole = Exclude<Role, "GUEST">;
+import { UserRole } from "../shared/types/newUser";
 
 export interface IUser {
+  name: string;
   email: string;
   password: string;
   role: UserRole;
   favourites: mongoose.Types.ObjectId[];
 }
 
-const UserSchema = new Schema<IUser>({
-  email: String,
-  password: String,
-  role: { type: String, enum: ["USER", "ADMIN"] },
-  favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
-});
+const UserSchema = new Schema<IUser>(
+  {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+      trim: true,
+      minLength: [4, "Name is too short"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
+    },
+    password: { type: String, required: true, select: false },
+    role: {
+      type: String,
+      enum: { values: ["USER", "ADMIN"], message: "{VALUE} is not supported" },
+    },
+    favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 export default mongoose.models.User || mongoose.model<IUser>("User", UserSchema);

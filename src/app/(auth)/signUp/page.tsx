@@ -1,11 +1,7 @@
-import SignUpPic from "@/public/greeneryBook.jpg";
-import { AuthPageContainer } from "@/src/components/client/authPageContainer/AuthPageContainer";
-import { SignUpForm } from "@/src/components/client/signUpForm/SignUpForm";
+import { getRoles } from "@/src/actions/getRoles";
+import { SignUpForm } from "@/src/app/(auth)/signUp/components/signUpForm";
 
-export default function SignUp() {
-  return (
-    <AuthPageContainer alt="sign up picture" src={SignUpPic}>
-      <SignUpForm />
-    </AuthPageContainer>
-  );
+export default async function SignUp() {
+  const roles = await getRoles();
+  return <SignUpForm roleOptions={roles} />;
 }
