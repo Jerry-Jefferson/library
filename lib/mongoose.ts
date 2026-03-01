@@ -23,12 +23,17 @@ const cached = global.mongooseConn || {
 global.mongooseConn = cached;
 
 export async function connectMongo() {
-  if (cached.conn) return cached.conn;
+  try {
+    if (cached.conn) return cached.conn;
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(DATABASE_URI);
+    if (!cached.promise) {
+      cached.promise = mongoose.connect(DATABASE_URI);
+    }
+
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
-
-  cached.conn = await cached.promise;
-  return cached.conn;
 }

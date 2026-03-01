@@ -1,26 +1,10 @@
+import { getNewBooks, getPopularBooks } from "@/lib/modules/books/books";
 import FireIcon from "@/public/fire32.png";
 import NewIcon from "@/public/new32.png";
-import { getBooks } from "@/src/lib/db/books.repository";
-import { BookSection } from "../../components/client/booksSection/BookSection";
+import { BookSection } from "./components/booksSection/bookSection";
 
 export default async function Home() {
-  const [newBooks, popularBooks] = await Promise.all([
-    getBooks({ category: "new", limit: 9 }),
-    getBooks({ category: "popular", limit: 9 }),
-  ]);
-
-  // export default async function Books() {
-
-  //   const result = await fetch("http://localhost:3000/api/books?sort=rating&order=desc&limit=20");
-  //   const resulty = await fetch("http://localhost:3000/api/books?sort=createdAt&order=desc&limit=20");
-  //   const popularBooks = await result.json();
-  //   const newBooks = await resulty.json();
-
-  // For fixed request
-  //   // const result = await fetch("http://localhost:3000/api/books");
-  //   // const { newBooks, popularBooks } = await result.json();
-
-  // }
+  const [newBooks, popularBooks] = await Promise.all([getNewBooks(20), getPopularBooks(20)]);
 
   return (
     <>

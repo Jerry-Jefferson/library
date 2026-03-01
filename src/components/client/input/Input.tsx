@@ -1,43 +1,25 @@
-export interface InputProps {
-  name: string;
-  type: string;
+"use client";
+
+import { ReactNode } from "react";
+import { FieldValues, Path } from "react-hook-form";
+import { Field } from "./field";
+import { InputContext } from "./inputContext";
+import { Label } from "./label";
+import { TextError } from "./textError";
+
+interface InputProps<T extends FieldValues> {
+  children: ReactNode;
+  name: Path<T>;
 }
 
-export function Input({ name, type }: InputProps) {
+export function Input<T extends FieldValues>({ children, name }: InputProps<T>) {
   return (
-    <div className="relative w-full">
-      <input
-        id={name}
-        placeholder=" "
-        className="
-      peer w-full border border-secondary rounded-md
-      px-4 pt-6 pb-2
-      focus:border-primary focus:outline-none
-      focus:ring-2 focus:ring-primary/30
-    "
-        type={type}
-      />
-
-      <label
-        htmlFor={name}
-        className="
-      pointer-events-none
-      absolute left-4 top-1/2 -translate-y-1/2
-      text-secondary
-      transition-all duration-200
-
-      peer-focus:top-2
-      peer-focus:text-xs
-      peer-focus:text-primary
-      peer-focus:translate-y-0
-
-      peer-not-placeholder-shown:top-2
-      peer-not-placeholder-shown:text-xs
-      peer-not-placeholder-shown:translate-y-0
-    "
-      >
-        {name}
-      </label>
-    </div>
+    <InputContext value={{ name }}>
+      <div className="relative w-full">{children}</div>
+    </InputContext>
   );
 }
+
+Input.Label = Label;
+Input.Field = Field;
+Input.TextError = TextError;
