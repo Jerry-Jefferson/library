@@ -1,8 +1,14 @@
+"use client";
+
+import HP from "@/public/HP.jpg";
 import ArrowLeft from "@/public/left.png";
 import ArrowRight from "@/public/right.png";
+import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { IBook } from "@/src/models/book";
-import Image, { StaticImageData } from "next/image";
-import { Carousel } from "../carousel";
+import { isAuthor } from "@/src/shared/types/typeGuards";
+import { StaticImageData } from "next/image";
+import { EmblaCarousel } from "../emblaCarousel/emblaCarousel";
+import { SectionHeader } from "./sectionHeader";
 
 export interface BookSectionProps {
   title: string;
@@ -13,23 +19,28 @@ export interface BookSectionProps {
 
 export function BookSection({ title, alt, src, books }: BookSectionProps) {
   return (
-    <section className="box-border flex flex-col gap-4 p-4 w-full">
-      <div className="flex gap-4 pl-20 w-full">
-        <div className="relative w-[24px] h-[24px]">
-          <Image
-            fill
-            alt={alt}
-            src={src}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </div>
-        <h2 className="text-xl font-semibold">{title}</h2>
-      </div>
-      <Carousel>
-        <Carousel.Switcher direction="backward" src={ArrowLeft} />
-        <Carousel.Items items={books} />
-        <Carousel.Switcher direction="forward" src={ArrowRight} />
-      </Carousel>
+    <section className="box-border flex flex-col gap-4 p-6 w-full">
+      <SectionHeader alt={alt} src={src} title={title} />
+      <EmblaCarousel>
+        <EmblaCarousel.Switcher src={ArrowLeft} direction="backward" />
+        <EmblaCarousel.Container>
+          {books.map((book) => (
+            <EmblaCarousel.Slide key={book._id.toString()}>
+              <ItemCard name="Book">
+                <div className="flex flex-col gap-1">
+                  <ItemCard.Avatar alt={book.title} src={HP} view="rounded" />
+                  <ItemCard.Title content={book.title} />
+                  <ItemCard.Information
+                    color="secondary"
+                    content={isAuthor(book.authorId) ? book.authorId.name : "Unknown author"}
+                  />
+                </div>
+              </ItemCard>
+            </EmblaCarousel.Slide>
+          ))}
+        </EmblaCarousel.Container>
+        <EmblaCarousel.Switcher src={ArrowRight} direction="forward" />
+      </EmblaCarousel>
     </section>
   );
 }

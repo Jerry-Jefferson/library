@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^5.2.2",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
+    "embla-carousel-react": "^8.6.0",
     "http-status-codes": "^2.3.0",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.5",

@@ -1,3 +1,5 @@
+"use client";
+
 export interface TextErrorProps {
   errorMessage: string | undefined;
 }
