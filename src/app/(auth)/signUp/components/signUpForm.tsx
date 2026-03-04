@@ -3,8 +3,8 @@
 import { roleOption } from "@/src/actions/getRoles";
 import { signin } from "@/src/actions/signin";
 import { signup } from "@/src/actions/signup";
+import { Button } from "@/src/components/client/button/button";
 import { Input } from "@/src/components/client/input/input";
-import { Button } from "@/src/components/server/button/button";
 import { RadioButton } from "@/src/components/server/radioButton/radioButton";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -98,7 +98,7 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           <Input.Label label="Confirm password" />
           <Input.TextError errorMessage={errors.confirmPassword?.message} />
         </Input>
-        <Button content="Create Account" disabled={!isValid} />
+        <Button content="Create Account" padding="medium" disabled={!isValid} />
       </form>
       <div>
         <div className="flex gap-4 justify-between">

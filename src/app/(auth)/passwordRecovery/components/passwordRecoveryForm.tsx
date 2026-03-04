@@ -5,8 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Button } from "../../../../components/client/button/button";
 import { Input } from "../../../../components/client/input/input";
-import { Button } from "../../../../components/server/button/button";
 import { passwordRecoverySchema, PasswordRecoverySchema } from "./passwordRecovery.schema";
 
 const passRecoveryFields = {
@@ -52,7 +52,7 @@ export function PasswordRecoveryForm() {
           <Input.Label label="Email" />
           <Input.TextError errorMessage={errors.email?.message} />
         </Input>
-        <Button content="Send reset link" disabled={!isValid} />
+        <Button content="Send reset link" padding="medium" disabled={!isValid} />
       </form>
       <Link
         href={routes.signIn}

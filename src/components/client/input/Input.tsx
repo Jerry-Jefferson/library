@@ -7,7 +7,7 @@ import { InputContext } from "./inputContext";
 import { Label } from "./label";
 import { TextError } from "./textError";
 
-interface InputProps<T extends FieldValues> {
+export interface InputProps<T extends FieldValues> {
   children: ReactNode;
   name: Path<T>;
 }
