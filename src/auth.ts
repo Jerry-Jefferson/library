@@ -2,7 +2,7 @@ import User from "@/src/models/user";
 import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { DATE_SECONDS, JWT_DURATION } from "./shared/constants/durations";
+import { JWT_DURATION } from "./shared/constants/durations";
 import { SessionRoles } from "./shared/constants/navigationLinks";
 
 export const {
@@ -51,12 +51,7 @@ export const {
           ...token,
           role: user.role,
           id: user.id,
-          expiresAt: Math.floor(DATE_SECONDS) + JWT_DURATION,
         };
-      }
-      const now = Math.floor(DATE_SECONDS);
-      if (now > (token.expiresAt as number)) {
-        return null;
       }
 
       return token;
@@ -65,7 +60,6 @@ export const {
       if (token && session.user) {
         session.user.role = token.role as SessionRoles;
         session.user.id = token.id as string;
-        session.accessToken = token.accessToken as string;
       }
       return session;
     },
