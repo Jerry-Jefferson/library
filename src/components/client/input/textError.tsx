@@ -1,7 +1,7 @@
 "use client";
 
 export interface TextErrorProps {
-  errorMessage: string | undefined;
+  errorMessage?: string;
 }
 
 export function TextError({ errorMessage }: TextErrorProps) {

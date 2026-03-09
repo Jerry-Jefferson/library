@@ -1,12 +1,11 @@
 "use client";
 
-import { FieldError, FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { useInput } from "./useInput";
 
 export interface FieldProps<T extends FieldValues> {
-  type: string;
+  type?: string;
   register: UseFormRegister<T>;
-  error?: FieldError;
 }
 
 export function Field<T extends FieldValues>({ type, register }: FieldProps<T>) {

@@ -6,21 +6,18 @@ import ArrowRight from "@/public/right.png";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { IBook } from "@/src/models/book";
 import { isAuthor } from "@/src/shared/types/typeGuards";
-import { StaticImageData } from "next/image";
+import { ReactNode } from "react";
 import { EmblaCarousel } from "../emblaCarousel/emblaCarousel";
-import { SectionHeader } from "./sectionHeader";
 
 export interface BookSectionProps {
-  title: string;
-  alt: string;
-  src: StaticImageData;
+  children: ReactNode;
   books: IBook[];
 }
 
-export function BookSection({ title, alt, src, books }: BookSectionProps) {
+export function BookSection({ children, books }: BookSectionProps) {
   return (
     <section className="box-border flex flex-col gap-4 p-6 w-full">
-      <SectionHeader alt={alt} src={src} title={title} />
+      {children}
       <EmblaCarousel>
         <EmblaCarousel.Switcher src={ArrowLeft} direction="backward" />
         <EmblaCarousel.Container>

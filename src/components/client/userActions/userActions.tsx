@@ -1,24 +1,20 @@
 "use client";
 
+import { handleSignOut } from "@/src/actions/signout";
 import { AUTH_BUTTONS } from "@/src/shared/constants/navigationLinks";
 import Link from "next/link";
+import { UserActionsProps } from "../../server/header/header";
 import { Button } from "../button/button";
 
-export interface UserActionsProps {
-  logged: boolean;
-  userName?: string | null;
-  onSignOut: () => void;
-}
-
-export function UserActions({ logged, userName, onSignOut }: UserActionsProps) {
+export function UserActions(props: UserActionsProps) {
   const { auth } = AUTH_BUTTONS;
 
   return (
     <div className="flex items-center gap-4">
-      {logged ? (
+      {props.logged ? (
         <>
-          <p className="hidden sm:block text-sm font-medium">Hello, {userName}</p>
-          <Button content="Quit" padding="small" onClick={onSignOut} />
+          <p className="hidden sm:block text-sm font-medium">Hello, {props.userName}</p>
+          <Button content="Quit" padding="small" onClick={handleSignOut} />
         </>
       ) : (
         <>

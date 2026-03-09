@@ -17,7 +17,7 @@ export function Switcher({ src, direction }: SwitcherProps) {
       onClick={forward ? scrollNext : scrollPrev}
       className="relative p-2 bg-background border border-secondary hover:bg-primary rounded-2xl transition-colors min-w-[50px] aspect-square"
     >
-      <Image fill alt={direction} src={src} />
+      <Image fill alt={direction} src={src} sizes="50px" />
     </button>
   );
 }

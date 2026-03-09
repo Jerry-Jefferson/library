@@ -7,27 +7,27 @@ import { routes } from "./shared/constants/routes";
 async function proxy(request: NextRequest & { auth: Session | null }) {
   const { auth, nextUrl } = request;
 
-  const LoggedIn = Boolean(auth);
+  const loggedIn = Boolean(auth);
   const userRole = auth?.user?.role;
 
-  const PublicRoute =
+  const publicRoute =
     nextUrl.pathname === "/" ||
     nextUrl.pathname === "/403" ||
     nextUrl.pathname.startsWith("/books") ||
     nextUrl.pathname.startsWith("/authors");
 
-  const AuthRoute = [routes.signIn, routes.signUp, routes.recovery].includes(nextUrl.pathname);
+  const authRoute = [routes.signIn, routes.signUp, routes.recovery].includes(nextUrl.pathname);
 
-  const AdminRoute = nextUrl.pathname.startsWith("/admin");
+  const adminRoute = nextUrl.pathname.startsWith("/admin");
 
-  if (AuthRoute) {
-    if (LoggedIn) {
+  if (authRoute) {
+    if (loggedIn) {
       return NextResponse.redirect(new URL(routes.home, nextUrl));
     }
     return NextResponse.next();
   }
 
-  if (!LoggedIn && !PublicRoute) {
+  if (!loggedIn && !publicRoute) {
     const url = nextUrl.clone();
 
     url.pathname = routes.signIn;
@@ -36,7 +36,7 @@ async function proxy(request: NextRequest & { auth: Session | null }) {
     return NextResponse.redirect(url);
   }
 
-  if (AdminRoute) {
+  if (adminRoute) {
     if (userRole !== roles.admin) {
       return NextResponse.rewrite(new URL("/403", nextUrl));
     }
