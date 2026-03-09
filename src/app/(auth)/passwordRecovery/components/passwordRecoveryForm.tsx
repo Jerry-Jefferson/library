@@ -1,12 +1,12 @@
 "use client";
 
+import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../../../../components/client/button/button";
-import { Input } from "../../../../components/client/input/input";
 import { passwordRecoverySchema, PasswordRecoverySchema } from "./passwordRecovery.schema";
 
 const passRecoveryFields = {
@@ -47,11 +47,13 @@ export function PasswordRecoveryForm() {
         </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-        <Input name="email">
-          <Input.Field type="email" register={register} />
-          <Input.Label label="Email" />
-          <Input.TextError errorMessage={errors.email?.message} />
-        </Input>
+        <FormInput
+          name="email"
+          type="email"
+          register={register}
+          label="Email"
+          errorMessage={errors.email?.message}
+        />
         <Button content="Send reset link" padding="medium" disabled={!isValid} />
       </form>
       <Link

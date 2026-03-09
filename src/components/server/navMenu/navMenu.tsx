@@ -1,9 +1,7 @@
-"use client";
-
-import BookIcon from "@/public/book.png";
-import Image from "next/image";
 import Link from "next/link";
-import { NavLink } from "./headerView";
+import { Logo } from "../logo/logo";
+
+export type NavLink = { href: string; label: string };
 
 export interface NavMenuProps {
   links: readonly NavLink[];
@@ -12,9 +10,7 @@ export interface NavMenuProps {
 export function NavMenu({ links }: NavMenuProps) {
   return (
     <div className="flex gap-4 items-center">
-      <div className="relative w-[24px] h-[24px]">
-        <Image fill alt="book icon" src={BookIcon} className="object-cover" />
-      </div>
+      <Logo />
       {links.map((link) => (
         <Link
           className="text-xs md:text-sm lg:text-base hover:text-primary transition-colors"

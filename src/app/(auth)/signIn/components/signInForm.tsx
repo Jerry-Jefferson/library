@@ -1,6 +1,7 @@
 "use client";
 
 import { signin } from "@/src/actions/signin";
+import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -9,7 +10,6 @@ import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Button } from "../../../../components/client/button/button";
-import { Input } from "../../../../components/client/input/input";
 import { signInSchema, SignInSchema } from "./signIn.schema";
 
 const signinFields = {
@@ -67,33 +67,39 @@ export function SignInForm() {
         <p className="text-secondary text-xl">Sign in to access your digital bookshelf</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-        <Input name="email">
-          <Input.Field type="email" register={register} />
-          <Input.Label label="Email" />
-          <Input.TextError errorMessage={errors.email?.message} />
-        </Input>
-        <Input name="password">
-          <Input.Field type="password" register={register} />
-          <Input.Label label="Password" />
-          <Input.TextError errorMessage={errors.password?.message} />
-        </Input>
+        <FormInput
+          name="email"
+          type="email"
+          register={register}
+          label="Email"
+          errorMessage={errors.email?.message}
+        />
+        <FormInput
+          name="password"
+          password
+          register={register}
+          label="Password"
+          errorMessage={errors.password?.message}
+        />
         <Button content="Sign in" padding="medium" disabled={!isValid} />
       </form>
       <div>
         <div className="flex gap-4 justify-between">
-          <p className="text-secondary">Don&apos;t have an account?</p>
+          <p className="text-secondary text-xs md:text-sm lg:text-base">
+            Don&apos;t have an account?
+          </p>
           <Link
             href={routes.signUp}
-            className="text-primary hover:text-primary-hover focus:border-primary"
+            className="text-primary text-xs md:text-sm lg:text-base hover:text-primary-hover focus:border-primary"
           >
-            Create an account
+            Create
           </Link>
         </div>
         <div className="flex gap-4 justify-between">
-          <p className="text-secondary">Forgot password?</p>
+          <p className="text-secondary text-xs md:text-sm lg:text-base">Forgot password?</p>
           <Link
             href={routes.recovery}
-            className="text-primary hover:text-primary-hover focus:border-primary"
+            className="text-primary text-xs md:text-sm lg:text-base hover:text-primary-hover focus:border-primary"
           >
             Recover
           </Link>

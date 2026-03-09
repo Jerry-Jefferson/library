@@ -1,3 +1,4 @@
+import useClientPlugin from "@naverpay/eslint-plugin-use-client";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import prettier from "eslint-config-prettier";
@@ -8,6 +9,16 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   prettier,
+  {
+    plugins: {
+      "use-client": useClientPlugin,
+    },
+    rules: {
+      "use-client/use-client-hook": "error",
+      "use-client/browser-api": "error",
+      "use-client/event-handler": "error",
+    },
+  },
   {
     plugins: {
       prettier: prettierPlugin,

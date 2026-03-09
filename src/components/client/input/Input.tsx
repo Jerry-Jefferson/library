@@ -5,6 +5,7 @@ import { FieldValues, Path } from "react-hook-form";
 import { Field } from "./field";
 import { InputContext } from "./inputContext";
 import { Label } from "./label";
+import { PasswordField } from "./passwordField";
 import { TextError } from "./textError";
 
 export interface InputProps<T extends FieldValues> {
@@ -15,7 +16,7 @@ export interface InputProps<T extends FieldValues> {
 export function Input<T extends FieldValues>({ children, name }: InputProps<T>) {
   return (
     <InputContext value={{ name }}>
-      <div className="relative w-full">{children}</div>
+      <div className="relative w-full group/field">{children}</div>
     </InputContext>
   );
 }
@@ -23,3 +24,4 @@ export function Input<T extends FieldValues>({ children, name }: InputProps<T>) 
 Input.Label = Label;
 Input.Field = Field;
 Input.TextError = TextError;
+Input.PasswordField = PasswordField;

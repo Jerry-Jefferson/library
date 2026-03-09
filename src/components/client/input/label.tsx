@@ -12,19 +12,17 @@ export function Label({ label }: LabelProps) {
     <label
       htmlFor={name}
       className="
-      pointer-events-none
-      absolute left-4 top-1/2 -translate-y-1/2
-      text-secondary
-      transition-all duration-200
+        pointer-events-none absolute left-4 top-1/2 -translate-y-1/2
+        text-secondary transition-all duration-200 origin-left
 
-      peer-focus:top-2
-      peer-focus:text-xs
-      peer-focus:text-primary
-      peer-focus:translate-y-0
+        group-has-[:focus]/field:top-2
+        group-has-[:focus]/field:translate-y-0
+        group-has-[:focus]/field:text-xs
+        group-has-[:focus]/field:text-primary
 
-      peer-not-placeholder-shown:top-2
-      peer-not-placeholder-shown:text-xs
-      peer-not-placeholder-shown:translate-y-0
+        group-has-[:not(:placeholder-shown)]/field:top-2
+        group-has-[:not(:placeholder-shown)]/field:translate-y-0
+        group-has-[:not(:placeholder-shown)]/field:text-xs
     "
     >
       {label}

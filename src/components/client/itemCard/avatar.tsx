@@ -14,7 +14,13 @@ export function Avatar({ alt, src, view }: AvatarProps) {
     <div
       className={`relative overflow-hidden w-full ${circle ? "aspect-square rounded-full" : "aspect-3/4 rounded-lg"}`}
     >
-      <Image fill className="object-cover" alt={alt} src={src} />
+      <Image
+        fill
+        className="object-cover"
+        alt={alt}
+        src={src}
+        sizes="(min-width: 1024px) 12.5vw, (min-width: 768px) 25vw, (min-width: 640px) 50vw, 100vw"
+      />
     </div>
   );
 }
