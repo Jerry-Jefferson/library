@@ -1,46 +1,20 @@
 import { auth } from "@/src/auth";
 import { Session } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { roles } from "./shared/constants/roles";
-import { routes } from "./shared/constants/routes";
+import { getAccessType } from "./shared/utils/getAccessType";
+import { getProxyActions } from "./shared/utils/getProxyActions";
 
 async function proxy(request: NextRequest & { auth: Session | null }) {
   const { auth, nextUrl } = request;
-
-  const loggedIn = Boolean(auth);
+  const pathname = nextUrl.pathname;
   const userRole = auth?.user?.role;
 
-  const publicRoute =
-    nextUrl.pathname === "/" ||
-    nextUrl.pathname === "/403" ||
-    nextUrl.pathname.startsWith("/books") ||
-    nextUrl.pathname.startsWith("/authors");
+  const accessType = getAccessType(pathname);
 
-  const authRoute = [routes.signIn, routes.signUp, routes.recovery].includes(nextUrl.pathname);
+  const actions = getProxyActions({ userRole, nextUrl });
 
-  const adminRoute = nextUrl.pathname.startsWith("/admin");
-
-  if (authRoute) {
-    if (loggedIn) {
-      return NextResponse.redirect(new URL(routes.home, nextUrl));
-    }
-    return NextResponse.next();
-  }
-
-  if (!loggedIn && !publicRoute) {
-    const url = nextUrl.clone();
-
-    url.pathname = routes.signIn;
-    url.searchParams.set("callbackUrl", nextUrl.pathname + nextUrl.search);
-
-    return NextResponse.redirect(url);
-  }
-
-  if (adminRoute) {
-    if (userRole !== roles.admin) {
-      return NextResponse.rewrite(new URL("/403", nextUrl));
-    }
-  }
+  const response = actions[accessType]();
+  if (response) return response;
 
   return NextResponse.next();
 }

@@ -1,4 +1,4 @@
-import { Header } from "@/src/components/server/header/header";
+import { Header } from "@/src/components/server/header/neader";
 import { Suspense } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

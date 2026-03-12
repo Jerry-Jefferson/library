@@ -3,12 +3,11 @@
 import { handleSignOut } from "@/src/actions/signout";
 import { AUTH_BUTTONS } from "@/src/shared/constants/navigationLinks";
 import Link from "next/link";
-import { UserActionsProps } from "../../server/header/header";
 import { Button } from "../button/button";
 
-export function UserActions(props: UserActionsProps) {
-  const { auth } = AUTH_BUTTONS;
+export type UserActionsProps = { logged: true; userName: string } | { logged: false };
 
+export function AuthMenu(props: UserActionsProps) {
   return (
     <div className="flex items-center gap-4">
       {props.logged ? (
@@ -18,7 +17,7 @@ export function UserActions(props: UserActionsProps) {
         </>
       ) : (
         <>
-          {auth.map((link) => (
+          {AUTH_BUTTONS.map((link) => (
             <Link
               key={link.label}
               className="border border-secondary rounded-md inline-block hover:bg-primary-hover hover:text-background px-4 py-2 transition-colors"
