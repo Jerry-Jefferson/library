@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { roles } from "../constants/roles";
-import { routes, RouteType } from "../constants/routes";
+import { RouteGroup, routes } from "../constants/routes";
 import { redirectToSignin } from "./redirectToSignin";
 
 interface ActionContext {
@@ -11,7 +11,7 @@ interface ActionContext {
 export function getProxyActions({
   userRole,
   nextUrl,
-}: ActionContext): Record<RouteType, () => NextResponse | null> {
+}: ActionContext): Record<RouteGroup, () => NextResponse | null> {
   const { origin } = nextUrl;
 
   return {

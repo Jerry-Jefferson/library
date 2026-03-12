@@ -30,9 +30,7 @@ export const NAV_LINKS_ROLE = {
   },
 } as const;
 
-export const AUTH_BUTTONS = {
-  auth: [
-    { href: `${routes.signIn}`, label: "Sign in" },
-    { href: `${routes.signUp}`, label: "Sign up" },
-  ],
-};
+export const AUTH_BUTTONS = [
+  { href: `${routes.signIn}`, label: "Sign in" },
+  { href: `${routes.signUp}`, label: "Sign up" },
+];
