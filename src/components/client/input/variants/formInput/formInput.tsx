@@ -1,7 +1,7 @@
 "use client";
 
+import { Input } from "@/src/components/client/input/input";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
-import { Input } from "../../unput";
 
 export interface CommonProps<T extends FieldValues> {
   name: Path<T>;
