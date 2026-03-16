@@ -160,6 +160,7 @@ async function seed() {
         genres: [GENRES[bookIndex % GENRES.length]],
         rating: round2(randomBetween(dist.rating[0], dist.rating[1])),
         createdAt: dist.createdAt,
+        imageUrl: "/HP.jpg",
       });
 
       bookIndex++;

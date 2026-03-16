@@ -1,3 +1,8 @@
+import { getAllBooks } from "@/lib/modules/books/books";
+import { BookDirectory } from "../components/bookDirectory/bookDirectory";
+
 export default async function Books() {
-  return <p>All books</p>;
+  const books = await getAllBooks();
+
+  return <BookDirectory books={books} />;
 }
