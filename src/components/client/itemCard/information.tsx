@@ -6,7 +6,7 @@ export interface InformationProps {
   className?: string;
 }
 
-const colorVariants = {
+export const colorVariants = {
   primary: "text-primary",
   secondary: "text-secondary",
 };

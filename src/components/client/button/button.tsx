@@ -7,6 +7,7 @@ export interface ButtonProps {
   padding: Padding;
   disabled?: boolean;
   onClick?: () => void;
+  className?: string;
 }
 
 const paddingVariants = {
@@ -15,10 +16,10 @@ const paddingVariants = {
   large: "p-6",
 };
 
-export function Button({ content, padding, disabled, onClick }: ButtonProps) {
+export function Button({ content, padding, disabled, onClick, className }: ButtonProps) {
   return (
     <button
-      className={`bg-primary hover:bg-primary-hover rounded-md text-background ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary`}
+      className={`bg-primary hover:bg-primary-hover rounded-md text-background ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary ${className || ""}`}
       type="submit"
       disabled={disabled}
       onClick={onClick}
