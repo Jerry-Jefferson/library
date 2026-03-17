@@ -27,9 +27,9 @@ export const {
 
           if (!user) return null;
 
-          const Match = await bcrypt.compare(credentials?.password as string, user.password);
+          const match = await bcrypt.compare(credentials?.password as string, user.password);
 
-          if (!Match) return null;
+          if (!match) return null;
 
           return {
             id: user._id.toString(),

@@ -4,7 +4,7 @@ export type AvatarType = "circle" | "rounded";
 
 export interface AvatarProps {
   alt: string;
-  src: StaticImageData;
+  src: StaticImageData | string;
   view: AvatarType;
 }
 
