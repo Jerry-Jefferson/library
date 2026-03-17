@@ -1,7 +1,7 @@
 export type InfoColor = "primary" | "secondary";
 
 export interface InformationProps {
-  content: string;
+  content: string | number;
   color: InfoColor;
   className?: string;
 }

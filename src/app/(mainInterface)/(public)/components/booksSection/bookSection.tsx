@@ -11,10 +11,12 @@ import { EmblaCarousel } from "../emblaCarousel/emblaCarousel";
 
 export interface BookSectionProps {
   children: ReactNode;
-  books: IBook[];
+  books: IBook[] | null;
 }
 
 export function BookSection({ children, books }: BookSectionProps) {
+  if (!books) return <p>No books found</p>;
+
   return (
     <section className="box-border flex flex-col gap-4 p-6 w-full">
       {children}
@@ -22,7 +24,7 @@ export function BookSection({ children, books }: BookSectionProps) {
         <EmblaCarousel.Switcher src={ArrowLeft} direction="backward" />
         <EmblaCarousel.Container>
           {books.map((book) => (
-            <EmblaCarousel.Slide key={book._id.toString()}>
+            <EmblaCarousel.Slide key={book._id}>
               <ItemCard name="Book">
                 <div className="flex flex-col gap-1">
                   <ItemCard.Avatar alt={book.title} src={HP} view="rounded" />

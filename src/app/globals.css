@@ -5,9 +5,7 @@
   --foreground: #ffffff;
   --primary: #4ade80;
   --hover: #42c371;
-  --bookcardback: #1a2b21;
-  --authorcardback: #222222;
-  --neutral-dark: #2d2d2d;
+  --cardback: #222222;
   --secondary: #808d9a;
   --toastify-color-success: #4ade80;
   --toastify-color-error: #ef4444;
@@ -18,9 +16,7 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-hover: var(--hover);
-  --color-card-book: var(--bookcardback);
-  --color-card-author: var(--authorcardback);
-  --color-neutral-dark: var(--neutral-dark);
+  --color-card-back: var(--cardback);
   --color-secondary: var(--secondary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
