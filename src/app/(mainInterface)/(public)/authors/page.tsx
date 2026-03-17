@@ -5,7 +5,6 @@ import ItemCard from "@/src/components/client/itemCard/itemCard";
 import DefaultAvatar from "@/public/default-avatar.png";
 import { useEffect, useState } from "react";
 import { IAuthorSerialized } from "@/src/models/author";
-import { Button } from "@/src/components/client/button/button";
 import Link from "next/link";
 
 export default function Authors() {
@@ -16,7 +15,7 @@ export default function Authors() {
   }, []);
 
   return (
-    <div className="w-full min-h-dvh flex justify-center bg-background">
+    <div className="w-full min-h-dvh flex justify-center">
       <div className="w-4/5 gap-4 flex flex-col mt-10">
         <h2 className="text-6xl font-bold">Authors Directory</h2>
         <p className="text-xl text-secondary">
@@ -34,9 +33,7 @@ export default function Authors() {
                       view="circle"
                     />
                   </div>
-
                   <ItemCard.Title content={author.name} className="font-bold text-center" />
-
                   <ItemCard.Information
                     color="secondary"
                     content={author.bio}
