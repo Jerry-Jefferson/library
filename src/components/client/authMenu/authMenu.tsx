@@ -2,8 +2,8 @@
 
 import { handleSignOut } from "@/src/actions/signout";
 import { AUTH_BUTTONS } from "@/src/shared/constants/navigationLinks";
-import Link from "next/link";
 import { Button } from "../button/button";
+import LinkButton from "@/src/components/server/linkButton/linkButton";
 
 export type UserActionsProps = { logged: true; userName: string } | { logged: false };
 
@@ -18,13 +18,9 @@ export function AuthMenu(props: UserActionsProps) {
       ) : (
         <>
           {AUTH_BUTTONS.map((link) => (
-            <Link
-              key={link.label}
-              className="border border-secondary rounded-md inline-block hover:bg-primary-hover hover:text-background px-4 py-2 transition-colors"
-              href={link.href}
-            >
+            <LinkButton key={link.label} href={link.href}>
               {link.label}
-            </Link>
+            </LinkButton>
           ))}
         </>
       )}

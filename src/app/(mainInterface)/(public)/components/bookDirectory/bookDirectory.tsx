@@ -3,7 +3,7 @@
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { IBook } from "@/src/models/book";
 import { isAuthor } from "@/src/shared/types/typeGuards";
-import Link from "next/link";
+import LinkButton from "@/src/components/server/linkButton/linkButton";
 
 export function BookDirectory({ books }: { books: IBook[] | null }) {
   if (!books) return <p>No books found</p>;
@@ -34,12 +34,7 @@ export function BookDirectory({ books }: { books: IBook[] | null }) {
                     />
                     <ItemCard.Information content={book.year} color="secondary" />
                   </div>
-                  <Link
-                    className="block text-center border border-secondary rounded-md inline-block hover:bg-primary-hover hover:text-background px-4 py-2 transition-colors w-full"
-                    href={`/books/${book._id}`}
-                  >
-                    View Information
-                  </Link>
+                  <LinkButton href={`/books/${book._id}`}>View Information</LinkButton>
                 </div>
               </ItemCard>
             </div>
