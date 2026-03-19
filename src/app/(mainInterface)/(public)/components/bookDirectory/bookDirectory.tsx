@@ -1,9 +1,9 @@
 "use client";
 
 import ItemCard from "@/src/components/client/itemCard/itemCard";
+import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
-import Link from "next/link";
 
 export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
   if (!books || books.length === 0) return <p>No books found</p>;
@@ -31,12 +31,7 @@ export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
                     <ItemCard.Information content={book.authorName} color="secondary" />
                     <ItemCard.Information content={book.year} color="secondary" />
                   </div>
-                  <Link
-                    className="block text-center border border-secondary rounded-md inline-block hover:bg-primary-hover hover:text-background px-4 py-2 transition-colors w-full"
-                    href={routes.book(book._id)}
-                  >
-                    View Information
-                  </Link>
+                  <LinkButton href={routes.book(book._id)}>View Information</LinkButton>
                 </div>
               </ItemCard>
             </div>

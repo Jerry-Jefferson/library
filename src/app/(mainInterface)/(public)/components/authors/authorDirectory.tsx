@@ -2,9 +2,9 @@
 
 import DefaultAvatar from "@/public/default-avatar.png";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
+import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IAuthorSerialized } from "@/src/models/author";
 import { routes } from "@/src/shared/constants/routes";
-import Link from "next/link";
 
 export default function AuthorDirectory({ authors }: { authors: IAuthorSerialized[] | null }) {
   if (!authors || authors.length === 0) return <p>No authors found</p>;
@@ -33,12 +33,7 @@ export default function AuthorDirectory({ authors }: { authors: IAuthorSerialize
                     className="text-center whitespace-normal"
                   />
                 </div>
-                <Link
-                  className="border border-secondary rounded-md inline-block hover:bg-primary-hover hover:text-background px-4 py-2 transition-colors font-bold text-center"
-                  href={routes.author(author._id)}
-                >
-                  View profile
-                </Link>
+                <LinkButton href={routes.author(author._id)}>View Information</LinkButton>
               </div>
             </ItemCard>
           ))}
