@@ -1,11 +1,14 @@
 "use client";
+
+import DefaultAvatar from "@/public/default-avatar.png";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { IAuthorSerialized } from "@/src/models/author";
-import DefaultAvatar from "@/public/default-avatar.png";
+import { routes } from "@/src/shared/constants/routes";
 import Link from "next/link";
 
 export default function AuthorDirectory({ authors }: { authors: IAuthorSerialized[] | null }) {
-  if (!authors) return <p>No books found</p>;
+  if (!authors || authors.length === 0) return <p>No authors found</p>;
+
   return (
     <div className="w-full min-h-dvh flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
@@ -32,7 +35,7 @@ export default function AuthorDirectory({ authors }: { authors: IAuthorSerialize
                 </div>
                 <Link
                   className="border border-secondary rounded-md inline-block hover:bg-primary-hover hover:text-background px-4 py-2 transition-colors font-bold text-center"
-                  href={`/authors/${author._id}`}
+                  href={routes.author(author._id)}
                 >
                   View profile
                 </Link>

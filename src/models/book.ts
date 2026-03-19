@@ -1,16 +1,23 @@
 import mongoose, { Schema } from "mongoose";
-import { IAuthor } from "./author";
+import { IAuthorSerialized } from "./author";
 
 export interface IBook {
   _id: string;
   title: string;
   description: string;
-  authorId: mongoose.Types.ObjectId | IAuthor;
+  authorId: mongoose.Types.ObjectId | IAuthorSerialized;
   year: number;
   genres: string[];
   rating: number;
   createdAt: Date;
   imageUrl: string;
+}
+
+export interface IBookSerialized extends Omit<IBook, "_id" | "authorId" | "createdAt"> {
+  _id: string;
+  authorId: string;
+  authorName: string;
+  createdAt: string;
 }
 
 const BookSchema = new Schema<IBook>(

@@ -3,9 +3,9 @@ import { ROUTE_ACCESS } from "./routeAccess";
 export const routes = {
   home: "/",
   books: "/books",
-  book: "/books/[id]",
+  book: (id: string) => `/books/${id}`,
   authors: "/authors",
-  author: "/authors/[id]",
+  author: (id: string) => `/authors/${id}`,
   favourites: "/favourites",
   reviews: "/reviews",
   signIn: "/signIn",
