@@ -5,7 +5,7 @@ import DefaultAvatar from "@/public/default-avatar.png";
 import Link from "next/link";
 
 export default function AuthorDirectory({ authors }: { authors: IAuthorSerialized[] | null }) {
-  if (!authors) return <p>No books found</p>;
+  if (!authors) return <p>No authors found</p>;
   return (
     <div className="w-full min-h-dvh flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
