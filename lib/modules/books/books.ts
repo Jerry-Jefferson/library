@@ -1,41 +1,56 @@
 import { connectMongo } from "@/lib/mongoose";
 import "@/src/models/author";
-import { Book, IBook } from "@/src/models/book";
+import { Book, IBook, IBookSerialized } from "@/src/models/book";
+import { isAuthor } from "@/src/shared/types/typeGuards";
+import { FlattenMaps } from "mongoose";
 import { cacheLife } from "next/cache";
 
-export async function getAllBooks(): Promise<IBook[] | null> {
+function serializeBook(book: FlattenMaps<IBook>): IBookSerialized {
+  const author = book.authorId;
+
+  const authorName = isAuthor(author) ? author.name : "Unknown author";
+  const authorIdStr = isAuthor(author) ? author._id.toString() : String(author);
+
+  return {
+    ...book,
+    _id: book._id.toString(),
+    authorName: authorName,
+    authorId: authorIdStr,
+    createdAt: book.createdAt?.toISOString(),
+  };
+}
+
+export async function getAllBooks(): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("hours");
   try {
     await connectMongo();
-    const books = await Book.find().populate("authorId", "name").lean();
+    const books = await Book.find().populate("authorId", "name").lean<IBook[]>();
 
-    if (!books) return null;
-
-    return JSON.parse(JSON.stringify(books));
+    return books ? books.map(serializeBook) : null;
   } catch (error) {
     console.error("DB error in getAllBooks", error);
     throw error;
   }
 }
 
-export async function getBookById(id: string): Promise<IBook | null> {
+export async function getBookById(id: string): Promise<IBookSerialized | null> {
   "use cache";
   cacheLife("days");
   try {
     await connectMongo();
-    const book = await Book.findById(id).populate("authorId", "name").lean();
+    const book = await Book.findById(id).populate("authorId", "name").lean<IBook>();
 
     if (!book) return null;
 
-    return JSON.parse(JSON.stringify(book));
+    return serializeBook(book);
   } catch (error) {
     console.error("DB error in getBookById", error);
     throw error;
   }
 }
 
-export async function getPopularBooks(limit: number): Promise<IBook[] | null> {
+export async function getPopularBooks(limit: number): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("days");
   try {
@@ -44,18 +59,16 @@ export async function getPopularBooks(limit: number): Promise<IBook[] | null> {
       .populate("authorId", "name")
       .sort({ rating: -1 })
       .limit(limit)
-      .lean();
+      .lean<IBook[]>();
 
-    if (!popular) return null;
-
-    return JSON.parse(JSON.stringify(popular));
+    return popular ? popular.map(serializeBook) : null;
   } catch (error) {
     console.error("DB error in getPopularBooks", error);
     throw error;
   }
 }
 
-export async function getNewBooks(limit: number): Promise<IBook[] | null> {
+export async function getNewBooks(limit: number): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("days");
   try {
@@ -64,11 +77,9 @@ export async function getNewBooks(limit: number): Promise<IBook[] | null> {
       .populate("authorId", "name")
       .sort({ createdAt: -1 })
       .limit(limit)
-      .lean();
+      .lean<IBook[]>();
 
-    if (!newBooks) return null;
-
-    return JSON.parse(JSON.stringify(newBooks));
+    return newBooks ? newBooks.map(serializeBook) : null;
   } catch (error) {
     console.error("DB error in getNewBooks", error);
     throw error;

@@ -1,11 +1,14 @@
 "use client";
-import ItemCard from "@/src/components/client/itemCard/itemCard";
-import { IAuthorSerialized } from "@/src/models/author";
+
 import DefaultAvatar from "@/public/default-avatar.png";
+import ItemCard from "@/src/components/client/itemCard/itemCard";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
+import { IAuthorSerialized } from "@/src/models/author";
+import { routes } from "@/src/shared/constants/routes";
 
 export default function AuthorDirectory({ authors }: { authors: IAuthorSerialized[] | null }) {
-  if (!authors) return <p>No authors found</p>;
+  if (!authors || authors.length === 0) return <p>No authors found</p>;
+
   return (
     <div className="w-full min-h-dvh flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
@@ -30,7 +33,7 @@ export default function AuthorDirectory({ authors }: { authors: IAuthorSerialize
                     className="text-center whitespace-normal"
                   />
                 </div>
-                <LinkButton href={`/authors/${author._id}`}>View Information</LinkButton>
+                <LinkButton href={routes.author(author._id)}>View Information</LinkButton>
               </div>
             </ItemCard>
           ))}
