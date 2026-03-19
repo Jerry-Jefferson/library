@@ -2,9 +2,9 @@
 
 import { Button } from "@/src/components/client/button/button";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
+import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 export function BookPage({ book }: { book: IBookSerialized | null }) {
@@ -21,12 +21,9 @@ export function BookPage({ book }: { book: IBookSerialized | null }) {
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.imageUrl} view="rounded" />
               <Button content="Add to Favourites" padding="medium" className="font-bold" />
-              <Link
-                className="border border-secondary rounded-md inline-block hover:bg-primary-hover hover:text-background py-4 transition-colors font-bold text-center"
-                href={backPath}
-              >
+              <LinkButton href={backPath}>
                 Back to {backPath === routes.books ? "Book Directory" : "Home"}
-              </Link>
+              </LinkButton>
             </div>
             <div className="w-[65%] flex flex-col gap-6">
               <div>
