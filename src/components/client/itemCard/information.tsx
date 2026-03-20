@@ -13,7 +13,7 @@ export const colorVariants = {
 
 export function Information({ content, color, className }: InformationProps) {
   return (
-    <p className={`text-[clamp(12px,6cqw,20px)] ${colorVariants[color]} ${className || ""}`}>
+    <p className={`text-[clamp(12px,0.5rem+3cqw,20px)] ${colorVariants[color]} ${className || ""}`}>
       {content}
     </p>
   );
