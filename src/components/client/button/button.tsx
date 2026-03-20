@@ -19,7 +19,10 @@ const paddingVariants = {
 export function Button({ content, padding, disabled, onClick, className }: ButtonProps) {
   return (
     <button
-      className={`bg-primary hover:bg-primary-hover rounded-md text-background ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary ${className || ""}`}
+      className={`bg-primary hover:bg-primary-hover rounded-md text-background text-[clamp(10px,0.5rem+1vw,16px)]
+      ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full 
+      disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary 
+      ${className || ""}`}
       type="submit"
       disabled={disabled}
       onClick={onClick}
