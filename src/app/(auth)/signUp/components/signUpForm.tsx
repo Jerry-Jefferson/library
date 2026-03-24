@@ -106,7 +106,9 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           label="Confirm password"
           errorMessage={errors.confirmPassword?.message}
         />
-        <Button content="Create Account" padding="medium" disabled={!isValid} />
+        <Button padding="medium" disabled={!isValid}>
+          Create Account
+        </Button>
       </form>
       <div>
         <div className="flex gap-4 justify-between">
