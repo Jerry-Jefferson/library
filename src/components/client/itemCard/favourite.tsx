@@ -7,6 +7,7 @@ import { useState } from "react";
 
 export function Favourite() {
   const [isFavourite, setIsFavourite] = useState(false);
+
   function toggle() {
     setIsFavourite((prev) => !prev);
   }
@@ -16,7 +17,12 @@ export function Favourite() {
       className="cursor-pointer relative w-[10%] max-w-[40px] min-w-[24px] aspect-square"
       onClick={toggle}
     >
-      <Image fill alt="favourites" src={isFavourite ? FavGreen : FavGrey} />
+      <Image
+        fill
+        alt="favourites"
+        src={isFavourite ? FavGreen : FavGrey}
+        sizes="(min-width: 240px) 10vw"
+      />
     </button>
   );
 }

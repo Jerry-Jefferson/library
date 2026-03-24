@@ -3,7 +3,7 @@
 export type Padding = "small" | "medium" | "large";
 
 export interface ButtonProps {
-  content: string;
+  children: React.ReactNode;
   padding: Padding;
   disabled?: boolean;
   onClick?: () => void;
@@ -16,18 +16,18 @@ const paddingVariants = {
   large: "p-6",
 };
 
-export function Button({ content, padding, disabled, onClick, className }: ButtonProps) {
+export function Button({ children, padding, disabled, onClick, className = "" }: ButtonProps) {
   return (
     <button
       className={`bg-primary hover:bg-primary-hover rounded-md text-background text-[clamp(10px,0.5rem+1vw,16px)]
       ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full 
       disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary 
-      ${className || ""}`}
+      ${className}`}
       type="submit"
       disabled={disabled}
       onClick={onClick}
     >
-      {content}
+      {children}
     </button>
   );
 }

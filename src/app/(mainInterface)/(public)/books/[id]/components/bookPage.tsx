@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/src/components/client/button/button";
+import { ToggleButton } from "@/src/components/client/button/variants/toggleButton";
+import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
@@ -20,7 +22,9 @@ export function BookPage({ book }: { book: IBookSerialized | null }) {
           <div className="flex gap-10 border-b border-secondary pb-12">
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.imageUrl} view="rounded" />
-              <Button content="Add to Favourites" padding="medium" className="font-bold" />
+              <Button padding="medium" className="font-bold">
+                Add to Favourites
+              </Button>
               <LinkButton href={backPath} className="py-4">
                 Back to {backPath === routes.books ? "Book Directory" : "Home"}
               </LinkButton>
@@ -32,8 +36,24 @@ export function BookPage({ book }: { book: IBookSerialized | null }) {
               </div>
               <ItemCard.Badge genres={book.genres} />
               <div className="flex flex-col gap-4">
-                <h2 className="text-2xl">Synopsis</h2>
-                <ItemCard.Information content={book.description} color="secondary" />
+                <h2 className="text-[clamp(12px,0.5rem+3cqw,24px)] font-bold">Synopsis</h2>
+                <Collapse>
+                  {({ className, toggle, isShownFull, isTruncated, textRef }) => (
+                    <>
+                      <ItemCard.Information
+                        content={book.description}
+                        color="secondary"
+                        className={className}
+                        ref={textRef}
+                      />
+                      {isTruncated && (
+                        <ToggleButton onClick={toggle}>
+                          {isShownFull ? "Collapse" : "Read more"}
+                        </ToggleButton>
+                      )}
+                    </>
+                  )}
+                </Collapse>
               </div>
             </div>
           </div>

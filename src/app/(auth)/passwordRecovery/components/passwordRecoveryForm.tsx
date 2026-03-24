@@ -54,7 +54,9 @@ export function PasswordRecoveryForm() {
           label="Email"
           errorMessage={errors.email?.message}
         />
-        <Button content="Send reset link" padding="medium" disabled={!isValid} />
+        <Button padding="medium" disabled={!isValid}>
+          Send reset link
+        </Button>
       </form>
       <Link
         href={routes.signIn}

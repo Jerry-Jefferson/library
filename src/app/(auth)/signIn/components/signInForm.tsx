@@ -81,7 +81,9 @@ export function SignInForm() {
           label="Password"
           errorMessage={errors.password?.message}
         />
-        <Button content="Sign in" padding="medium" disabled={!isValid} />
+        <Button padding="medium" disabled={!isValid}>
+          Sign in
+        </Button>
       </form>
       <div>
         <div className="flex gap-4 justify-between">
