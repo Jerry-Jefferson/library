@@ -1,9 +1,9 @@
 "use client";
 
 import { handleSignOut } from "@/src/actions/signout";
+import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { AUTH_BUTTONS } from "@/src/shared/constants/navigationLinks";
 import { Button } from "../button/button";
-import LinkButton from "@/src/components/server/linkButton/linkButton";
 
 export type UserActionsProps = { logged: true; userName: string } | { logged: false };
 
@@ -13,7 +13,9 @@ export function AuthMenu(props: UserActionsProps) {
       {props.logged ? (
         <>
           <p className="hidden sm:block text-sm font-medium">Hello, {props.userName}</p>
-          <Button content="Quit" padding="small" onClick={handleSignOut} />
+          <Button padding="small" onClick={handleSignOut}>
+            Quit
+          </Button>
         </>
       ) : (
         <>

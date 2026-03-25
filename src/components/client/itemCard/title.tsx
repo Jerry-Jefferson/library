@@ -4,5 +4,5 @@ export interface TitleProps {
 }
 
 export function Title({ content, className }: TitleProps) {
-  return <p className={`text-[clamp(14px,7cqw,50px)] ${className || ""}`}>{content}</p>;
+  return <p className={`text-[clamp(14px,0.5rem+4cqw,50px)] ${className || ""}`}>{content}</p>;
 }

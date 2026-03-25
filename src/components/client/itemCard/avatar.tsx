@@ -19,7 +19,7 @@ export function Avatar({ alt, src, view }: AvatarProps) {
         className="object-cover"
         alt={alt}
         src={src}
-        sizes="(min-width: 1024px) 12.5vw, (min-width: 768px) 25vw, (min-width: 640px) 50vw, 100vw"
+        sizes="(min-width: 1024px) 100vw, (min-width: 768px) 25vw, (min-width: 640px) 50vw, 100vw"
       />
     </div>
   );
