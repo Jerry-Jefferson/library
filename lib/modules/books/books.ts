@@ -1,3 +1,4 @@
+"use cache";
 import { connectMongo } from "@/lib/mongoose";
 import "@/src/models/author";
 import { Book, IBook, IBookSerialized } from "@/src/models/book";
@@ -21,7 +22,6 @@ function serializeBook(book: FlattenMaps<IBook>): IBookSerialized {
 }
 
 export async function getAllBooks(): Promise<IBookSerialized[] | null> {
-  "use cache";
   cacheLife("hours");
   try {
     await connectMongo();
@@ -35,7 +35,6 @@ export async function getAllBooks(): Promise<IBookSerialized[] | null> {
 }
 
 export async function getBookById(id: string): Promise<IBookSerialized | null> {
-  "use cache";
   cacheLife("days");
   try {
     await connectMongo();
@@ -51,7 +50,6 @@ export async function getBookById(id: string): Promise<IBookSerialized | null> {
 }
 
 export async function getPopularBooks(limit: number): Promise<IBookSerialized[] | null> {
-  "use cache";
   cacheLife("days");
   try {
     await connectMongo();
@@ -69,7 +67,6 @@ export async function getPopularBooks(limit: number): Promise<IBookSerialized[] 
 }
 
 export async function getNewBooks(limit: number): Promise<IBookSerialized[] | null> {
-  "use cache";
   cacheLife("days");
   try {
     await connectMongo();
@@ -82,6 +79,23 @@ export async function getNewBooks(limit: number): Promise<IBookSerialized[] | nu
     return newBooks ? newBooks.map(serializeBook) : null;
   } catch (error) {
     console.error("DB error in getNewBooks", error);
+    throw error;
+  }
+}
+
+export async function getBooksById(ids: string[]): Promise<IBookSerialized[]> {
+  cacheLife("hours");
+
+  try {
+    await connectMongo();
+
+    const books = await Book.find({ _id: { $in: ids } })
+      .populate("authorId", "name")
+      .lean<IBook[]>();
+
+    return books.map(serializeBook);
+  } catch (error) {
+    console.error("DB error in getBooksByIds", error);
     throw error;
   }
 }
