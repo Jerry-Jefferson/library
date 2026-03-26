@@ -1,10 +1,10 @@
 "use server";
 
 import { connectMongo } from "@/lib/mongoose";
+import { baseSignUpSchema } from "@/src/app/(auth)/signUp/components/signUp.schema";
 import User from "@/src/models/user";
+import { createUser } from "@/src/queries/users";
 import bcrypt from "bcrypt";
-import { baseSignUpSchema } from "../app/(auth)/signUp/components/signUp.schema";
-import { createUser } from "../queries/users";
 
 export async function signup(data: unknown) {
   try {

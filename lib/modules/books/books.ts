@@ -3,7 +3,7 @@ import "@/src/models/author";
 import { Book, IBook, IBookSerialized } from "@/src/models/book";
 import { isAuthor } from "@/src/shared/types/typeGuards";
 import { FlattenMaps } from "mongoose";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 function serializeBook(book: FlattenMaps<IBook>): IBookSerialized {
   const author = book.authorId;
@@ -23,6 +23,7 @@ function serializeBook(book: FlattenMaps<IBook>): IBookSerialized {
 export async function getAllBooks(): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("hours");
+  cacheTag("books");
   try {
     await connectMongo();
     const books = await Book.find().populate("authorId", "name").lean<IBook[]>();
@@ -37,6 +38,7 @@ export async function getAllBooks(): Promise<IBookSerialized[] | null> {
 export async function getBookById(id: string): Promise<IBookSerialized | null> {
   "use cache";
   cacheLife("days");
+  cacheTag(`book-${id}`);
   try {
     await connectMongo();
     const book = await Book.findById(id).populate("authorId", "name").lean<IBook>();
@@ -53,6 +55,7 @@ export async function getBookById(id: string): Promise<IBookSerialized | null> {
 export async function getPopularBooks(limit: number): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("days");
+  cacheTag("books");
   try {
     await connectMongo();
     const popular = await Book.find()
@@ -71,6 +74,7 @@ export async function getPopularBooks(limit: number): Promise<IBookSerialized[] 
 export async function getNewBooks(limit: number): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("days");
+  cacheTag("books");
   try {
     await connectMongo();
     const newBooks = await Book.find()

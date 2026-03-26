@@ -1,4 +1,4 @@
-import { getRoles } from "@/src/actions/getRoles";
+import { getRoles } from "@/src/actions/auth/getRoles";
 import { SignUpForm } from "@/src/app/(auth)/signUp/components/signUpForm";
 
 export default async function SignUp() {
