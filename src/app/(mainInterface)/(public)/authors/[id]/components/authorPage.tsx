@@ -6,6 +6,7 @@ import DefaultAvatar from "@/public/default-avatar.png";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { Collapse } from "@/src/components/client/collapse/collapse";
 import { ToggleButton } from "@/src/components/client/button/variants/toggleButton";
+import { BACK_PATHS_LABELS } from "@/src/shared/constants/backPathsLabels";
 
 export default function AuthorPage({ author }: { author: IAuthorSerialized | null }) {
   if (!author) return <p>No author found</p>;
@@ -20,7 +21,7 @@ export default function AuthorPage({ author }: { author: IAuthorSerialized | nul
             view="rounded"
           />
           <LinkButton href={routes.authors} className="py-4">
-            Back to Authors Directory
+            Back to {BACK_PATHS_LABELS[routes.authors]}
           </LinkButton>
         </div>
         <div className="w-[65%] flex flex-col gap-6">
