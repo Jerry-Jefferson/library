@@ -9,7 +9,7 @@ export interface IBook {
   year: number;
   genres: string[];
   rating: number;
-  createdAt: Date;
+  createdAt?: Date;
   imageUrl: string;
 }
 
@@ -17,7 +17,7 @@ export interface IBookSerialized extends Omit<IBook, "_id" | "authorId" | "creat
   _id: string;
   authorId: string;
   authorName: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 const BookSchema = new Schema<IBook>(
@@ -26,8 +26,8 @@ const BookSchema = new Schema<IBook>(
     description: { type: String, required: [true, "Book description is required"] },
     authorId: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
     year: { type: Number },
-    genres: [{ type: String }],
-    rating: { type: Number },
+    genres: [String],
+    rating: { type: Number, default: 0 },
     createdAt: { type: Date },
     imageUrl: { type: String },
   },

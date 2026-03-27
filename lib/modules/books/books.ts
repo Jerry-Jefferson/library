@@ -3,7 +3,7 @@ import "@/src/models/author";
 import { Book, IBook, IBookSerialized } from "@/src/models/book";
 import { isAuthor } from "@/src/shared/types/typeGuards";
 import { FlattenMaps } from "mongoose";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 function serializeBook(book: FlattenMaps<IBook>): IBookSerialized {
   const author = book.authorId;
@@ -23,65 +23,53 @@ function serializeBook(book: FlattenMaps<IBook>): IBookSerialized {
 export async function getAllBooks(): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("hours");
-  try {
-    await connectMongo();
-    const books = await Book.find().populate("authorId", "name").lean<IBook[]>();
+  cacheTag("books");
 
-    return books ? books.map(serializeBook) : null;
-  } catch (error) {
-    console.error("DB error in getAllBooks", error);
-    throw error;
-  }
+  await connectMongo();
+  const books = await Book.find().populate("authorId", "name").lean<IBook[]>();
+
+  return books ? books.map(serializeBook) : null;
 }
 
 export async function getBookById(id: string): Promise<IBookSerialized | null> {
   "use cache";
   cacheLife("days");
-  try {
-    await connectMongo();
-    const book = await Book.findById(id).populate("authorId", "name").lean<IBook>();
+  cacheTag(`book-${id}`);
 
-    if (!book) return null;
+  await connectMongo();
+  const book = await Book.findById(id).populate("authorId", "name").lean<IBook>();
 
-    return serializeBook(book);
-  } catch (error) {
-    console.error("DB error in getBookById", error);
-    throw error;
-  }
+  if (!book) return null;
+
+  return serializeBook(book);
 }
 
 export async function getPopularBooks(limit: number): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("days");
-  try {
-    await connectMongo();
-    const popular = await Book.find()
-      .populate("authorId", "name")
-      .sort({ rating: -1 })
-      .limit(limit)
-      .lean<IBook[]>();
+  cacheTag("books");
 
-    return popular ? popular.map(serializeBook) : null;
-  } catch (error) {
-    console.error("DB error in getPopularBooks", error);
-    throw error;
-  }
+  await connectMongo();
+  const popular = await Book.find()
+    .populate("authorId", "name")
+    .sort({ rating: -1 })
+    .limit(limit)
+    .lean<IBook[]>();
+
+  return popular ? popular.map(serializeBook) : null;
 }
 
 export async function getNewBooks(limit: number): Promise<IBookSerialized[] | null> {
   "use cache";
   cacheLife("days");
-  try {
-    await connectMongo();
-    const newBooks = await Book.find()
-      .populate("authorId", "name")
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .lean<IBook[]>();
+  cacheTag("books");
 
-    return newBooks ? newBooks.map(serializeBook) : null;
-  } catch (error) {
-    console.error("DB error in getNewBooks", error);
-    throw error;
-  }
+  await connectMongo();
+  const newBooks = await Book.find()
+    .populate("authorId", "name")
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .lean<IBook[]>();
+
+  return newBooks ? newBooks.map(serializeBook) : null;
 }
