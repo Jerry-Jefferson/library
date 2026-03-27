@@ -8,13 +8,13 @@ export default async function Home() {
   const [newBooks, popularBooks] = await Promise.all([getNewBooks(20), getPopularBooks(20)]);
 
   return (
-    <>
+    <div className="flex flex-col gap-4 pt-4">
       <BookSection books={popularBooks}>
         <SectionHeader alt="arrow icon" src={FireIcon} title="Popular Books" />
       </BookSection>
       <BookSection books={newBooks}>
         <SectionHeader alt="check icon" src={NewIcon} title="New Arrivals" />
       </BookSection>
-    </>
+    </div>
   );
 }

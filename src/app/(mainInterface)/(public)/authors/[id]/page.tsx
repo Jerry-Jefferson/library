@@ -19,10 +19,10 @@ export default async function Author({ params }: { params: Promise<{ id: string 
   return (
     <Suspense fallback={<p>Wait...</p>}>
       <div className="w-full min-h-dvh flex justify-center bg-background">
-        <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
+        <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
           <AuthorPage author={author} />
           <BookSection books={books}>
-            <SectionHeader alt="check icon" src="/book.png" title="Books by Author" />
+            <SectionHeader alt="" src="/book.png" title="Books by Author" />
           </BookSection>
         </div>
       </div>
