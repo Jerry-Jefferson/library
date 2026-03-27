@@ -2,7 +2,7 @@ import Image, { StaticImageData } from "next/image";
 
 export interface SectionProps {
   alt: string;
-  src: StaticImageData;
+  src: StaticImageData | string;
   title: string;
 }
 

@@ -11,6 +11,8 @@ import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import { EmblaCarousel } from "../emblaCarousel/emblaCarousel";
 
+export const AUTHOR_PATH_REGEX = /^\/authors\/[^/]+$/;
+export const isAuthorPage = (pathname: string) => AUTHOR_PATH_REGEX.test(pathname);
 export interface BookSectionProps {
   children: ReactNode;
   books: IBookSerialized[] | null;
@@ -22,7 +24,7 @@ export function BookSection({ children, books }: BookSectionProps) {
   if (!books || books.length === 0) return <p>No books found</p>;
 
   return (
-    <section className="box-border flex flex-col gap-4 p-6 w-full">
+    <section className="box-border flex flex-col gap-4 w-full">
       {children}
       <EmblaCarousel>
         <EmblaCarousel.Switcher src={ArrowLeft} direction="backward" />
@@ -34,7 +36,10 @@ export function BookSection({ children, books }: BookSectionProps) {
                   <div className="flex flex-col gap-1">
                     <ItemCard.Avatar alt={book.title} src={HP} view="rounded" />
                     <ItemCard.Title content={book.title} className="truncate" />
-                    <ItemCard.Information color="secondary" content={book.authorName} />
+                    <ItemCard.Information
+                      color="secondary"
+                      content={isAuthorPage(pathname) ? book.year : book.authorName}
+                    />
                   </div>
                 </ItemCard>
               </Link>
