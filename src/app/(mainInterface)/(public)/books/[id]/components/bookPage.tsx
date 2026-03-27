@@ -6,12 +6,14 @@ import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
+import { BACK_PATHS_LABELS, DEFAULT_LABEL } from "@/src/shared/constants/backPathsLabels";
 import { routes } from "@/src/shared/constants/routes";
 import { useSearchParams } from "next/navigation";
 
 export function BookPage({ book }: { book: IBookSerialized | null }) {
   const searchParams = useSearchParams();
   const backPath = searchParams.get("from") || routes.books;
+  const label = BACK_PATHS_LABELS[backPath] || DEFAULT_LABEL;
 
   if (!book) return <p>No book found</p>;
 
@@ -26,7 +28,7 @@ export function BookPage({ book }: { book: IBookSerialized | null }) {
                 Add to Favourites
               </Button>
               <LinkButton href={backPath} className="py-4">
-                Back to {backPath === routes.books ? "Book Directory" : "Home"}
+                Back to {label}
               </LinkButton>
             </div>
             <div className="w-[65%] flex flex-col gap-6">
