@@ -1,7 +1,7 @@
 "use server";
 
 import User from "@/src/models/user";
-import { UserRole } from "../shared/types/newUser";
+import { UserRole } from "../../shared/types/newUser";
 
 export interface roleOption {
   title: string;

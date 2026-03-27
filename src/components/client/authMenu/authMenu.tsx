@@ -1,6 +1,6 @@
 "use client";
 
-import { handleSignOut } from "@/src/actions/signout";
+import { handleSignOut } from "@/src/actions/auth/signout";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { AUTH_BUTTONS } from "@/src/shared/constants/navigationLinks";
 import { Button } from "../button/button";

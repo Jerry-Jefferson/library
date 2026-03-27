@@ -1,8 +1,8 @@
 "use client";
 
-import { roleOption } from "@/src/actions/getRoles";
-import { signin } from "@/src/actions/signin";
-import { signup } from "@/src/actions/signup";
+import { roleOption } from "@/src/actions/auth/getRoles";
+import { signin } from "@/src/actions/auth/signin";
+import { signup } from "@/src/actions/auth/signup";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { RadioButton } from "@/src/components/server/radioButton/radioButton";

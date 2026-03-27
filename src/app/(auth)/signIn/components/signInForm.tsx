@@ -1,6 +1,6 @@
 "use client";
 
-import { signin } from "@/src/actions/signin";
+import { signin } from "@/src/actions/auth/signin";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
