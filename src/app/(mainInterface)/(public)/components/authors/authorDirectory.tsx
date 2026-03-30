@@ -6,7 +6,7 @@ import Pagination from "@/src/components/client/pagination/pagination";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IAuthorSerialized } from "@/src/models/author";
 import { routes } from "@/src/shared/constants/routes";
-import { usePagination } from "@/src/shared/utils/usePagination";
+import { usePagination } from "@/src/shared/hooks/usePagination";
 
 export default function AuthorDirectory({ authors }: { authors: IAuthorSerialized[] | null }) {
   const { currentItems, currentPage, totalPages, nextPage, prevPage, setPage } = usePagination(

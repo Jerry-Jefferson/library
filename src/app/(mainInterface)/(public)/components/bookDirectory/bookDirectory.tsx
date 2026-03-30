@@ -5,7 +5,7 @@ import Pagination from "@/src/components/client/pagination/pagination";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
-import { usePagination } from "@/src/shared/utils/usePagination";
+import { usePagination } from "@/src/shared/hooks/usePagination";
 
 export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
   const { currentItems, currentPage, totalPages, nextPage, prevPage, setPage } = usePagination(
