@@ -3,7 +3,9 @@
 import { useMemo } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
-export function usePagination<T>(items: T[], itemsPerPage: number = 8) {
+export const ITEMS_PER_PAGE = 8;
+
+export function usePagination<T>(items: T[], itemsPerPage: number = ITEMS_PER_PAGE) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
