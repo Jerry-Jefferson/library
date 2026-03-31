@@ -12,8 +12,9 @@ import { useSearchParams } from "next/navigation";
 
 export function BookPage({ book }: { book: IBookSerialized | null }) {
   const searchParams = useSearchParams();
-  const backPath = searchParams.get("from") || routes.books;
-  const label = BACK_PATHS_LABELS[backPath] || DEFAULT_LABEL;
+  const from = searchParams.get("from") ?? "1";
+  const backPath = `${routes.books}?page=${from}`;
+  const label = BACK_PATHS_LABELS[from] || DEFAULT_LABEL;
 
   if (!book) return <p>No book found</p>;
 

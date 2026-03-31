@@ -8,7 +8,15 @@ import { Collapse } from "@/src/components/client/collapse/collapse";
 import { ToggleButton } from "@/src/components/client/button/variants/toggleButton";
 import { BACK_PATHS_LABELS } from "@/src/shared/constants/backPathsLabels";
 
-export default function AuthorPage({ author }: { author: IAuthorSerialized | null }) {
+export default function AuthorPage({
+  author,
+  from,
+}: {
+  author: IAuthorSerialized | null;
+  from?: string;
+}) {
+  const pageNumber = from ?? "1";
+  const backPath = `${routes.authors}?page=${pageNumber}`;
   if (!author) return <p>No author found</p>;
 
   return (
@@ -20,7 +28,7 @@ export default function AuthorPage({ author }: { author: IAuthorSerialized | nul
             alt={author.name}
             view="rounded"
           />
-          <LinkButton href={routes.authors} className="py-4">
+          <LinkButton href={backPath} className="py-4">
             Back to {BACK_PATHS_LABELS[routes.authors]}
           </LinkButton>
         </div>

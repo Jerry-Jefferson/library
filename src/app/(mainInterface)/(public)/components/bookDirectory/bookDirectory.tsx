@@ -1,11 +1,17 @@
 "use client";
 
 import ItemCard from "@/src/components/client/itemCard/itemCard";
+import Pagination from "@/src/components/client/pagination/pagination";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
+import { usePagination } from "@/src/shared/hooks/usePagination";
 
 export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
+  const { currentItems, currentPage, totalPages, nextPage, prevPage, setPage } = usePagination(
+    books ?? [],
+    8
+  );
   if (!books || books.length === 0) return <p>No books found</p>;
 
   return (
@@ -17,7 +23,7 @@ export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
           masterpieces
         </p>
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-10">
-          {books.map((book) => (
+          {currentItems.map((book) => (
             <div key={book._id}>
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
@@ -31,12 +37,23 @@ export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
                     <ItemCard.Information content={book.authorName} color="secondary" />
                     <ItemCard.Information content={book.year} color="secondary" />
                   </div>
-                  <LinkButton href={routes.book(book._id)}>View Information</LinkButton>
+                  <LinkButton href={`${routes.book(book._id)}?from=${currentPage}`}>
+                    View Information
+                  </LinkButton>
                 </div>
               </ItemCard>
             </div>
           ))}
         </div>
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setPage={setPage}
+          />
+        )}
       </div>
     </div>
   );

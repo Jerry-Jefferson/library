@@ -2,11 +2,17 @@
 
 import DefaultAvatar from "@/public/default-avatar.png";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
+import Pagination from "@/src/components/client/pagination/pagination";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IAuthorSerialized } from "@/src/models/author";
 import { routes } from "@/src/shared/constants/routes";
+import { usePagination } from "@/src/shared/hooks/usePagination";
 
 export default function AuthorDirectory({ authors }: { authors: IAuthorSerialized[] | null }) {
+  const { currentItems, currentPage, totalPages, nextPage, prevPage, setPage } = usePagination(
+    authors ?? [],
+    8
+  );
   if (!authors || authors.length === 0) return <p>No authors found</p>;
 
   return (
@@ -17,7 +23,7 @@ export default function AuthorDirectory({ authors }: { authors: IAuthorSerialize
           Meet the brilliant minds behind our collection of over 50,000 titles.
         </p>
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-10">
-          {authors.map((author: IAuthorSerialized) => (
+          {currentItems.map((author: IAuthorSerialized) => (
             <ItemCard key={author._id} name="Author">
               <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
                 <div className="flex flex-col items-center gap-4 grow">
@@ -33,11 +39,22 @@ export default function AuthorDirectory({ authors }: { authors: IAuthorSerialize
                     className="text-center whitespace-normal"
                   />
                 </div>
-                <LinkButton href={routes.author(author._id)}>View Information</LinkButton>
+                <LinkButton href={`${routes.author(author._id)}?from=${currentPage}`}>
+                  View Information
+                </LinkButton>
               </div>
             </ItemCard>
           ))}
         </div>
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setPage={setPage}
+          />
+        )}
       </div>
     </div>
   );
