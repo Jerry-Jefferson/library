@@ -1,10 +1,6 @@
 export const DOTS_MARKER = "...";
 export const SIBLING_COUNT = 1;
 
-export function range(start: number, end: number): number[] {
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-}
-
 export function getPaginationRange(
   currentPage: number,
   totalPages: number,
