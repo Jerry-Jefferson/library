@@ -1,7 +1,7 @@
 "use server";
 
 import { connectMongo } from "@/lib/mongoose";
-import { bookCreationSchema } from "@/src/app/(mainInterface)/(dashboard)/admin/books/components/bookCreation.schema";
+import { bookCreationSchema } from "@/src/app/(mainInterface)/(dashboard)/admin/book/components/bookCreation/bookCreation.schema";
 import { Book } from "@/src/models/book";
 import { updateTag } from "next/cache";
 
