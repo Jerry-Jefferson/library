@@ -1,10 +1,12 @@
 "use client";
 
 export type Padding = "small" | "medium" | "large";
+export type ColorVariant = "primary" | "secondary";
 
 export interface ButtonProps {
   children: React.ReactNode;
   padding: Padding;
+  colorVariant?: ColorVariant;
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
@@ -16,10 +18,22 @@ const paddingVariants = {
   large: "p-6",
 };
 
-export function Button({ children, padding, disabled, onClick, className = "" }: ButtonProps) {
+const colorVariants = {
+  primary: "bg-primary",
+  secondary: "border border-secondary text-foreground hover:bg-secondary",
+};
+
+export function Button({
+  children,
+  padding,
+  colorVariant = "primary",
+  disabled,
+  onClick,
+  className = "",
+}: ButtonProps) {
   return (
     <button
-      className={`bg-primary hover:bg-primary-hover rounded-md text-background text-[clamp(10px,0.5rem+1vw,16px)]
+      className={`${colorVariants[colorVariant]} hover:bg-primary-hover rounded-md text-background text-[clamp(10px,0.5rem+1vw,16px)]
       ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full 
       disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary 
       ${className}`}
