@@ -13,7 +13,7 @@ export function AuthMenu(props: UserActionsProps) {
       {props.logged ? (
         <>
           <p className="hidden sm:block text-sm font-medium">Hello, {props.userName}</p>
-          <Button padding="small" onClick={handleSignOut}>
+          <Button size="small" variant="primary" onClick={handleSignOut}>
             Quit
           </Button>
         </>

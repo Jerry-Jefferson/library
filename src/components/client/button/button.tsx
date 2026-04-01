@@ -1,43 +1,46 @@
 "use client";
 
-export type Padding = "small" | "medium" | "large";
-export type ColorVariant = "primary" | "secondary";
+import { ButtonHTMLAttributes } from "react";
 
-export interface ButtonProps {
+export type Size = "small" | "medium" | "large";
+export type ButtonVariant = "plain" | "primary" | "secondary" | "icon";
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  padding: Padding;
-  colorVariant?: ColorVariant;
-  disabled?: boolean;
-  onClick?: () => void;
+  size: Size;
+  variant?: ButtonVariant;
   className?: string;
 }
 
-const paddingVariants = {
+const sizesVariants = {
   small: "p-2",
   medium: "p-4",
   large: "p-6",
 };
 
-const colorVariants = {
-  primary: "bg-primary",
+const buttonVariants: Record<ButtonVariant, string> = {
+  plain: "bg-neutral-dark",
+  primary: "bg-primary enabled:hover:bg-primary-hover text-background focus:border-foreground",
   secondary: "border border-secondary text-foreground hover:bg-secondary",
+  icon: "relative p-0 h-fit w-fit flex-shrink-0",
 };
+
+const baseStyle =
+  "inline-flex items-center justify-center rounded-md font-medium transition-colors text-[clamp(10px,0.5rem+1vw,16px)] cursor-pointer w-full focus:outline-none disabled:cursor-not-allowed disabled:opacity-50";
 
 export function Button({
   children,
-  padding,
-  colorVariant = "primary",
+  type,
+  size,
+  variant = "plain",
   disabled,
   onClick,
   className = "",
 }: ButtonProps) {
   return (
     <button
-      className={`${colorVariants[colorVariant]} hover:bg-primary-hover rounded-md text-background text-[clamp(10px,0.5rem+1vw,16px)]
-      ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full 
-      disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary 
-      ${className}`}
-      type="submit"
+      className={`${baseStyle} ${buttonVariants[variant]} ${sizesVariants[size]} ${className}`}
+      type={type}
       disabled={disabled}
       onClick={onClick}
     >
