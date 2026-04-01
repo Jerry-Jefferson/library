@@ -37,7 +37,7 @@ export async function getAuthors(): Promise<IAuthorSerialized[] | null> {
   if (!authors.length) return null;
 
   const books: IBook[] = await Book.find()
-    .select("_id authorId")
+    .select("_id authorId genres")
     .populate("genres", "title")
     .lean();
 
@@ -53,7 +53,7 @@ export async function getAuthorById(id: string): Promise<IAuthorSerialized | nul
   if (!author) return null;
 
   const books: IBook[] = await Book.find({ authorId: id })
-    .select("_id authorId")
+    .select("_id authorId genres")
     .populate("genres", "title")
     .lean();
 
