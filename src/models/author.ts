@@ -15,6 +15,7 @@ export interface IAuthorSerialized extends Omit<IAuthor, "_id" | "createdAt" | "
   createdAt: string;
   updatedAt: string;
   books: string[];
+  genres: string[];
 }
 
 export const AuthorSchema = new Schema<IAuthor>(
