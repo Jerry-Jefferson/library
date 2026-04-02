@@ -28,6 +28,34 @@ export async function addGenre(data: unknown) {
   }
 }
 
+export async function updateGenre(id: string, data: unknown) {
+  try {
+    await connectMongo();
+    const validatedData = genreCreationSchema.safeParse(data);
+    if (!validatedData.success) {
+      return {
+        success: false,
+        message: "Invalid genre data",
+        errors: validatedData.error.flatten().fieldErrors,
+      };
+    }
+
+    const genre = await Genre.findById(id);
+
+    if (!genre) return { success: false, message: "The genre wasn't found" };
+
+    genre.set(validatedData.data);
+    await genre.save();
+
+    updateTag("genres");
+
+    return { success: true, message: "The genre has been successfully edited" };
+  } catch (error) {
+    console.error("DB error while editing genre", error);
+    return { success: false, message: "Failed to edit a genre" };
+  }
+}
+
 export async function deleteGenre(id: string) {
   try {
     await connectMongo();
@@ -40,6 +68,6 @@ export async function deleteGenre(id: string) {
     return { success: true, message: "The genre has been successfully deleted" };
   } catch (error) {
     console.error("DB error in deleteGenre", error);
-    return { success: false, message: "DB error in deleteGenre" };
+    return { success: false, message: "Failed to delete the genre" };
   }
 }

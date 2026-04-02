@@ -13,8 +13,8 @@ function serializeBook(book: IBook): IBookSerialized {
   const authorName = isAuthor(author) ? author.name : "Unknown author";
   const authorIdStr = isAuthor(author) ? author._id.toString() : String(author);
 
-  const genresStr = genres.map((genre) => {
-    return isGenre(genre) ? genre.title : String(genre);
+  const genresIds = genres.map((genre) => {
+    return isGenre(genre) ? genre._id.toString() : String(genre);
   });
 
   return {
@@ -22,7 +22,7 @@ function serializeBook(book: IBook): IBookSerialized {
     _id: book._id.toString(),
     authorName: authorName,
     authorId: authorIdStr,
-    genres: genresStr,
+    genres: genresIds,
     createdAt: book.createdAt?.toISOString(),
   };
 }
@@ -32,10 +32,7 @@ export async function getAllBooks(): Promise<IBookSerialized[] | null> {
   cacheTag("books");
 
   await connectMongo();
-  const books = await Book.find()
-    .populate("authorId", "name")
-    .populate("genres", "title")
-    .lean<IBook[]>();
+  const books = await Book.find().populate("authorId", "name").lean<IBook[]>();
 
   return books ? books.map(serializeBook) : null;
 }
@@ -45,10 +42,7 @@ export async function getBookById(id: string): Promise<IBookSerialized | null> {
   cacheTag(`book-${id}`);
 
   await connectMongo();
-  const book = await Book.findById(id)
-    .populate("authorId", "name")
-    .populate("genres", "title")
-    .lean<IBook>();
+  const book = await Book.findById(id).populate("authorId", "name").lean<IBook>();
 
   if (!book) return null;
 
@@ -62,7 +56,6 @@ export async function getPopularBooks(limit: number): Promise<IBookSerialized[] 
   await connectMongo();
   const popular = await Book.find()
     .populate("authorId", "name")
-    .populate("genres", "title")
     .sort({ rating: -1 })
     .limit(limit)
     .lean<IBook[]>();
@@ -77,7 +70,6 @@ export async function getNewBooks(limit: number): Promise<IBookSerialized[] | nu
   await connectMongo();
   const newBooks = await Book.find()
     .populate("authorId", "name")
-    .populate("genres", "title")
     .sort({ createdAt: -1 })
     .limit(limit)
     .lean<IBook[]>();
@@ -85,14 +77,13 @@ export async function getNewBooks(limit: number): Promise<IBookSerialized[] | nu
   return newBooks ? newBooks.map(serializeBook) : null;
 }
 
-export async function getBooksById(ids: string[]): Promise<IBookSerialized[]> {
+export async function getBooksByAuthorId(ids: string[]): Promise<IBookSerialized[]> {
   cacheLife("hours");
 
   await connectMongo();
 
   const books = await Book.find({ _id: { $in: ids } })
     .populate("authorId", "name")
-    .populate("genres", "title")
     .lean<IBook[]>();
 
   return books.map(serializeBook);

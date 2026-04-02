@@ -19,3 +19,14 @@ export async function getAllGenres(): Promise<IGenreSerialized[] | null> {
 
   return genres ? genres.map(serializeGenre) : null;
 }
+
+export async function getGenresById(ids: string[]): Promise<IGenreSerialized[] | null> {
+  if (!ids || ids.length === 0) return [];
+  cacheLife("hours");
+  cacheTag("genres");
+
+  await connectMongo();
+  const genres = await Genre.find({ _id: { $in: ids } }).lean<IGenre[]>();
+
+  return genres ? genres.map(serializeGenre) : null;
+}

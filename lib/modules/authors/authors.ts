@@ -4,19 +4,12 @@ import { connectMongo } from "@/lib/mongoose";
 import { Author, IAuthor, IAuthorSerialized } from "@/src/models/author";
 import { Book, IBook } from "@/src/models/book";
 import "@/src/models/genre";
-import { isGenre } from "@/src/shared/types/typeGuards";
 import { cacheLife } from "next/cache";
 
 function serializeAuthor(author: IAuthor, books: IBook[]): IAuthorSerialized {
   const authorBooks = books.filter((book) => book.authorId.toString() === author._id.toString());
   const authorBooksIds = authorBooks.map((book) => book._id.toString());
-  const uniqueGenres = Array.from(
-    new Set(
-      authorBooks.flatMap((book) =>
-        book.genres.map((genre) => (isGenre(genre) ? genre.title : String(genre)))
-      )
-    )
-  );
+  const genresIds = [...new Set(authorBooks.flatMap((book) => book.genres.map(String)))];
 
   return {
     ...author,
@@ -24,7 +17,7 @@ function serializeAuthor(author: IAuthor, books: IBook[]): IAuthorSerialized {
     createdAt: author.createdAt.toISOString(),
     updatedAt: author.updatedAt.toISOString(),
     books: authorBooksIds,
-    genres: uniqueGenres,
+    genres: genresIds,
   };
 }
 
@@ -36,10 +29,7 @@ export async function getAuthors(): Promise<IAuthorSerialized[] | null> {
   const authors = await Author.find().lean<IAuthor[]>();
   if (!authors.length) return null;
 
-  const books: IBook[] = await Book.find()
-    .select("_id authorId genres")
-    .populate("genres", "title")
-    .lean();
+  const books: IBook[] = await Book.find().select("_id authorId genres").lean();
 
   return authors.map((author) => serializeAuthor(author, books));
 }
@@ -52,10 +42,7 @@ export async function getAuthorById(id: string): Promise<IAuthorSerialized | nul
   const author = await Author.findById(id).lean<IAuthor>();
   if (!author) return null;
 
-  const books: IBook[] = await Book.find({ authorId: id })
-    .select("_id authorId genres")
-    .populate("genres", "title")
-    .lean();
+  const books: IBook[] = await Book.find({ authorId: id }).select("_id authorId genres").lean();
 
   return serializeAuthor(author, books);
 }
