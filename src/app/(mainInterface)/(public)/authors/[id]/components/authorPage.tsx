@@ -1,12 +1,12 @@
 "use client";
-import { IAuthorSerialized } from "@/src/models/author";
-import { routes } from "@/src/shared/constants/routes";
-import ItemCard from "@/src/components/client/itemCard/itemCard";
 import DefaultAvatar from "@/public/default-avatar.png";
-import LinkButton from "@/src/components/server/linkButton/linkButton";
-import { Collapse } from "@/src/components/client/collapse/collapse";
 import { ToggleButton } from "@/src/components/client/button/variants/toggleButton";
+import { Collapse } from "@/src/components/client/collapse/collapse";
+import ItemCard from "@/src/components/client/itemCard/itemCard";
+import LinkButton from "@/src/components/server/linkButton/linkButton";
+import { IAuthorSerialized } from "@/src/models/author";
 import { BACK_PATHS_LABELS } from "@/src/shared/constants/backPathsLabels";
+import { routes } from "@/src/shared/constants/routes";
 
 export default function AuthorPage({
   author,

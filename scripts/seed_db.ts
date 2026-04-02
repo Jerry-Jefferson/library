@@ -4,6 +4,7 @@ require("dotenv").config({ path: ".env.local" });
 const mongoose = require("mongoose");
 const { Author } = require("../src/models/author");
 const { Book } = require("../src/models/book");
+const { Genre } = require("../src/models/genre");
 
 const DATABASE_URI = process.env.DATABASE_URI;
 if (!DATABASE_URI) throw new Error("DATABASE_URI не задан");
@@ -79,7 +80,14 @@ const AUTHORS = [
   },
 ];
 
-const GENRES = ["adventure", "fantasy", "drama", "detective", "science fiction", "historical"];
+const GENRES = [
+  { title: "adventure" },
+  { title: "fantasy" },
+  { title: "drama" },
+  { title: "detective" },
+  { title: "science fiction" },
+  { title: "historical" },
+];
 
 const BOOK_TITLES = [
   "Последний горизонт",
@@ -123,10 +131,15 @@ async function seed() {
   // очищаем
   await Author.deleteMany({});
   await Book.deleteMany({});
+  await Genre.deleteMany({});
 
   // создаём авторов
   const authors = await Author.insertMany(AUTHORS);
   console.log("✅ Создано авторов:", authors.length);
+
+  //создаем жанры
+  const genres = await Genre.insertMany(GENRES);
+  console.log("✅ Создано жанров:", genres.length);
 
   const books = [];
 
@@ -137,28 +150,32 @@ async function seed() {
     { count: 30, rating: [4, 5], createdAt: dateMsAgo(2 * 24 * 60 * 60 * 1000) }, // 2 дня
   ];
 
-  let bookIndex = 1;
+  let bookIndex = 0;
 
   for (let authorIndex = 0; authorIndex < authors.length; authorIndex++) {
     const author = authors[authorIndex];
 
     for (let j = 0; j < 10; j++) {
-      const dist = DISTRIBUTION.find(
-        (d) =>
-          bookIndex <=
-          DISTRIBUTION.slice(0, DISTRIBUTION.indexOf(d) + 1).reduce((sum, x) => sum + x.count, 0)
-      );
+      const currentGlobalIndex = bookIndex + 1;
+      const dist =
+        DISTRIBUTION.find(
+          (d, idx) =>
+            currentGlobalIndex <=
+            DISTRIBUTION.slice(0, idx + 1).reduce((sum, x) => sum + x.count, 0)
+        ) || DISTRIBUTION[DISTRIBUTION.length - 1];
 
       if (!dist) throw new Error("Распределение не найдено");
 
       const title = BOOK_TITLES[Math.floor(Math.random() * BOOK_TITLES.length)];
 
+      const randomGenre = genres[bookIndex % genres.length];
+
       books.push({
         title,
-        description: `Роман в жанре ${GENRES[bookIndex % GENRES.length]}, раскрывающий сложные человеческие судьбы и неожиданные повороты. В центре этого повествования оказывается судьба, брошенная в водоворот перемен, где привычный мир сталкивается с неизбежностью выбора. Перед нами разворачивается история, в которой личные амбиции и сокровенные страхи героев сплетаются в тугой узел, заставляя каждого искать ответы на вечные вопросы о долге, истине и человеческой слабости. Это путь преодоления, где за каждым поворотом сюжета скрывается новая грань реальности, обнажающая подлинную природу тех, кто решился идти до конца. Автор виртуозно исследует границы морали и силы духа, погружая читателя в атмосферу, где тишина порой говорит громче слов, а случайная встреча способна навсегда изменить вектор жизни. Здесь прошлое неумолимо тяготеет над настоящим, а будущее остается призрачным горизонтом, достичь которого можно лишь пройдя через горнило внутренних трансформаций. Эта книга — зеркало, в котором каждый найдет отражение собственных поисков, разочарований и надежд, скрытых за искусной вязью слов и глубоким психологизмом.`,
+        description: `Роман в жанре ${randomGenre.title}, раскрывающий сложные человеческие судьбы и неожиданные повороты. В центре этого повествования оказывается судьба, брошенная в водоворот перемен, где привычный мир сталкивается с неизбежностью выбора. Перед нами разворачивается история, в которой личные амбиции и сокровенные страхи героев сплетаются в тугой узел, заставляя каждого искать ответы на вечные вопросы о долге, истине и человеческой слабости. Это путь преодоления, где за каждым поворотом сюжета скрывается новая грань реальности, обнажающая подлинную природу тех, кто решился идти до конца. Автор виртуозно исследует границы морали и силы духа, погружая читателя в атмосферу, где тишина порой говорит громче слов, а случайная встреча способна навсегда изменить вектор жизни. Здесь прошлое неумолимо тяготеет над настоящим, а будущее остается призрачным горизонтом, достичь которого можно лишь пройдя через горнило внутренних трансформаций. Эта книга — зеркало, в котором каждый найдет отражение собственных поисков, разочарований и надежд, скрытых за искусной вязью слов и глубоким психологизмом.`,
         authorId: author._id,
         year: 2000 + (bookIndex % 25),
-        genres: [GENRES[bookIndex % GENRES.length]],
+        genres: [randomGenre._id],
         rating: round2(randomBetween(dist.rating[0], dist.rating[1])),
         createdAt: dist.createdAt,
         imageUrl: "/HP.jpg",
