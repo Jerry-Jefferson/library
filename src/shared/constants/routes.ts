@@ -11,6 +11,8 @@ export const routes = {
   signIn: "/signIn",
   signUp: "/signUp",
   admin: "/admin",
+  bookCreation: "/admin/book",
+  authorCreation: "/admin/author",
   recovery: "/passwordRecovery",
   denied: "/403",
 };

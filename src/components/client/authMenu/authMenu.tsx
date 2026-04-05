@@ -2,10 +2,14 @@
 
 import { handleSignOut } from "@/src/actions/auth/signout";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
-import { AUTH_BUTTONS } from "@/src/shared/constants/navigationLinks";
+import { AUTH_BUTTONS, SessionRoles } from "@/src/shared/constants/navigationLinks";
+import { roles } from "@/src/shared/constants/roles";
+import { routes } from "@/src/shared/constants/routes";
 import { Button } from "../button/button";
 
-export type UserActionsProps = { logged: true; userName: string } | { logged: false };
+export type UserActionsProps =
+  | { logged: true; userName: string; role: SessionRoles }
+  | { logged: false };
 
 export function AuthMenu(props: UserActionsProps) {
   return (
@@ -13,7 +17,13 @@ export function AuthMenu(props: UserActionsProps) {
       {props.logged ? (
         <>
           <p className="hidden sm:block text-sm font-medium">Hello, {props.userName}</p>
-          <Button padding="small" onClick={handleSignOut}>
+          {props.role === roles.admin && (
+            <LinkButton href={routes.admin} className="font-normal">
+              Dashboard
+            </LinkButton>
+          )}
+
+          <Button padding="small" className="pl-6 pr-6" onClick={handleSignOut}>
             Quit
           </Button>
         </>

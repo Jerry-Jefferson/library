@@ -26,7 +26,7 @@ export function SignInForm() {
   const navigate = useRouter();
 
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = searchParams.get("callbackUrl") || routes.home;
 
   const {
     register,

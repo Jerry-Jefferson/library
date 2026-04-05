@@ -2,6 +2,7 @@
 
 export type Padding = "small" | "medium" | "large";
 export type ColorVariant = "primary" | "secondary";
+export type ButtonType = "submit" | "button" | "reset";
 
 export interface ButtonProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ export interface ButtonProps {
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
+  type?: ButtonType;
 }
 
 const paddingVariants = {
@@ -30,6 +32,7 @@ export function Button({
   disabled,
   onClick,
   className = "",
+  type = "submit",
 }: ButtonProps) {
   return (
     <button
@@ -37,7 +40,7 @@ export function Button({
       ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full 
       disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary 
       ${className}`}
-      type="submit"
+      type={type}
       disabled={disabled}
       onClick={onClick}
     >
