@@ -29,11 +29,11 @@ export default function Multiselect<T extends SelectItemType>({
   name,
   value,
   onChange,
-  placeholder = "Select...",
+  placeholder = "",
 }: MultiselectProps<T>) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 800);
 
   const filteredItems = useMemo(() => {
     if (!debouncedQuery) return items;
@@ -42,6 +42,8 @@ export default function Multiselect<T extends SelectItemType>({
   }, [items, debouncedQuery]);
 
   const showPlaceholder = !isFocused && value.length === 0 && !query;
+  const visibleItems = value.slice(0, MAX_VISIBLE);
+  const hiddenCount = value.length - visibleItems.length;
 
   return (
     <Field disabled={isDisabled} className="relative w-full">
@@ -61,7 +63,7 @@ export default function Multiselect<T extends SelectItemType>({
               px-4 pt-6 pb-2 min-h-14.5 bg-background
               ${isFocused ? "border-primary ring-2 ring-primary/30 outline-none" : "border-secondary"}`}
           >
-            {value.map((item) => (
+            {visibleItems.map((item) => (
               <SelectedItem
                 key={item._id}
                 item={item}
@@ -69,12 +71,14 @@ export default function Multiselect<T extends SelectItemType>({
               />
             ))}
 
+            {hiddenCount > 0 && <span className="text-xs text-foreground">+{hiddenCount}</span>}
+
             <ComboboxInput
               autoComplete="off"
               autoCorrect="off"
               spellCheck={false}
               onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)} // только для стилей
+              onBlur={() => setIsFocused(false)}
               onChange={(e) => setQuery(e.target.value)}
               className="flex-1 bg-transparent outline-none min-w-20 text-sm"
               placeholder={showPlaceholder ? placeholder : ""}
@@ -84,7 +88,7 @@ export default function Multiselect<T extends SelectItemType>({
 
         <ComboboxOptions className="absolute left-0 top-full w-full mt-1 rounded-lg border border-primary bg-background shadow-xl z-50 max-h-60 overflow-auto focus:outline-none">
           {filteredItems.length === 0 ? (
-            <div className="px-4 py-3 text-sm text-gray-400 italic text-center">Nothing found</div>
+            <div className="px-4 py-3 text-sm text-secondary italic text-center">Nothing found</div>
           ) : (
             filteredItems.map((item) => (
               <OptionItem
