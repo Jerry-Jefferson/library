@@ -1,14 +1,9 @@
 "use client";
 import { useMemo, useState } from "react";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxOption,
-  ComboboxOptions,
-  Field,
-  Label,
-} from "@headlessui/react";
+import { Combobox, ComboboxInput, ComboboxOptions, Field } from "@headlessui/react";
 import useDebounce from "@/src/shared/hooks/useDebounce";
+import OptionItem from "./optionItem";
+import SelectedItem from "./selectedItem";
 
 export const MAX_VISIBLE = 3;
 
@@ -24,6 +19,7 @@ export interface MultiselectProps<T extends SelectItemType> {
   isDisabled?: boolean;
   value: T[];
   onChange: (value: T[]) => void;
+  placeholder?: string;
 }
 
 export default function Multiselect<T extends SelectItemType>({
@@ -33,90 +29,71 @@ export default function Multiselect<T extends SelectItemType>({
   name,
   value,
   onChange,
+  placeholder = "Select...",
 }: MultiselectProps<T>) {
   const [query, setQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
 
   const filteredItems = useMemo(() => {
     if (!debouncedQuery) return items;
-    return items.filter((item) => item.title.toLowerCase().includes(debouncedQuery.toLowerCase()));
+    const q = debouncedQuery.toLowerCase();
+    return items.filter((item) => item.title.toLowerCase().includes(q));
   }, [items, debouncedQuery]);
 
-  const visibleItems = query ? [] : value.slice(0, MAX_VISIBLE);
-  const hiddenCount = value.length - visibleItems.length;
+  const showPlaceholder = !isFocused && value.length === 0 && !query;
 
   return (
-    <Field disabled={isDisabled} className="w-full max-w-md">
-      {label && <Label className="block text-sm font-medium text-gray-700 mb-1">{label}</Label>}
+    <Field disabled={isDisabled} className="relative w-full">
+      <Combobox as="div" multiple name={name} value={value} onChange={onChange} by="_id" immediate>
+        <div className="relative group rounded-md">
+          {label && (
+            <label
+              className={`absolute left-4 top-2 text-xs tracking-wider z-20 transition-colors duration-50 pointer-events-none
+                ${isFocused ? "text-primary" : "text-secondary"}`}
+            >
+              {label}
+            </label>
+          )}
 
-      <Combobox
-        as="div"
-        immediate
-        multiple
-        name={name}
-        value={value}
-        onChange={onChange}
-        onClose={() => setQuery("")}
-        className="relative w-full"
-        by="_id"
-      >
-        <div className="relative">
           <div
-            className="flex flex-wrap items-center gap-2 w-full rounded-lg border border-primary px-2 py-2
-                       focus-within:ring-1 focus-within:ring-primary"
+            className={`flex flex-wrap items-center gap-2 w-full rounded-md border transition-all duration-100
+              px-4 pt-6 pb-2 min-h-14.5 bg-background
+              ${isFocused ? "border-primary ring-2 ring-primary/30 outline-none" : "border-secondary"}`}
           >
-            {!query &&
-              visibleItems.map((item) => (
-                <span
-                  key={item._id}
-                  className="flex items-center gap-1 bg-primary text-neutral-dark text-xs px-2 py-1 rounded-md"
-                >
-                  {item.title}
-                  <button
-                    type="button"
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      onChange(value.filter((value) => value._id !== item._id));
-                    }}
-                  >
-                    ✕
-                  </button>
-                </span>
-              ))}
-
-            {!query && hiddenCount > 0 && (
-              <span className="text-xs text-foreground">+{hiddenCount}</span>
-            )}
+            {value.map((item) => (
+              <SelectedItem
+                key={item._id}
+                item={item}
+                onRemove={(id) => onChange(value.filter((v) => v._id !== id))}
+              />
+            ))}
 
             <ComboboxInput
-              aria-label={`${name} items`}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)} // только для стилей
               onChange={(e) => setQuery(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-sm min-w-20"
-              placeholder={value.length && !query ? "" : "Search..."}
+              className="flex-1 bg-transparent outline-none min-w-20 text-sm"
+              placeholder={showPlaceholder ? placeholder : ""}
             />
           </div>
         </div>
 
-        <ComboboxOptions className="absolute left-0 top-full w-full mt-2 rounded-lg border border-primary bg-background shadow-lg z-10">
-          {filteredItems.length === 0 && <div className="px-3 py-2 text-sm">Nothing found</div>}
-
-          {filteredItems.map((item) => (
-            <ComboboxOption
-              key={item._id}
-              value={item}
-              className="flex cursor-pointer items-center justify-between px-3 py-2 text-sm
-                         data-focus:bg-primary
-                         data-selected:bg-primary-hover data-selected:text-neutral-dark"
-            >
-              {({ selected }) => (
-                <>
-                  <span>{item.title}</span>
-                  {selected && <span className="text-xs text-neutral-dark">✓</span>}
-                </>
-              )}
-            </ComboboxOption>
-          ))}
+        <ComboboxOptions className="absolute left-0 top-full w-full mt-1 rounded-lg border border-primary bg-background shadow-xl z-50 max-h-60 overflow-auto focus:outline-none">
+          {filteredItems.length === 0 ? (
+            <div className="px-4 py-3 text-sm text-gray-400 italic text-center">Nothing found</div>
+          ) : (
+            filteredItems.map((item) => (
+              <OptionItem
+                key={item._id}
+                item={item}
+                isSelected={value.some((v) => v._id === item._id)}
+              />
+            ))
+          )}
         </ComboboxOptions>
       </Combobox>
     </Field>
