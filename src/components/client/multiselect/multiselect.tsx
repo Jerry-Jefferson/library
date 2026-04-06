@@ -42,6 +42,8 @@ export default function Multiselect<T extends SelectItemType>({
   }, [items, debouncedQuery]);
 
   const showPlaceholder = !isFocused && value.length === 0 && !query;
+  const visibleItems = value.slice(0, MAX_VISIBLE);
+  const hiddenCount = value.length - visibleItems.length;
 
   return (
     <Field disabled={isDisabled} className="relative w-full">
@@ -61,13 +63,15 @@ export default function Multiselect<T extends SelectItemType>({
               px-4 pt-6 pb-2 min-h-14.5 bg-background
               ${isFocused ? "border-primary ring-2 ring-primary/30 outline-none" : "border-secondary"}`}
           >
-            {value.map((item) => (
+            {visibleItems.map((item) => (
               <SelectedItem
                 key={item._id}
                 item={item}
                 onRemove={(id) => onChange(value.filter((v) => v._id !== id))}
               />
             ))}
+
+            {hiddenCount > 0 && <span className="text-xs text-foreground">+{hiddenCount}</span>}
 
             <ComboboxInput
               autoComplete="off"
