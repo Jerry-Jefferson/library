@@ -19,9 +19,10 @@ export function BookPage({
   genres: IGenreSerialized[] | null;
 }) {
   const searchParams = useSearchParams();
-  const from = searchParams.get("from") ?? "1";
-  const backPath = `${routes.books}?page=${from}`;
-  const label = BACK_PATHS_LABELS[from] || DEFAULT_LABEL;
+
+  const from = searchParams.get("from");
+  const backPath = from ? decodeURIComponent(from) : routes.home;
+  const label = from?.startsWith(routes.books) ? BACK_PATHS_LABELS.books : BACK_PATHS_LABELS.home;
 
   if (!book) return <p>No book found</p>;
 

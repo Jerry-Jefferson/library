@@ -1,12 +1,14 @@
-import { getAuthors } from "@/lib/modules/authors/authors";
-import AuthorDirectory from "../components/authors/authorDirectory";
 import { Suspense } from "react";
+import AuthorsContent from "../components/authorsContent/authorsContent";
 
-export default async function Authors() {
-  const authors = await getAuthors();
+export interface AuthorsProps {
+  searchParams: Promise<{ genres?: string; page?: string }>;
+}
+
+export default function Authors({ searchParams }: AuthorsProps) {
   return (
     <Suspense fallback={<div>Loading authors...</div>}>
-      <AuthorDirectory authors={authors} />;
+      <AuthorsContent searchParams={searchParams} />
     </Suspense>
   );
 }

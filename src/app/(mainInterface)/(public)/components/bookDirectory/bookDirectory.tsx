@@ -1,17 +1,16 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
 import Multiselect from "@/src/components/client/multiselect/multiselect";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
-import { routes } from "@/src/shared/constants/routes";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 
-interface BookDirectoryProps {
+export interface BookDirectoryProps {
   books: IBookSerialized[];
-  genres: IGenreSerialized[];
+  genres: IGenreSerialized[] | null;
   currentPage: number;
   totalPages: number;
   selectedGenres: string[];
@@ -26,20 +25,15 @@ export function BookDirectory({
 }: BookDirectoryProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const changePage = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
-    router.push(`/books?${params.toString()}`, { scroll: false });
-  };
+  const pathname = usePathname();
 
   const updateFilters = (value: IGenreSerialized[]) => {
     const params = new URLSearchParams(searchParams.toString());
-    const ids = value.map((g) => g._id);
+    const ids = value.map((genre) => genre._id);
     if (ids.length) params.set("genres", ids.join(","));
     else params.delete("genres");
     params.set("page", "1");
-    router.push(`/books?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const selected = genres?.filter((g) => selectedGenres.includes(g._id)) ?? [];
@@ -53,7 +47,7 @@ export function BookDirectory({
 
         <div className="flex w-full justify-end">
           {genres && (
-            <div className="max-w-90">
+            <div className="w-95 max-h-15">
               <Multiselect
                 name="genres"
                 label="Filter by genres"
@@ -77,7 +71,11 @@ export function BookDirectory({
                     <ItemCard.Information content={book.authorName} color="secondary" />
                     <ItemCard.Information content={book.year} color="secondary" />
                   </div>
-                  <LinkButton href={`${routes.book(book._id)}?from=${currentPage}`}>
+                  <LinkButton
+                    href={`/books/${book._id}?from=${encodeURIComponent(
+                      `${pathname}?${searchParams.toString()}`
+                    )}`}
+                  >
                     View Information
                   </LinkButton>
                 </div>
@@ -86,9 +84,7 @@ export function BookDirectory({
           ))}
         </div>
 
-        {totalPages > 1 && (
-          <Pagination currentPage={currentPage} totalPages={totalPages} changePage={changePage} />
-        )}
+        {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
     </div>
   );
