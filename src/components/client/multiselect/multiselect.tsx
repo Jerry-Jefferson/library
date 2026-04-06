@@ -29,11 +29,11 @@ export default function Multiselect<T extends SelectItemType>({
   name,
   value,
   onChange,
-  placeholder = "Select...",
+  placeholder = "",
 }: MultiselectProps<T>) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 800);
 
   const filteredItems = useMemo(() => {
     if (!debouncedQuery) return items;
@@ -84,7 +84,7 @@ export default function Multiselect<T extends SelectItemType>({
 
         <ComboboxOptions className="absolute left-0 top-full w-full mt-1 rounded-lg border border-primary bg-background shadow-xl z-50 max-h-60 overflow-auto focus:outline-none">
           {filteredItems.length === 0 ? (
-            <div className="px-4 py-3 text-sm text-gray-400 italic text-center">Nothing found</div>
+            <div className="px-4 py-3 text-sm text-secondary italic text-center">Nothing found</div>
           ) : (
             filteredItems.map((item) => (
               <OptionItem

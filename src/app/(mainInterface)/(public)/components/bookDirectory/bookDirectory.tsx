@@ -38,7 +38,7 @@ export function BookDirectory({
     const ids = value.map((g) => g._id);
     if (ids.length) params.set("genres", ids.join(","));
     else params.delete("genres");
-    params.set("page", "1"); // сбрасываем на первую страницу после фильтра
+    params.set("page", "1");
     router.push(`/books?${params.toString()}`);
   };
 
@@ -51,15 +51,20 @@ export function BookDirectory({
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Books Directory</h2>
 
-        {genres && (
-          <Multiselect
-            name="genres"
-            label="Filter by genres"
-            items={genres}
-            value={selected}
-            onChange={updateFilters}
-          />
-        )}
+        <div className="flex w-full justify-end">
+          {genres && (
+            <div className="max-w-90">
+              <Multiselect
+                name="genres"
+                label="Filter by genres"
+                items={genres}
+                value={selected}
+                onChange={updateFilters}
+                placeholder="Select genres..."
+              />
+            </div>
+          )}
+        </div>
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-10">
           {books.map((book) => (
