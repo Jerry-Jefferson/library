@@ -35,7 +35,7 @@ export default function Multiselect<T extends SelectItemType>({
   onChange,
 }: MultiselectProps<T>) {
   const [query, setQuery] = useState("");
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 800);
 
   const filteredItems = useMemo(() => {
     if (!debouncedQuery) return items;
@@ -93,7 +93,7 @@ export default function Multiselect<T extends SelectItemType>({
               aria-label={`${name} items`}
               onChange={(e) => setQuery(e.target.value)}
               className="flex-1 bg-transparent outline-none text-sm min-w-20"
-              placeholder={value.length && !query ? "" : "Search..."}
+              placeholder={value.length && !query ? "" : `Search...`}
             />
           </div>
         </div>
