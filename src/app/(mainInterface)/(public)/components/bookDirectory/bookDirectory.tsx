@@ -1,16 +1,13 @@
 "use client";
 
 import ItemCard from "@/src/components/client/itemCard/itemCard";
-import Multiselect from "@/src/components/client/multiselect/multiselect";
 import Pagination from "@/src/components/client/pagination/pagination";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
 import { usePagination } from "@/src/shared/hooks/usePagination";
-import { useState } from "react";
 
 export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
-  const [value, setValue] = useState([]);
   const { currentItems, currentPage, totalPages, nextPage, prevPage, setPage } = usePagination(
     books ?? [],
     8
