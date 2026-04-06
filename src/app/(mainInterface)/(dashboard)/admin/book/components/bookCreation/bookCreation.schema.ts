@@ -3,7 +3,7 @@ import * as z from "zod/v4";
 export const bookCreationSchema = z.object({
   title: z.string().min(1, "Enter the book's title"),
   description: z.string().min(10, "Write a longer synopsis"),
-  authorId: z.string().length(24, "Choose an author"),
+  authorId: z.array(z.string()).min(1, "Choose an author"),
   year: z.coerce
     .number<number>()
     .min(1, "Enter a valid year")

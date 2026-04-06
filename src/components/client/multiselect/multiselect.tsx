@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import useDebounce from "@/src/shared/hooks/useDebounce";
 import {
   Combobox,
   ComboboxInput,
@@ -8,7 +8,7 @@ import {
   Field,
   Label,
 } from "@headlessui/react";
-import useDebounce from "@/src/shared/hooks/useDebounce";
+import { useMemo, useState } from "react";
 
 export const MAX_VISIBLE = 3;
 
@@ -35,7 +35,7 @@ export default function Multiselect<T extends SelectItemType>({
   onChange,
 }: MultiselectProps<T>) {
   const [query, setQuery] = useState("");
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 800);
 
   const filteredItems = useMemo(() => {
     if (!debouncedQuery) return items;
@@ -62,7 +62,7 @@ export default function Multiselect<T extends SelectItemType>({
       >
         <div className="relative">
           <div
-            className="flex flex-wrap items-center gap-2 w-full rounded-lg border border-primary px-2 py-2
+            className="flex flex-wrap items-center gap-2 w-full rounded-md border border-primary px-2 py-2
                        focus-within:ring-1 focus-within:ring-primary"
           >
             {!query &&

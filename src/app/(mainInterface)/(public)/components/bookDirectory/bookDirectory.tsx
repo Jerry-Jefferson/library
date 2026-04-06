@@ -1,5 +1,6 @@
 "use client";
 
+import DeleteButton from "@/src/components/client/button/variants/deleteButton";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
@@ -27,7 +28,12 @@ export function BookDirectory({ books }: { books: IBookSerialized[] | null }) {
             <div key={book._id}>
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                  <ItemCard.Avatar alt="Book cover" src={book.imageUrl} view="rounded" />
+                  <div className="relative w-full">
+                    <ItemCard.Avatar alt="Book cover" src={book.imageUrl} view="rounded" />
+                    <div className="absolute top-2 right-2 z-20">
+                      <DeleteButton />
+                    </div>
+                  </div>
                   <div className="flex justify-between pt-2 pb-2">
                     <p>rating</p>
                     <ItemCard.Favourite />
