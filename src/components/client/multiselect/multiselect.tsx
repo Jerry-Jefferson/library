@@ -5,7 +5,7 @@ import useDebounce from "@/src/shared/hooks/useDebounce";
 import OptionItem from "./optionItem";
 import SelectedItem from "./selectedItem";
 
-export const MAX_VISIBLE = 3;
+export const MAX_VISIBLE = 2;
 
 export type SelectItemType = {
   _id: string;

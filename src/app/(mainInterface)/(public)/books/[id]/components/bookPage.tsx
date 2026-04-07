@@ -22,7 +22,9 @@ export function BookPage({
 
   const from = searchParams.get("from");
   const backPath = from ? decodeURIComponent(from) : routes.home;
-  const label = from?.startsWith(routes.books) ? BACK_PATHS_LABELS.books : BACK_PATHS_LABELS.home;
+  const label = backPath?.startsWith(routes.books)
+    ? BACK_PATHS_LABELS[routes.books]
+    : BACK_PATHS_LABELS[routes.home];
 
   if (!book) return <p>No book found</p>;
 
@@ -37,7 +39,7 @@ export function BookPage({
                 Add to Favourites
               </Button>
               <LinkButton href={backPath} className="py-4">
-                Back to {label}
+                Back to {label ? label : DEFAULT_LABEL}
               </LinkButton>
             </div>
             <div className="w-[65%] flex flex-col gap-6">

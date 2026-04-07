@@ -43,7 +43,10 @@ export default function AuthorDirectory({
     <div className="w-full min-h-dvh flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Authors Directory</h2>
-        <div className="flex w-full justify-end">
+        <p className="text-xl text-secondary">
+          Meet the brilliant minds behind our collection of over 50,000 titles.
+        </p>
+        <div className="flex w-full justify-end mt-5">
           {genres && (
             <div className="w-95 max-h-15">
               <Multiselect
@@ -57,10 +60,7 @@ export default function AuthorDirectory({
             </div>
           )}
         </div>
-        <p className="text-xl text-secondary">
-          Meet the brilliant minds behind our collection of over 50,000 titles.
-        </p>
-        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-10">
+        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-4">
           {authors.map((author: IAuthorSerialized) => (
             <ItemCard key={author._id} name="Author">
               <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
