@@ -46,3 +46,40 @@ export async function getAuthorById(id: string): Promise<IAuthorSerialized | nul
 
   return serializeAuthor(author, books);
 }
+
+export async function getFilteredAuthors({
+  genres,
+  page,
+  itemsPerPage,
+}: {
+  genres: string[];
+  page: number;
+  itemsPerPage: number;
+}): Promise<{ items: IAuthorSerialized[]; totalPages: number }> {
+  cacheLife("hours");
+
+  await connectMongo();
+
+  const skip = (page - 1) * itemsPerPage;
+
+  const authors = await Author.find().lean<IAuthor[]>();
+  const books = await Book.find().select("_id authorId genres").lean<IBook[]>();
+
+  const serializedAuthors = authors.map((author) => serializeAuthor(author, books));
+
+  const selectedGenres = genres.map((genre) => genre.toString().trim());
+
+  const filteredAuthors = selectedGenres.length
+    ? serializedAuthors.filter((author) =>
+        author.genres.some((genre) => selectedGenres.includes(genre.toString()))
+      )
+    : serializedAuthors;
+
+  const total = filteredAuthors.length;
+  const paginatedAuthors = filteredAuthors.slice(skip, skip + itemsPerPage);
+
+  return {
+    items: paginatedAuthors,
+    totalPages: Math.ceil(total / itemsPerPage),
+  };
+}

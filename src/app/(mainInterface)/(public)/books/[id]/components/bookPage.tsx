@@ -19,9 +19,12 @@ export function BookPage({
   genres: IGenreSerialized[] | null;
 }) {
   const searchParams = useSearchParams();
-  const from = searchParams.get("from") ?? "1";
-  const backPath = `${routes.books}?page=${from}`;
-  const label = BACK_PATHS_LABELS[from] || DEFAULT_LABEL;
+
+  const from = searchParams.get("from");
+  const backPath = from ? decodeURIComponent(from) : routes.home;
+  const label = backPath?.startsWith(routes.books)
+    ? BACK_PATHS_LABELS[routes.books]
+    : BACK_PATHS_LABELS[routes.home];
 
   if (!book) return <p>No book found</p>;
 
@@ -36,7 +39,7 @@ export function BookPage({
                 Add to Favourites
               </Button>
               <LinkButton href={backPath} className="py-4">
-                Back to {label}
+                Back to {label ? label : DEFAULT_LABEL}
               </LinkButton>
             </div>
             <div className="w-[65%] flex flex-col gap-6">
