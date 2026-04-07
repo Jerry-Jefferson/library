@@ -7,6 +7,7 @@ import Multiselect from "@/src/components/client/multiselect/multiselect";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
+import { routes } from "@/src/shared/constants/routes";
 
 export interface BookDirectoryProps {
   books: IBookSerialized[];
@@ -79,7 +80,7 @@ export function BookDirectory({
                     <ItemCard.Information content={book.year} color="secondary" />
                   </div>
                   <LinkButton
-                    href={`/books/${book._id}?from=${encodeURIComponent(
+                    href={`${routes.books}/${book._id}?from=${encodeURIComponent(
                       `${pathname}?${searchParams.toString()}`
                     )}`}
                   >

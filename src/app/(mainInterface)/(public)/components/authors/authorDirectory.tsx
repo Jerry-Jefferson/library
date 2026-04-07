@@ -7,6 +7,7 @@ import Pagination from "@/src/components/client/pagination/pagination";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IGenreSerialized } from "@/src/models/genre";
+import { routes } from "@/src/shared/constants/routes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 export interface AuthorDirectoryProps {
   authors: IAuthorSerialized[] | null;
@@ -78,7 +79,7 @@ export default function AuthorDirectory({
                   />
                 </div>
                 <LinkButton
-                  href={`/authors/${author._id}?from=${encodeURIComponent(
+                  href={`${routes.authors}/${author._id}?from=${encodeURIComponent(
                     `${pathname}?${searchParams.toString()}`
                   )}`}
                 >
