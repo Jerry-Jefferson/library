@@ -3,12 +3,14 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
-import Multiselect from "@/src/components/client/multiselect/multiselect";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 import { routes } from "@/src/shared/constants/routes";
-
+import { useMemo, useState } from "react";
+import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions";
+import MultiSelect from "@/src/components/client/select/multiSelect";
+import SingleSelect from "@/src/components/client/select/singleSelect";
 export interface BookDirectoryProps {
   books: IBookSerialized[];
   genres: IGenreSerialized[] | null;
@@ -37,8 +39,12 @@ export function BookDirectory({
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const selected = genres?.filter((g) => selectedGenres.includes(g._id)) ?? [];
-
+  const selected = genres?.filter((genre) => selectedGenres.includes(genre._id)) ?? [];
+  const [selectedSort, setSelectedSort] = useState<SortOption<IBookSerialized> | null>(null);
+  const displayedBooks = useMemo(() => {
+    if (!selectedSort) return books;
+    return [...books].sort(selectedSort.comparator);
+  }, [books, selectedSort]);
   if (!books || books.length === 0) return <p>No books found</p>;
 
   return (
@@ -49,23 +55,34 @@ export function BookDirectory({
           Discover your next great read from our curated collection of timeless classics and modern
           masterpieces
         </p>
-        <div className="flex w-full justify-end mt-5">
-          {genres && (
-            <div className="w-95 max-h-15">
-              <Multiselect
-                name="genres"
-                label="Filter by genres"
-                items={genres}
-                value={selected}
-                onChange={updateFilters}
-                placeholder="Select genres..."
-              />
-            </div>
-          )}
+        <div className="flex gap-5 w-full justify-end mt-5">
+          <div className="flex gap-3 max-w-[2/4]">
+            {genres && (
+              <div className="min-w-85 max-w-85">
+                <MultiSelect
+                  multiple
+                  name="genres"
+                  label="Filter by genres"
+                  items={genres}
+                  value={selected}
+                  onChange={updateFilters}
+                  placeholder="Select genres..."
+                  variant="primary"
+                />
+              </div>
+            )}
+            <SingleSelect<SortOption<IBookSerialized>>
+              items={bookSortOptions}
+              value={selectedSort}
+              onChange={setSelectedSort}
+              placeholder="Sort by..."
+              label="Sort Books"
+            />
+          </div>
         </div>
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-4">
-          {books.map((book) => (
+          {displayedBooks.map((book) => (
             <div key={book._id}>
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
