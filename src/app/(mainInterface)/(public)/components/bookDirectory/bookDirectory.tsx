@@ -67,7 +67,6 @@ export function BookDirectory({
                   value={selected}
                   onChange={updateFilters}
                   placeholder="Select genres..."
-                  variant="primary"
                 />
               </div>
             )}
