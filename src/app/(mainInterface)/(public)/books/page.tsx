@@ -1,13 +1,14 @@
-import { getAllBooks } from "@/lib/modules/books/books";
-import { BookDirectory } from "../components/bookDirectory/bookDirectory";
 import { Suspense } from "react";
+import BooksContent from "../components/booksContent/booksContent";
 
-export default async function Books() {
-  const books = await getAllBooks();
+export interface BooksProps {
+  searchParams: Promise<{ genres?: string; page?: string }>;
+}
 
+export default function Books({ searchParams }: BooksProps) {
   return (
     <Suspense fallback={<div>Loading books...</div>}>
-      <BookDirectory books={books} />
+      <BooksContent searchParams={searchParams} />
     </Suspense>
   );
 }
