@@ -11,12 +11,11 @@ export default function OptionItem<T extends { _id: string; title: string }>({
 }) {
   return (
     <ComboboxOption
-      key={item._id}
       value={item}
       className="flex cursor-pointer items-center justify-between px-4 py-2 text-sm
-                 data-focus:bg-primary/10
-                 data-selected:bg-primary data-selected:text-neutral-dark
-                 transition-colors"
+      data-focus:bg-primary/10
+      data-selected:bg-primary data-selected:text-neutral-dark
+      transition-colors"
     >
       <span>{item.title}</span>
       {isSelected && <span className="text-[10px]">✓</span>}
