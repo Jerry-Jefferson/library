@@ -3,7 +3,8 @@
 import { createBook } from "@/lib/modules/books/books.actions";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
-import { FormMultiselect } from "@/src/components/client/multiselect/variants/formMultiselect/formMultiselect";
+import { FormMultiselect } from "@/src/components/client/select/variants/formMultiselect/formMultiselect";
+import { FormSingleSelect } from "@/src/components/client/select/variants/formSingleSelect/formSingleSelect";
 import { TextArea } from "@/src/components/client/textArea/textArea";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IGenreSerialized } from "@/src/models/genre";
@@ -26,7 +27,7 @@ const bookFields = {
 const defaultBookCreationValues = {
   [bookFields.name]: "",
   [bookFields.description]: "",
-  [bookFields.authorId]: [],
+  [bookFields.authorId]: "",
   [bookFields.genres]: [],
   [bookFields.year]: undefined,
   [bookFields.imageUrl]: "",
@@ -88,8 +89,8 @@ export function BookCreationForm({
         toast.error(result.message);
         return;
       }
-      toast.success(result.message);
       reset();
+      toast.success(result.message);
     } catch (error) {
       console.error(error);
     }
@@ -115,13 +116,20 @@ export function BookCreationForm({
           />
         </div>
         <div className="flex justify-between gap-6">
-          <FormMultiselect
+          <FormSingleSelect
             name="authorId"
             control={control}
             items={selectableAuthors}
             label="Author"
+            variant="secondary"
           />
-          <FormMultiselect name="genres" control={control} items={genres} label="Genres" />
+          <FormMultiselect
+            name="genres"
+            control={control}
+            items={genres}
+            label="Genres"
+            variant="secondary"
+          />
         </div>
         <TextArea
           name="description"

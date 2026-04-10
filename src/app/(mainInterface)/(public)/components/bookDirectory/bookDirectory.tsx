@@ -1,7 +1,11 @@
 "use client";
 
+import { deleteBook } from "@/lib/modules/books/books.actions";
 import DeleteButton from "@/src/components/client/button/variants/deleteButton";
+import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/deleteMessage";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
+import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
+import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
 import Pagination from "@/src/components/client/pagination/pagination";
 import MultiSelect from "@/src/components/client/select/multiSelect";
 import SingleSelect from "@/src/components/client/select/singleSelect";
@@ -12,6 +16,8 @@ import { routes } from "@/src/shared/constants/routes";
 import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import { toast } from "react-toastify";
+
 export interface BookDirectoryProps {
   books: IBookSerialized[];
   genres: IGenreSerialized[] | null;
@@ -19,7 +25,6 @@ export interface BookDirectoryProps {
   totalPages: number;
   selectedGenres: string[];
 }
-
 export function BookDirectory({
   books,
   genres,
@@ -27,6 +32,29 @@ export function BookDirectory({
   totalPages,
   selectedGenres,
 }: BookDirectoryProps) {
+  const [selectedBook, setSelectedBook] = useState<IBookSerialized | null>(null);
+  const { modal, openModal, closeModal } = useModalQuery();
+
+  function handleOpen(book: IBookSerialized, modalType: ModalType) {
+    setSelectedBook(book);
+    openModal(modalType);
+  }
+
+  async function handleDelete(id: string) {
+    try {
+      const result = await deleteBook(id);
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
+      closeModal();
+      toast.success(result.message);
+      setSelectedBook(null);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -91,7 +119,7 @@ export function BookDirectory({
                   </div>
                   <div className="flex justify-between pt-2 pb-2">
                     <p>rating</p>
-                    <DeleteButton />
+                    <DeleteButton onClick={() => handleOpen(book, "delete")} />
                     <ItemCard.Favourite />
                   </div>
                   <ItemCard.Title content={book.title} className="truncate" />
@@ -111,9 +139,19 @@ export function BookDirectory({
             </div>
           ))}
         </div>
-
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
+      {modal === "delete" && selectedBook && (
+        <ModalWindow header="Book deletion" handleCancel={closeModal}>
+          <DeleteMessage
+            handleCancel={closeModal}
+            cancelButton="Cancel"
+            acceptButton="Delete"
+            handleDelete={() => handleDelete(selectedBook._id)}
+            entity={selectedBook}
+          />
+        </ModalWindow>
+      )}
     </div>
   );
 }

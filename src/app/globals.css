@@ -10,6 +10,7 @@
   --toastify-color-success: #4ade80;
   --toastify-color-error: #ef4444;
   --neutral-dark: #2d2d2d;
+  --fair: #fff;
 }
 
 @theme inline {
@@ -22,6 +23,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-neutral-dark: var(--neutral-dark);
+  --color-fair: var(--fair);
 }
 
 @media (prefers-color-scheme: dark) {

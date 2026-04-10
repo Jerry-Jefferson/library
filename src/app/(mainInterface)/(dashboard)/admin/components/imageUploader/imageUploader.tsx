@@ -30,10 +30,9 @@ export function ImageUploader<T extends FieldValues>({
 
   return (
     <div className="flex flex-col h-full w-full">
-      <span className="text-sm font-medium text-secondary mb-2"></span>
+      {/* <span className="text-sm font-medium text-secondary mb-2"></span> */}
       <label
-        className="flex-1 border-2 border-dashed border-secondary rounded-md 
-                        hover:border-primary transition-colors cursor-pointer 
+        className="flex-1 border-2 border-dashed border-secondary rounded-md cursor-pointer 
                         flex flex-col items-center justify-center gap-2 p-4"
       >
         <input type="file" className="hidden" onChange={handleChange} />

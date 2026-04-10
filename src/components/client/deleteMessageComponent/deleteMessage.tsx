@@ -1,0 +1,37 @@
+"use client";
+
+import { IBookSerialized } from "@/src/models/book";
+import { Button } from "../button/button";
+
+export interface DeleteMessageProps {
+  handleCancel: () => void;
+  cancelButton: string;
+  acceptButton: string;
+  handleDelete: () => Promise<void>;
+  entity: IBookSerialized;
+}
+
+export function DeleteMessage({
+  handleCancel,
+  cancelButton,
+  acceptButton,
+  handleDelete,
+  entity,
+}: DeleteMessageProps) {
+  if (!entity) return null;
+  return (
+    <div className="flex flex-col justify-center gap-8 w-full">
+      <div className="self-center">
+        <p>Are you sure you want to delete &quot;{entity.title}&quot;</p>
+      </div>
+      <div className="flex justify-between gap-6">
+        <Button padding="medium" onClick={handleDelete}>
+          {acceptButton}
+        </Button>
+        <Button padding="medium" colorVariant="secondary" type="reset" onClick={handleCancel}>
+          {cancelButton}
+        </Button>
+      </div>
+    </div>
+  );
+}

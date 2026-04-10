@@ -99,6 +99,7 @@ export async function getFilteredBooks({
   itemsPerPage: number;
 }): Promise<{ items: IBookSerialized[]; totalPages: number }> {
   cacheLife("hours");
+  cacheTag("books");
 
   await connectMongo();
 
