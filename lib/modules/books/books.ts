@@ -2,21 +2,27 @@
 import { connectMongo } from "@/lib/mongoose";
 import "@/src/models/author";
 import { Book, IBook, IBookSerialized } from "@/src/models/book";
-import { isAuthor } from "@/src/shared/types/typeGuards";
-import { FlattenMaps } from "mongoose";
+import "@/src/models/genre";
+import { isAuthor, isGenre } from "@/src/shared/types/typeGuards";
 import { cacheLife, cacheTag } from "next/cache";
 
-function serializeBook(book: FlattenMaps<IBook>): IBookSerialized {
+function serializeBook(book: IBook): IBookSerialized {
   const author = book.authorId;
+  const genres = book.genres || [];
 
   const authorName = isAuthor(author) ? author.name : "Unknown author";
   const authorIdStr = isAuthor(author) ? author._id.toString() : String(author);
+
+  const genresIds = genres.map((genre) => {
+    return isGenre(genre) ? genre._id.toString() : String(genre);
+  });
 
   return {
     ...book,
     _id: book._id.toString(),
     authorName: authorName,
     authorId: authorIdStr,
+    genres: genresIds,
     createdAt: book.createdAt?.toISOString(),
   };
 }
@@ -71,19 +77,47 @@ export async function getNewBooks(limit: number): Promise<IBookSerialized[] | nu
   return newBooks ? newBooks.map(serializeBook) : null;
 }
 
-export async function getBooksById(ids: string[]): Promise<IBookSerialized[]> {
+export async function getBooksByAuthorId(ids: string[]): Promise<IBookSerialized[]> {
   cacheLife("hours");
 
-  try {
-    await connectMongo();
+  await connectMongo();
 
-    const books = await Book.find({ _id: { $in: ids } })
-      .populate("authorId", "name")
-      .lean<IBook[]>();
+  const books = await Book.find({ _id: { $in: ids } })
+    .populate("authorId", "name")
+    .lean<IBook[]>();
 
-    return books.map(serializeBook);
-  } catch (error) {
-    console.error("DB error in getBooksByIds", error);
-    throw error;
+  return books.map(serializeBook);
+}
+
+export async function getFilteredBooks({
+  genres,
+  page,
+  itemsPerPage,
+}: {
+  genres: string[];
+  page: number;
+  itemsPerPage: number;
+}): Promise<{ items: IBookSerialized[]; totalPages: number }> {
+  cacheLife("hours");
+
+  await connectMongo();
+
+  const query: Partial<{ genres: { $in: string[] } }> = {};
+
+  if (genres.length) {
+    query.genres = { $in: genres };
   }
+
+  const skip = (page - 1) * itemsPerPage;
+
+  const [books, totalPages] = await Promise.all([
+    Book.find(query).populate("authorId", "name").skip(skip).limit(itemsPerPage).lean<IBook[]>(),
+
+    Book.countDocuments(query),
+  ]);
+
+  return {
+    items: books.map(serializeBook),
+    totalPages,
+  };
 }

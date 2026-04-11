@@ -70,6 +70,6 @@ export async function deleteBook(id: string) {
     return { success: true, message: "The book has been successfully deleted" };
   } catch (error) {
     console.error("DB error in deleteBook", error);
-    return { success: false, message: "DB error in deleteBook" };
+    return { success: false, message: "Failed to delete the book" };
   }
 }

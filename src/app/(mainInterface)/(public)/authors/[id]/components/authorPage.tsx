@@ -15,8 +15,7 @@ export default function AuthorPage({
   author: IAuthorSerialized | null;
   from?: string;
 }) {
-  const pageNumber = from ?? "1";
-  const backPath = `${routes.authors}?page=${pageNumber}`;
+  const backPath = from ?? routes.authors;
   if (!author) return <p>No author found</p>;
 
   return (
