@@ -13,9 +13,11 @@ export function AuthMenu(props: UserActionsProps) {
       {props.logged ? (
         <>
           <p className="hidden sm:block text-sm font-medium">Hello, {props.userName}</p>
-          <Button size="small" variant="primary" onClick={handleSignOut}>
-            Quit
-          </Button>
+          <div className="flex gap-4 items-center w-full">
+            <Button fullWidth size="small" variant="primary" onClick={handleSignOut}>
+              Quit
+            </Button>
+          </div>
         </>
       ) : (
         <>

@@ -1,8 +1,6 @@
 "use client";
 
 import HP from "@/public/HP.jpg";
-import ArrowLeft from "@/public/left.png";
-import ArrowRight from "@/public/right.png";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
@@ -27,7 +25,7 @@ export function BookSection({ children, books }: BookSectionProps) {
     <section className="box-border flex flex-col gap-4 w-full">
       {children}
       <EmblaCarousel>
-        <EmblaCarousel.Switcher src={ArrowLeft} direction="backward" />
+        <EmblaCarousel.Switcher direction="backward" />
         <EmblaCarousel.Container>
           {books.map((book) => (
             <EmblaCarousel.Slide key={book._id}>
@@ -46,7 +44,7 @@ export function BookSection({ children, books }: BookSectionProps) {
             </EmblaCarousel.Slide>
           ))}
         </EmblaCarousel.Container>
-        <EmblaCarousel.Switcher src={ArrowRight} direction="forward" />
+        <EmblaCarousel.Switcher direction="forward" />
       </EmblaCarousel>
     </section>
   );

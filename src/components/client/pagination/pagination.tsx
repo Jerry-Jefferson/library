@@ -1,10 +1,10 @@
 "use client";
 
-import { DOTS_MARKER, getPaginationRange } from "@/src/shared/utils/getPaginationRange";
-import { Button } from "@/src/components/client/button/button";
-import Image from "next/image";
 import LeftArrow from "@/public/left.png";
 import RightArrow from "@/public/right.png";
+import { Button } from "@/src/components/client/button/button";
+import { DOTS_MARKER, getPaginationRange } from "@/src/shared/utils/getPaginationRange";
+import Image from "next/image";
 
 export interface PaginationProps {
   currentPage: number;
@@ -25,7 +25,7 @@ export default function Pagination({
   return (
     <div className="flex justify-center gap-6 mt-8">
       <Button
-        padding="small"
+        size="small"
         disabled={currentPage === 1}
         onClick={prevPage}
         className={`max-h-10 max-w-10 rounded-xl border relative`}
@@ -43,7 +43,7 @@ export default function Pagination({
             <Button
               key={`page-${page}-${index}`}
               onClick={() => setPage(page)}
-              padding="small"
+              size="small"
               className={`max-h-10 min-w-10 rounded-xl border
               ${currentPage === page ? "bg-primary text-white" : ""}`}
             >
@@ -54,7 +54,7 @@ export default function Pagination({
       </div>
 
       <Button
-        padding="small"
+        size="small"
         disabled={currentPage === totalPages}
         onClick={nextPage}
         className={`max-h-10 max-w-10 rounded-xl border relative`}

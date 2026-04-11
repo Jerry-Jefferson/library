@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/src/components/client/button/button";
-import { ToggleButton } from "@/src/components/client/button/variants/toggleButton";
 import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
@@ -22,10 +21,10 @@ export function BookPage({ book }: { book: IBookSerialized | null }) {
     <div className="w-full min-h-dvh flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <ItemCard name="book">
-          <div className="flex gap-10 border-b border-secondary pb-12">
+          <div className="flex items-start gap-10 border-b border-secondary pb-12">
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.imageUrl} view="rounded" />
-              <Button padding="medium" className="font-bold">
+              <Button fullWidth size="medium" variant="primary" className="font-bold">
                 Add to Favourites
               </Button>
               <LinkButton href={backPath} className="py-4">
@@ -50,9 +49,13 @@ export function BookPage({ book }: { book: IBookSerialized | null }) {
                         ref={textRef}
                       />
                       {isTruncated && (
-                        <ToggleButton onClick={toggle}>
+                        <Button
+                          variant="custom"
+                          onClick={toggle}
+                          className="hover:text-primary-hover text-primary text-[clamp(10px,0.5rem+1vw,16px)]"
+                        >
                           {isShownFull ? "Collapse" : "Read more"}
-                        </ToggleButton>
+                        </Button>
                       )}
                     </>
                   )}
