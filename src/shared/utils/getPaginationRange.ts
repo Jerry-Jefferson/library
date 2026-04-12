@@ -1,5 +1,6 @@
 export const DOTS_MARKER = "...";
 export const SIBLING_COUNT = 1;
+export const MAX_ITEMS_PER_PAGE = 8;
 
 export function getPaginationRange(
   currentPage: number,
