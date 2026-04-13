@@ -12,7 +12,7 @@ export default async function AuthorsContent({ searchParams }: AuthorsContentPro
 
   const page = Number(params.page ?? 1);
   const genreIds = params.genres?.split(",") ?? [];
-  console.log(ITEMS_PER_PAGE.EIGHT);
+
   const [genres, authorsData] = await Promise.all([
     getAllGenres(),
     getFilteredAuthors({
