@@ -99,7 +99,6 @@ export async function getFilteredBooks({
   itemsPerPage: number;
 }): Promise<{ items: IBookSerialized[]; totalPages: number }> {
   cacheLife("hours");
-
   await connectMongo();
 
   const query: Partial<{ genres: { $in: string[] } }> = {};
@@ -115,7 +114,6 @@ export async function getFilteredBooks({
 
     Book.countDocuments(query),
   ]);
-
   return {
     items: books.map(serializeBook),
     totalPages,
