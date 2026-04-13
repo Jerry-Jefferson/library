@@ -22,8 +22,7 @@ export function AuthMenu(props: UserActionsProps) {
               Dashboard
             </LinkButton>
           )}
-
-          <Button padding="small" className="pl-6 pr-6" onClick={handleSignOut}>
+          <Button fullWidth size="small" variant="primary" onClick={handleSignOut}>
             Quit
           </Button>
         </>

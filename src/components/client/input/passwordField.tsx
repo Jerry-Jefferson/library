@@ -1,11 +1,10 @@
 "use client";
 
-import HidddenPassword from "@/public/hidden.png";
-import OpenPassword from "@/public/visible.png";
 import { useState } from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { Button } from "../button/button";
 import { useInput } from "./useInput";
-import { VisibilityImage } from "./visibilityImage";
 
 export interface FieldProps<T extends FieldValues> {
   register: UseFormRegister<T>;
@@ -30,17 +29,17 @@ export function PasswordField<T extends FieldValues>({ register }: FieldProps<T>
         type={show ? "text" : "password"}
         {...register(name as Path<T>)}
       />
-      <button
+      <Button
         className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:opacity-70 transition-opacity"
         onClick={() => setShow((prev) => !prev)}
         type="button"
       >
         {show ? (
-          <VisibilityImage alt="hide" src={OpenPassword} />
+          <MdVisibility className="text-primary" size={24} />
         ) : (
-          <VisibilityImage alt="show" src={HidddenPassword} />
+          <MdVisibilityOff className="text-secondary" size={24} />
         )}
-      </button>
+      </Button>
     </div>
   );
 }

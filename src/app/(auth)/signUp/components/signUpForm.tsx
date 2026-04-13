@@ -106,7 +106,7 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           label="Confirm password"
           errorMessage={errors.confirmPassword?.message}
         />
-        <Button padding="medium" disabled={!isValid}>
+        <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
           Create Account
         </Button>
       </form>

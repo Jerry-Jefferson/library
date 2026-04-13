@@ -1,11 +1,9 @@
 "use client";
 
-import { DOTS_MARKER, getPaginationRange } from "@/src/shared/utils/getPaginationRange";
 import { Button } from "@/src/components/client/button/button";
-import Image from "next/image";
-import LeftArrow from "@/public/left.png";
-import RightArrow from "@/public/right.png";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { DOTS_MARKER, getPaginationRange } from "@/src/shared/utils/getPaginationRange";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 
 export interface PaginationProps {
   currentPage: number;
@@ -34,14 +32,15 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
   const pages = getPaginationRange(currentPage, totalPages, 1);
 
   return (
-    <div className="flex justify-center gap-6 mt-8">
+    <div className="flex justify-center items-center gap-6 mt-8">
       <Button
-        padding="small"
+        size="small"
         disabled={currentPage === 1}
         onClick={prevPage}
-        className="max-h-10 max-w-10 rounded-xl border relative"
+        variant="icon"
+        className="bg-background border border-secondary hover:bg-primary rounded-2xl transition-colors min-w-[26px] min-h-[26px] md:min-w-[25px] md:min-h-[25px] lg:min-w-[24px] lg:min-h-[24px] flex-shrink-0 flex items-center justify-center"
       >
-        <Image fill alt="" src={LeftArrow} sizes="50px" />
+        <MdArrowBackIos className="w-full h-full flex-shrink-0" />
       </Button>
 
       <div className="flex justify-center flex-wrap gap-2 md:flex-nowrap">
@@ -51,8 +50,9 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             <Button
               key={`page-${page}-${index}`}
               onClick={() => changePage(page as number)}
-              padding="small"
-              className={`max-h-10 min-w-10 rounded-xl border ${currentPage === page ? "bg-primary text-white" : ""}`}
+              size="small"
+              className={`max-h-10 min-w-10 rounded-xl border
+              ${currentPage === page ? "bg-primary text-white" : ""}`}
             >
               {page}
             </Button>
@@ -61,12 +61,13 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
       </div>
 
       <Button
-        padding="small"
+        size="small"
         disabled={currentPage === totalPages}
         onClick={nextPage}
-        className="max-h-10 max-w-10 rounded-xl border relative"
+        variant="icon"
+        className="bg-background border border-secondary hover:bg-primary rounded-2xl transition-colors min-w-[26px] min-h-[26px] md:min-w-[25px] md:min-h-[25px] lg:min-w-[24px] lg:min-h-[24px] flex-shrink-0 flex items-center justify-center"
       >
-        <Image fill alt="" src={RightArrow} sizes="50px" />
+        <MdArrowForwardIos className="w-full h-full flex-shrink-0" />
       </Button>
     </div>
   );

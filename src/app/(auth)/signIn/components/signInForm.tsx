@@ -81,7 +81,7 @@ export function SignInForm() {
           label="Password"
           errorMessage={errors.password?.message}
         />
-        <Button padding="medium" disabled={!isValid}>
+        <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
           Sign in
         </Button>
       </form>

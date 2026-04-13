@@ -1,9 +1,8 @@
 "use client";
 
-import FavGreen from "@/public/favgreen.png";
-import FavGrey from "@/public/favgrey.png";
-import Image from "next/image";
 import { useState } from "react";
+import { MdFavorite } from "react-icons/md";
+import { Button } from "../button/button";
 
 export function Favourite() {
   const [isFavourite, setIsFavourite] = useState(false);
@@ -13,16 +12,17 @@ export function Favourite() {
   }
 
   return (
-    <button
-      className="cursor-pointer relative w-[10%] max-w-[40px] min-w-[24px] aspect-square"
+    <Button
+      variant="icon"
       onClick={toggle}
+      className="min-w-[26px] min-h-[26px] md:min-w-[25px] md:min-h-[25px] lg:min-w-[24px] lg:min-h-[24px] flex-shrink-0 flex items-center justify-center"
     >
-      <Image
-        fill
-        alt="favourites"
-        src={isFavourite ? FavGreen : FavGrey}
-        sizes="(min-width: 240px) 10vw"
+      <MdFavorite
+        className={`
+          transition-colors
+          ${isFavourite ? "text-primary" : "text-secondary"} w-full h-full flex-shrink-0
+        `}
       />
-    </button>
+    </Button>
   );
 }
