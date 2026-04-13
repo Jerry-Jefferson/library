@@ -1,5 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Query, Schema } from "mongoose";
 import { UserRole } from "../shared/types/newUser";
+import { Review } from "@/src/models/review";
 
 export interface IUser {
   name: string;
