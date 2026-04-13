@@ -1,43 +1,49 @@
 "use client";
 
-export type Padding = "small" | "medium" | "large";
-export type ColorVariant = "primary" | "secondary";
+import { ButtonHTMLAttributes } from "react";
 
-export interface ButtonProps {
+export type Size = "standard" | "small" | "medium" | "large";
+export type ButtonVariant = "custom" | "primary" | "secondary" | "icon";
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  padding: Padding;
-  colorVariant?: ColorVariant;
-  disabled?: boolean;
-  onClick?: () => void;
+  size?: Size;
+  variant?: ButtonVariant;
+  fullWidth?: boolean;
   className?: string;
 }
 
-const paddingVariants = {
-  small: "p-2",
-  medium: "p-4",
-  large: "p-6",
+const sizesVariants = {
+  standard: "",
+  small: "p-1.5 sm:p-2",
+  medium: "p-3 sm:p-4",
+  large: "p-4 sm:p-6",
 };
 
-const colorVariants = {
-  primary: "bg-primary",
-  secondary: "border border-secondary text-foreground hover:bg-secondary",
+const buttonVariants: Record<ButtonVariant, string> = {
+  custom: "",
+  primary: "bg-primary enabled:hover:bg-primary-hover text-background focus:border-foreground",
+  secondary: "border border-secondary text-foreground enabled:hover:bg-secondary",
+  icon: "p-0 h-fit w-fit",
 };
+
+const baseStyle =
+  "inline-flex items-center justify-center rounded-md transition-colors text-[clamp(10px,0.5rem+1vw,16px)] cursor-pointer focus:outline-none disabled:cursor-not-allowed disabled:opacity-50";
 
 export function Button({
   children,
-  padding,
-  colorVariant = "primary",
+  type,
+  size = "standard",
+  variant = "custom",
+  fullWidth,
   disabled,
   onClick,
   className = "",
 }: ButtonProps) {
   return (
     <button
-      className={`${colorVariants[colorVariant]} hover:bg-primary-hover rounded-md text-background text-[clamp(10px,0.5rem+1vw,16px)]
-      ${paddingVariants[padding]} focus:border-foreground cursor-pointer w-full 
-      disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary 
-      ${className}`}
-      type="submit"
+      className={`${baseStyle} ${buttonVariants[variant]} ${sizesVariants[size]} ${fullWidth ? "w-full" : "w-fit"} ${className}`}
+      type={type}
       disabled={disabled}
       onClick={onClick}
     >

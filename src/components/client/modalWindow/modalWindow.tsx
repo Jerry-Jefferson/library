@@ -1,7 +1,8 @@
 "use client";
 
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { CloseButton } from "../button/variants/closeButton";
+import { MdClose } from "react-icons/md";
+import { Button } from "../button/button";
 
 export interface ModalWindowProps {
   header: string | React.ReactNode;
@@ -16,7 +17,9 @@ export function ModalWindow({ header, children, handleCancel }: ModalWindowProps
         <DialogPanel className="bg-card-back rounded-md p-6 max-w-[800px] min-w-[200px] flex flex-col gap-6 border border-secondary md:w-[400px] lg:w-[800px]">
           <DialogTitle className="flex justify-between items-center border-b border-secondary p-2">
             {header}
-            <CloseButton handleCancel={handleCancel} />
+            <Button onClick={handleCancel}>
+              <MdClose />
+            </Button>
           </DialogTitle>
           <div className="flex flex-col gap-6 w-full">{children}</div>
         </DialogPanel>

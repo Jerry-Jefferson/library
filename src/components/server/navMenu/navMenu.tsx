@@ -9,7 +9,7 @@ export interface NavMenuProps {
 
 export function NavMenu({ links }: NavMenuProps) {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-4 items-center shrink">
       <Logo />
       {links.map((link) => (
         <Link

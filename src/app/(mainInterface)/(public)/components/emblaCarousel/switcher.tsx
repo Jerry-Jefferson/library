@@ -1,23 +1,29 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
+import { Button } from "@/src/components/client/button/button";
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { useCarousel } from "./useCarousel";
 
 export interface SwitcherProps {
-  src: StaticImageData;
   direction: "backward" | "forward";
 }
 
-export function Switcher({ src, direction }: SwitcherProps) {
+export function Switcher({ direction }: SwitcherProps) {
   const { scrollNext, scrollPrev } = useCarousel();
   const forward = direction === "forward";
 
   return (
-    <button
+    <Button
       onClick={forward ? scrollNext : scrollPrev}
-      className="relative p-2 bg-background border border-secondary hover:bg-primary rounded-2xl transition-colors min-w-[50px] aspect-square"
+      variant="icon"
+      size="medium"
+      className="bg-background border border-secondary hover:bg-primary rounded-2xl transition-colors min-w-[26px] min-h-[26px] md:min-w-[25px] md:min-h-[25px] lg:min-w-[24px] lg:min-h-[24px] flex-shrink-0 flex items-center justify-center"
     >
-      <Image fill alt={direction} src={src} sizes="50px" />
-    </button>
+      {forward ? (
+        <MdArrowForwardIos className="w-full h-full flex-shrink-0" />
+      ) : (
+        <MdArrowBackIos className="w-full h-full flex-shrink-0" />
+      )}
+    </Button>
   );
 }
