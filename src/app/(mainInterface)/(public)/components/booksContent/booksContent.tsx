@@ -13,10 +13,10 @@ export default async function BooksContent({ searchParams }: BooksContentProps) 
   const genreIds = params.genres?.split(",") ?? [];
   const [genres, booksData] = await Promise.all([
     getAllGenres(),
-    getFilteredBooks({ page, itemsPerPage: ITEMS_PER_PAGE.SIX, genres: genreIds }),
+    getFilteredBooks({ page, itemsPerPage: ITEMS_PER_PAGE.EIGHT, genres: genreIds }),
   ]);
 
-  const totalPages = Math.ceil(booksData.totalPages / ITEMS_PER_PAGE.SIX);
+  const totalPages = Math.ceil(booksData.totalPages / ITEMS_PER_PAGE.EIGHT);
 
   return (
     <BookDirectory
