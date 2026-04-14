@@ -116,7 +116,6 @@ export async function getFilteredBooks({
 
     Book.countDocuments(query),
   ]);
-
   return {
     items: books.map(serializeBook),
     totalPages,

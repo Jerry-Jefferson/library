@@ -4,7 +4,7 @@ import { getAllGenres } from "@/lib/modules/genres/genres";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
-import { MAX_ITEMS_PER_PAGE } from "@/src/shared/utils/getPaginationRange";
+import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
 
 export interface BooksRenderProps {
   books: IBookSerialized[];
@@ -28,10 +28,10 @@ export default async function BooksContent({ searchParams, children }: BooksCont
   const [genres, authors, booksData] = await Promise.all([
     getAllGenres(),
     getAuthors(),
-    getFilteredBooks({ page, itemsPerPage: MAX_ITEMS_PER_PAGE, genres: genreIds }),
+    getFilteredBooks({ page, itemsPerPage: ITEMS_PER_PAGE.EIGHT, genres: genreIds }),
   ]);
 
-  const totalPages = Math.ceil(booksData.totalPages / MAX_ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(booksData.totalPages / ITEMS_PER_PAGE.EIGHT);
 
   return (
     <>
