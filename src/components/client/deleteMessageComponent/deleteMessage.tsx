@@ -25,10 +25,10 @@ export function DeleteMessage({
         <p>Are you sure you want to delete &quot;{entity.title}&quot;</p>
       </div>
       <div className="flex justify-between gap-6">
-        <Button padding="medium" onClick={handleDelete}>
+        <Button fullWidth size="medium" variant="primary" onClick={handleDelete}>
           {acceptButton}
         </Button>
-        <Button padding="medium" colorVariant="secondary" type="reset" onClick={handleCancel}>
+        <Button fullWidth size="medium" variant="secondary" type="reset" onClick={handleCancel}>
           {cancelButton}
         </Button>
       </div>

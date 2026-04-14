@@ -1,6 +1,6 @@
 "use client";
 
-import { createBook } from "@/lib/modules/books/books.actions";
+import { createBook, updateBook } from "@/lib/modules/books/books.actions";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { FormMultiselect } from "@/src/components/client/select/variants/formMultiselect/formMultiselect";
@@ -33,8 +33,12 @@ const defaultBookCreationValues = {
   [bookFields.imageUrl]: "",
 };
 
+export interface EditionData extends BookCreationSchema {
+  _id: string;
+}
+
 export interface BookCreationFormProps {
-  id?: string | null;
+  editionData?: EditionData;
   genres: IGenreSerialized[];
   authors: IAuthorSerialized[];
   handleCancel?: () => void;
@@ -43,11 +47,15 @@ export interface BookCreationFormProps {
 }
 
 export function BookCreationForm({
+  editionData,
+  handleCancel,
   genres,
   authors,
   cancelButton,
   acceptButton,
 }: BookCreationFormProps) {
+  const isEditMode = Boolean(editionData?._id);
+
   const selectableAuthors = useMemo(
     () => authors.map((author) => ({ _id: author._id, title: author.name })),
     [authors]
@@ -65,39 +73,38 @@ export function BookCreationForm({
     resolver: zodResolver(bookCreationSchema),
     mode: "onChange",
     delayError: 500,
-    defaultValues: defaultBookCreationValues,
+    defaultValues: editionData || defaultBookCreationValues,
   });
 
-  async function handleAddition({
-    title,
-    year,
-    authorId,
-    genres,
-    description,
-    imageUrl,
-  }: BookCreationSchema) {
+  const onSubmit = async (data: BookCreationSchema) => {
     try {
-      const result = await createBook({
-        title,
-        year,
-        authorId,
-        genres,
-        description,
-        imageUrl,
-      });
+      let result;
+      if (isEditMode && editionData?._id) {
+        result = await updateBook(editionData._id, data);
+      } else {
+        result = await createBook(data);
+      }
+
       if (!result.success) {
         toast.error(result.message);
         return;
       }
-      reset();
+
       toast.success(result.message);
+
+      if (isEditMode) {
+        handleCancel?.();
+      } else {
+        reset(defaultBookCreationValues);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Form submission error:", error);
+      toast.error("Something went wrong");
     }
-  }
+  };
 
   return (
-    <form className="flex gap-6 w-full" onSubmit={handleSubmit(handleAddition)}>
+    <form className="flex gap-6 w-full" onSubmit={handleSubmit(onSubmit)}>
       <div className="bg-card-back border border-secondary rounded-md w-[70%] p-8 flex flex-col gap-4">
         <div className="flex justify-between gap-6">
           <FormInput
@@ -138,10 +145,10 @@ export function BookCreationForm({
           errorMessage={errors.description?.message}
         />
         <div className="flex justify-between gap-6">
-          <Button padding="medium" disabled={!isValid}>
+          <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
             {acceptButton}
           </Button>
-          <Button padding="medium" colorVariant="secondary" type="reset" onClick={reset}>
+          <Button fullWidth size="medium" variant="secondary" type="button" onClick={handleCancel}>
             {cancelButton}
           </Button>
         </div>

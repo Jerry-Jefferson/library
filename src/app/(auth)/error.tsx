@@ -16,7 +16,7 @@ export default function Error({
   return (
     <div>
       <h2>Something went wrong!</h2>
-      <Button size="medium" variant="primary" onClick={() => reset()}>
+      <Button size="small" variant="primary" onClick={() => reset()}>
         Try again
       </Button>
     </div>

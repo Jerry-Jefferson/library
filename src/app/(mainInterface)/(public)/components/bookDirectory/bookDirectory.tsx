@@ -11,21 +11,15 @@ import { routes } from "@/src/shared/constants/routes";
 import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import { BooksRenderProps } from "../booksContent/booksContent";
 
-export interface BookDirectoryProps {
-  books: IBookSerialized[];
-  genres: IGenreSerialized[] | null;
-  currentPage: number;
-  totalPages: number;
-  selectedGenres: string[];
-}
 export function BookDirectory({
   books,
   genres,
   currentPage,
   totalPages,
   selectedGenres,
-}: BookDirectoryProps) {
+}: BooksRenderProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -48,7 +42,7 @@ export function BookDirectory({
   if (!books || books.length === 0) return <p>No books found</p>;
 
   return (
-    <div className="w-full min-h-dvh flex justify-center bg-background">
+    <div className="w-full flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Books Directory</h2>
         <p className="text-xl text-secondary">
