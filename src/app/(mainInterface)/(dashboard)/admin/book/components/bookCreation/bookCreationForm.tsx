@@ -29,7 +29,7 @@ const defaultBookCreationValues = {
   [bookFields.description]: "",
   [bookFields.authorId]: "",
   [bookFields.genres]: [],
-  [bookFields.year]: undefined,
+  [bookFields.year]: "" as unknown as number,
   [bookFields.imageUrl]: "",
 };
 
@@ -103,6 +103,14 @@ export function BookCreationForm({
     }
   };
 
+  const handleCancelAction = () => {
+    if (isEditMode) {
+      handleCancel?.();
+    } else {
+      reset(defaultBookCreationValues);
+    }
+  };
+
   return (
     <form className="flex gap-6 w-full" onSubmit={handleSubmit(onSubmit)}>
       <div className="bg-card-back border border-secondary rounded-md w-[70%] p-8 flex flex-col gap-4">
@@ -148,7 +156,13 @@ export function BookCreationForm({
           <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
             {acceptButton}
           </Button>
-          <Button fullWidth size="medium" variant="secondary" type="button" onClick={handleCancel}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="secondary"
+            type="button"
+            onClick={handleCancelAction}
+          >
             {cancelButton}
           </Button>
         </div>

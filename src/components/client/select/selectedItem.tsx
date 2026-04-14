@@ -1,5 +1,8 @@
 "use client";
 
+import { MdClose } from "react-icons/md";
+import { Button } from "../button/button";
+
 export default function SelectedItem<T extends { _id: string; title: string }>({
   item,
   onRemove,
@@ -8,19 +11,20 @@ export default function SelectedItem<T extends { _id: string; title: string }>({
   onRemove: (id: string) => void;
 }) {
   return (
-    <span className="flex items-center gap-1 bg-primary text-neutral-dark text-[11px] px-2 py-0.5 rounded shadow-sm">
+    <span className="flex items-center justify-center gap-1 bg-primary text-neutral-dark text-[11px] px-2 py-0.5 rounded shadow-sm">
       {item.title}
-      <button
+      <Button
         type="button"
-        className="ml-1 hover:opacity-70"
+        variant="icon"
+        className="ml-1 hover:opacity-70 flex items-center justify-center"
         onMouseDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
           onRemove(item._id);
         }}
       >
-        ✕
-      </button>
+        <MdClose className="text-[11px]" />
+      </Button>
     </span>
   );
 }

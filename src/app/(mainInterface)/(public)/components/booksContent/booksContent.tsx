@@ -17,10 +17,15 @@ export interface BooksRenderProps {
 
 export interface BooksContentProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
+  itemsPerPage?: number;
   children: (data: BooksRenderProps) => React.ReactNode;
 }
 
-export default async function BooksContent({ searchParams, children }: BooksContentProps) {
+export default async function BooksContent({
+  searchParams,
+  itemsPerPage = ITEMS_PER_PAGE.EIGHT,
+  children,
+}: BooksContentProps) {
   const params = await searchParams;
   const page = Number(params.page ?? 1);
   const genreIds = params.genres?.split(",") ?? [];
@@ -28,10 +33,10 @@ export default async function BooksContent({ searchParams, children }: BooksCont
   const [genres, authors, booksData] = await Promise.all([
     getAllGenres(),
     getAuthors(),
-    getFilteredBooks({ page, itemsPerPage: ITEMS_PER_PAGE.EIGHT, genres: genreIds }),
+    getFilteredBooks({ page, itemsPerPage, genres: genreIds }),
   ]);
 
-  const totalPages = Math.ceil(booksData.totalPages / ITEMS_PER_PAGE.EIGHT);
+  const totalPages = Math.ceil(booksData.totalPages / itemsPerPage);
 
   return (
     <>

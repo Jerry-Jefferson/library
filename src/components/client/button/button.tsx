@@ -37,15 +37,15 @@ export function Button({
   variant = "custom",
   fullWidth,
   disabled,
-  onClick,
   className = "",
+  ...props
 }: ButtonProps) {
   return (
     <button
+      {...props}
       className={`${baseStyle} ${buttonVariants[variant]} ${sizesVariants[size]} ${fullWidth ? "w-full" : "w-fit"} ${className}`}
       type={type}
       disabled={disabled}
-      onClick={onClick}
     >
       {children}
     </button>
