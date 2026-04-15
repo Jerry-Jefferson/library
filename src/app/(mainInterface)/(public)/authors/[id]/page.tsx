@@ -7,6 +7,7 @@ import AuthorPage from "./components/authorPage";
 
 export async function generateStaticParams() {
   const authors = await getAuthors();
+  if (!authors) return [];
   return authors?.map((author) => ({ id: author._id }));
 }
 
@@ -26,7 +27,7 @@ export default async function Author({
 
   return (
     <Suspense fallback={<p>Wait...</p>}>
-      <div className="w-full min-h-dvh flex justify-center bg-background">
+      <div className="w-full flex justify-center bg-background">
         <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
           <AuthorPage author={author} from={from} />
           <BookSection books={books}>

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { BookDirectory } from "../components/bookDirectory/bookDirectory";
 import BooksContent from "../components/booksContent/booksContent";
 
 export interface BooksProps {
@@ -8,7 +9,9 @@ export interface BooksProps {
 export default function Books({ searchParams }: BooksProps) {
   return (
     <Suspense fallback={<div>Loading books...</div>}>
-      <BooksContent searchParams={searchParams} />
+      <BooksContent searchParams={searchParams}>
+        {(data) => <BookDirectory {...data} />}
+      </BooksContent>
     </Suspense>
   );
 }

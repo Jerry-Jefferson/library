@@ -5,6 +5,7 @@ import { BookPage } from "./components/bookPage";
 
 export async function generateStaticParams() {
   const books = await getAllBooks();
+  if (!books) return [];
   return books?.map((book) => ({ id: book._id }));
 }
 

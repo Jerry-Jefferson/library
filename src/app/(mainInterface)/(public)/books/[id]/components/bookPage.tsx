@@ -27,7 +27,7 @@ export function BookPage({
   if (!book) return <p>No book found</p>;
 
   return (
-    <div className="w-full min-h-dvh flex justify-center bg-background">
+    <div className="w-full flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <ItemCard name="book">
           <div className="flex items-start gap-10 border-b border-secondary pb-12">

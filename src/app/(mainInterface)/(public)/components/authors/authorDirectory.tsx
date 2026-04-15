@@ -51,7 +51,7 @@ export default function AuthorDirectory({
   if (!authors || authors.length === 0) return <p>No authors found</p>;
 
   return (
-    <div className="w-full min-h-dvh flex justify-center bg-background">
+    <div className="w-full flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Authors Directory</h2>
         <p className="text-xl text-secondary">

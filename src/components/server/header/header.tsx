@@ -15,7 +15,7 @@ export async function Header() {
     <header className="box-border bg-background border-b border-secondary flex justify-between px-6 py-4 text-base w-full">
       <NavMenu links={nav} />
       <AuthMenu
-        {...(session ? { logged: true, userName: session.user.name } : { logged: false })}
+        {...(session ? { logged: true, userName: session.user.name, role } : { logged: false })}
       />
     </header>
   );
