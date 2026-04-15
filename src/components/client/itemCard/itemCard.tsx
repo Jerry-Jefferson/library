@@ -6,7 +6,6 @@ import { Badge } from "./badge";
 import { CardContext } from "./cardContext";
 import { Favourite } from "./favourite";
 import { Information } from "./information";
-import { Rating } from "./rating";
 import { Title } from "./title";
 
 export interface ItemCardProps {
@@ -22,7 +21,6 @@ export default function ItemCard({ children, name }: ItemCardProps) {
 }
 
 ItemCard.Title = Title;
-ItemCard.Rating = Rating;
 ItemCard.Information = Information;
 ItemCard.Avatar = Avatar;
 ItemCard.Favourite = Favourite;

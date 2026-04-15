@@ -18,7 +18,6 @@ export function BookPage({
   genres: IGenreSerialized[] | null;
 }) {
   const searchParams = useSearchParams();
-
   const from = searchParams.get("from");
   const backPath = from ? decodeURIComponent(from) : routes.home;
   const label =
