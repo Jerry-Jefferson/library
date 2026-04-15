@@ -1,19 +1,21 @@
 "use server";
 
 import { connectMongo } from "@/lib/mongoose";
-import { bookCreationSchema } from "@/src/app/(mainInterface)/(dashboard)/admin/book/components/bookCreation/bookCreation.schema";
 import { Book } from "@/src/models/book";
 import { updateTag } from "next/cache";
+import { z } from "zod";
+import { bookCreationSchema } from "./book.schema";
 
 export async function createBook(data: unknown) {
   try {
     await connectMongo();
     const validatedData = bookCreationSchema.safeParse(data);
     if (!validatedData.success) {
+      const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
         message: "Invalid book data",
-        errors: validatedData.error.flatten().fieldErrors,
+        errors: flattened.fieldErrors,
       };
     }
 
@@ -33,10 +35,11 @@ export async function updateBook(id: string, data: unknown) {
     await connectMongo();
     const validatedData = bookCreationSchema.safeParse(data);
     if (!validatedData.success) {
+      const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
         message: "Invalid book data",
-        errors: validatedData.error.flatten().fieldErrors,
+        errors: flattened.fieldErrors,
       };
     }
 
