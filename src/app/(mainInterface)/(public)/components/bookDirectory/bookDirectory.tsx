@@ -12,6 +12,7 @@ import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { BooksRenderProps } from "../booksContent/booksContent";
+import { Rating } from "@/src/components/client/rating/rating";
 
 export function BookDirectory({
   books,
@@ -81,7 +82,7 @@ export function BookDirectory({
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Avatar alt="Book cover" src={book.imageUrl} view="rounded" />
                   <div className="flex items-center justify-between pt-2 pb-2">
-                    <ItemCard.Rating rating={book.rating} />
+                    <Rating rating={book.rating} />
                     <ItemCard.Favourite />
                   </div>
                   <ItemCard.Title content={book.title} className="truncate" />
