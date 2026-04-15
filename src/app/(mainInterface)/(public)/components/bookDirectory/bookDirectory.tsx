@@ -87,7 +87,7 @@ export function BookDirectory({
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Avatar alt="Book cover" src={book.imageUrl} view="rounded" />
                   <div className="flex items-center justify-between pt-2 pb-2">
-                    <p>rating</p>
+                    <ItemCard.Rating rating={book.rating} />
                     <ItemCard.Favourite />
                   </div>
                   <ItemCard.Title content={book.title} className="truncate" />
