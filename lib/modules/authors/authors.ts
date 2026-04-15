@@ -4,7 +4,7 @@ import { connectMongo } from "@/lib/mongoose";
 import { Author, IAuthor, IAuthorSerialized } from "@/src/models/author";
 import { Book, IBook } from "@/src/models/book";
 import "@/src/models/genre";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 function serializeAuthor(author: IAuthor, books: IBook[]): IAuthorSerialized {
   const authorBooks = books.filter((book) => book.authorId.toString() === author._id.toString());
@@ -23,6 +23,7 @@ function serializeAuthor(author: IAuthor, books: IBook[]): IAuthorSerialized {
 
 export async function getAuthors(): Promise<IAuthorSerialized[] | null> {
   cacheLife("hours");
+  cacheTag("authors");
 
   await connectMongo();
 
@@ -36,6 +37,7 @@ export async function getAuthors(): Promise<IAuthorSerialized[] | null> {
 
 export async function getAuthorById(id: string): Promise<IAuthorSerialized | null> {
   cacheLife("days");
+  cacheTag(`author-${id}`);
 
   await connectMongo();
 
@@ -57,6 +59,7 @@ export async function getFilteredAuthors({
   itemsPerPage: number;
 }): Promise<{ items: IAuthorSerialized[]; totalPages: number }> {
   cacheLife("hours");
+  cacheTag(`authors`);
 
   await connectMongo();
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { bookCreationSchema, BookCreationSchema } from "@/lib/modules/books/book.schema";
 import { createBook, updateBook } from "@/lib/modules/books/books.actions";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
@@ -13,7 +14,6 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ImageUploader } from "../../../components/imageUploader/imageUploader";
-import { bookCreationSchema, BookCreationSchema } from "./bookCreation.schema";
 
 const bookFields = {
   name: "title",
@@ -29,7 +29,7 @@ const defaultBookCreationValues = {
   [bookFields.description]: "",
   [bookFields.authorId]: "",
   [bookFields.genres]: [],
-  [bookFields.year]: "" as unknown as number,
+  [bookFields.year]: null,
   [bookFields.imageUrl]: "",
 };
 
