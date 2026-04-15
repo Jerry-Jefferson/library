@@ -26,16 +26,16 @@ export function ImageUploader<T extends FieldValues>({
       const pathValue = `/${file.name}` as PathValue<T, Path<T>>;
       setValue(name, pathValue, { shouldValidate: true });
     }
+    event.target.value = "";
   };
 
   return (
     <div className="flex flex-col h-full w-full">
-      {/* <span className="text-sm font-medium text-secondary mb-2"></span> */}
       <label
         className="flex-1 border-2 border-dashed border-secondary rounded-md cursor-pointer 
                         flex flex-col items-center justify-center gap-2 p-4"
       >
-        <input type="file" className="hidden" onChange={handleChange} />
+        <input type="file" className="hidden" onChange={handleChange} value="" />
         <div className="relative w-[24px] h-[24px]">
           <Image fill alt="upload a cover" src={UploadCloud} sizes="56px" />
         </div>
