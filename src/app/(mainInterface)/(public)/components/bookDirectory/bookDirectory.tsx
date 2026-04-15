@@ -1,23 +1,17 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
+import MultiSelect from "@/src/components/client/select/multiSelect";
+import SingleSelect from "@/src/components/client/select/singleSelect";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 import { routes } from "@/src/shared/constants/routes";
-import { useMemo, useState } from "react";
 import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions";
-import MultiSelect from "@/src/components/client/select/multiSelect";
-import SingleSelect from "@/src/components/client/select/singleSelect";
-export interface BookDirectoryProps {
-  books: IBookSerialized[];
-  genres: IGenreSerialized[] | null;
-  currentPage: number;
-  totalPages: number;
-  selectedGenres: string[];
-}
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import { BooksRenderProps } from "../booksContent/booksContent";
 
 export function BookDirectory({
   books,
@@ -25,7 +19,7 @@ export function BookDirectory({
   currentPage,
   totalPages,
   selectedGenres,
-}: BookDirectoryProps) {
+}: BooksRenderProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -48,7 +42,7 @@ export function BookDirectory({
   if (!books || books.length === 0) return <p>No books found</p>;
 
   return (
-    <div className="w-full min-h-dvh flex justify-center bg-background">
+    <div className="w-full flex justify-center bg-background">
       <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Books Directory</h2>
         <p className="text-xl text-secondary">
@@ -107,7 +101,6 @@ export function BookDirectory({
             </div>
           ))}
         </div>
-
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
     </div>

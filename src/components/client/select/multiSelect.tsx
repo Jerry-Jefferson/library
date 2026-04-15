@@ -1,8 +1,7 @@
 "use client";
-
-import { useMemo, useState } from "react";
-import { Combobox, ComboboxInput, ComboboxOptions, Field } from "@headlessui/react";
 import useDebounce from "@/src/shared/hooks/useDebounce";
+import { Combobox, ComboboxInput, ComboboxOptions, Field } from "@headlessui/react";
+import { useMemo, useState } from "react";
 import OptionItem from "./optionItem";
 import SelectedItem from "./selectedItem";
 import { BaseProps, SelectItemType, VariantType } from "./types";

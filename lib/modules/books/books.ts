@@ -34,7 +34,7 @@ export async function getAllBooks(): Promise<IBookSerialized[] | null> {
   await connectMongo();
   const books = await Book.find().populate("authorId", "name").lean<IBook[]>();
 
-  return books ? books.map(serializeBook) : null;
+  return books.map(serializeBook);
 }
 
 export async function getBookById(id: string): Promise<IBookSerialized | null> {
@@ -60,7 +60,7 @@ export async function getPopularBooks(limit: number): Promise<IBookSerialized[] 
     .limit(limit)
     .lean<IBook[]>();
 
-  return popular ? popular.map(serializeBook) : null;
+  return popular.map(serializeBook);
 }
 
 export async function getNewBooks(limit: number): Promise<IBookSerialized[] | null> {
@@ -74,7 +74,7 @@ export async function getNewBooks(limit: number): Promise<IBookSerialized[] | nu
     .limit(limit)
     .lean<IBook[]>();
 
-  return newBooks ? newBooks.map(serializeBook) : null;
+  return newBooks.map(serializeBook);
 }
 
 export async function getBooksByAuthorId(ids: string[]): Promise<IBookSerialized[]> {
@@ -99,6 +99,8 @@ export async function getFilteredBooks({
   itemsPerPage: number;
 }): Promise<{ items: IBookSerialized[]; totalPages: number }> {
   cacheLife("hours");
+  cacheTag("books");
+
   await connectMongo();
 
   const query: Partial<{ genres: { $in: string[] } }> = {};

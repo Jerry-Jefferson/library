@@ -11,6 +11,11 @@ export const routes = {
   signIn: "/signIn",
   signUp: "/signUp",
   admin: "/admin",
+  bookCreation: "/admin/book",
+  authorCreation: "/admin/author",
+  booksManagement: "/admin/books",
+  authorsManagement: "/admin/authors",
+  genresManagement: "/admin/genres",
   recovery: "/passwordRecovery",
   denied: "/403",
 };
@@ -39,4 +44,15 @@ export const ROUTE_GROUPS: RouteConfig[] = [
     paths: new Set([routes.home, routes.books, routes.authors, routes.denied]),
     prefixes: ["/books", "/authors"],
   },
+];
+
+export interface BarLink {
+  href: string;
+  label: string;
+}
+
+export const adminBarLinks: BarLink[] = [
+  { href: routes.authorsManagement, label: "Authors" },
+  { href: routes.booksManagement, label: "Books" },
+  { href: routes.genresManagement, label: "Genres" },
 ];

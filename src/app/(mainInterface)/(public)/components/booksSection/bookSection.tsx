@@ -1,6 +1,5 @@
 "use client";
 
-import HP from "@/public/HP.jpg";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
@@ -32,7 +31,7 @@ export function BookSection({ children, books }: BookSectionProps) {
               <Link href={`${routes.book(book._id)}?from=${pathname}`}>
                 <ItemCard name="Book">
                   <div className="flex flex-col gap-1">
-                    <ItemCard.Avatar alt={book.title} src={HP} view="rounded" />
+                    <ItemCard.Avatar alt={book.title} src={book.imageUrl} view="rounded" />
                     <ItemCard.Title content={book.title} className="truncate" />
                     <ItemCard.Information
                       color="secondary"
