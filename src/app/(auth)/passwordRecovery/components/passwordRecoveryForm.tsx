@@ -21,7 +21,7 @@ export function PasswordRecoveryForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
     setFocus,
   } = useForm<PasswordRecoverySchema>({
     resolver: zodResolver(passwordRecoverySchema),
@@ -54,7 +54,13 @@ export function PasswordRecoveryForm() {
           label="Email"
           errorMessage={errors.email?.message}
         />
-        <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
+        <Button
+          fullWidth
+          size="medium"
+          variant="primary"
+          disabled={!isValid}
+          isLoading={isSubmitting}
+        >
           Send reset link
         </Button>
       </form>

@@ -37,7 +37,7 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
     setFocus,
   } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -106,7 +106,13 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           label="Confirm password"
           errorMessage={errors.confirmPassword?.message}
         />
-        <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
+        <Button
+          fullWidth
+          size="medium"
+          variant="primary"
+          disabled={!isValid}
+          isLoading={isSubmitting}
+        >
           Create Account
         </Button>
       </form>
