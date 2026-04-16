@@ -10,6 +10,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: Size;
   variant?: ButtonVariant;
   fullWidth?: boolean;
+  isLoading?: boolean;
   className?: string;
 }
 
@@ -36,6 +37,7 @@ export function Button({
   size = "standard",
   variant = "custom",
   fullWidth,
+  isLoading = false,
   disabled,
   className = "",
   ...props
@@ -45,9 +47,9 @@ export function Button({
       {...props}
       className={`${baseStyle} ${buttonVariants[variant]} ${sizesVariants[size]} ${fullWidth ? "w-full" : "w-fit"} ${className}`}
       type={type}
-      disabled={disabled}
+      disabled={disabled || isLoading}
     >
-      {children}
+      {isLoading ? <p>Loading...</p> : children}
     </button>
   );
 }

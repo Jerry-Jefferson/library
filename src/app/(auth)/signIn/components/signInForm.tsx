@@ -32,7 +32,7 @@ export function SignInForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
     setFocus,
   } = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
@@ -81,7 +81,13 @@ export function SignInForm() {
           label="Password"
           errorMessage={errors.password?.message}
         />
-        <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
+        <Button
+          fullWidth
+          size="medium"
+          variant="primary"
+          disabled={!isValid}
+          isLoading={isSubmitting}
+        >
           Sign in
         </Button>
       </form>
