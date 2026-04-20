@@ -7,7 +7,7 @@ export interface IAuthor {
   birthYear: number;
   isAlive: boolean;
   deathYear?: number;
-  imageUrl?: string;
+  imageUrl: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -47,6 +47,7 @@ export const AuthorSchema = new Schema<IAuthor>(
     },
     imageUrl: {
       type: String,
+      default: "/public/default-avatar.png",
       trim: true,
     },
   },

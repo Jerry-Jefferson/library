@@ -18,7 +18,7 @@ export function ModalWindow({ header, children, handleCancel }: ModalWindowProps
           <DialogTitle className="flex justify-between items-center border-b border-secondary p-2">
             {header}
             <Button variant="icon" onClick={handleCancel}>
-              <MdClose className="text-sm md:text-base" />
+              <MdClose className="text-sm md:text-base lg:text-xl" />
             </Button>
           </DialogTitle>
           <div className="flex flex-col gap-6 w-full">{children}</div>

@@ -3,6 +3,7 @@
 import { connectMongo } from "@/lib/mongoose";
 import { Author } from "@/src/models/author";
 import { Book } from "@/src/models/book";
+import { DEFAULT_AVATAR } from "@/src/shared/constants/defaultAvatar";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { authorCreationSchema } from "./author.schema";
@@ -20,7 +21,12 @@ export async function createAuthor(data: unknown) {
       };
     }
 
-    await Author.create(validatedData.data);
+    const dataToSave = {
+      ...validatedData.data,
+      imageUrl: validatedData.data.imageUrl || DEFAULT_AVATAR,
+    };
+
+    await Author.create(dataToSave);
 
     updateTag("authors");
 

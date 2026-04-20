@@ -36,7 +36,7 @@ const BookSchema = new Schema<IBook>(
     ],
     rating: { type: Number, default: 0 },
     createdAt: { type: Date },
-    imageUrl: { type: String },
+    imageUrl: { type: String, default: "/default-avatar.png" },
   },
   {
     timestamps: true,
