@@ -1,10 +1,10 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 export type AvatarType = "circle" | "rounded";
 
 export interface AvatarProps {
   alt: string;
-  src: StaticImageData | string;
+  src: string;
   view: AvatarType;
 }
 

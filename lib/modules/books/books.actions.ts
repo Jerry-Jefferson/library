@@ -2,6 +2,7 @@
 
 import { connectMongo } from "@/lib/mongoose";
 import { Book } from "@/src/models/book";
+import { DEFAULT_AVATAR } from "@/src/shared/constants/defaultAvatar";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { bookCreationSchema } from "./book.schema";
@@ -19,9 +20,15 @@ export async function createBook(data: unknown) {
       };
     }
 
-    await Book.create(validatedData.data);
+    const dataToSave = {
+      ...validatedData.data,
+      imageUrl: validatedData.data.imageUrl || DEFAULT_AVATAR,
+    };
+
+    await Book.create(dataToSave);
 
     updateTag("books");
+    updateTag("authors");
 
     return { success: true, message: "The book has been successfully added" };
   } catch (error) {
@@ -69,6 +76,7 @@ export async function deleteBook(id: string) {
 
     updateTag("books");
     updateTag(`book-${id}`);
+    updateTag("authors");
 
     return { success: true, message: "The book has been successfully deleted" };
   } catch (error) {

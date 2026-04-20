@@ -1,18 +1,25 @@
+"use client";
+
 import { adminBarLinks } from "@/src/shared/constants/routes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function ManagementBar() {
+  const pathname = usePathname();
   return (
     <div className="flex gap-4 text-primary">
-      {adminBarLinks.map((barLink) => (
-        <Link
-          key={barLink.label}
-          href={barLink.href}
-          className="hover:text-primary-hover transition-colors"
-        >
-          {barLink.label}
-        </Link>
-      ))}
+      {adminBarLinks.map((barLink) => {
+        const isActive = pathname === barLink.href;
+        return (
+          <Link
+            key={barLink.label}
+            href={barLink.href}
+            className={`transition-colors ${isActive ? "border-b-2 border-primary" : "hover:text-primary-hover "}`}
+          >
+            {barLink.label}
+          </Link>
+        );
+      })}
     </div>
   );
 }

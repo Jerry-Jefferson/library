@@ -2,6 +2,7 @@
 
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
+import { Rating } from "@/src/components/client/rating/rating";
 import MultiSelect from "@/src/components/client/select/multiSelect";
 import SingleSelect from "@/src/components/client/select/singleSelect";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
@@ -12,7 +13,6 @@ import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { BooksRenderProps } from "../booksContent/booksContent";
-import { Rating } from "@/src/components/client/rating/rating";
 
 export function BookDirectory({
   books,

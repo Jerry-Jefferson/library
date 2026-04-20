@@ -7,6 +7,7 @@ export interface CommonProps<T extends FieldValues> {
   name: Path<T>;
   register: UseFormRegister<T>;
   label: string;
+  disabled?: boolean;
   errorMessage?: string;
 }
 
@@ -18,6 +19,7 @@ export function FormInput<T extends FieldValues>({
   type,
   register,
   label,
+  disabled = false,
   errorMessage,
   password = false,
 }: FormInputProps<T>) {
@@ -26,7 +28,7 @@ export function FormInput<T extends FieldValues>({
       {password ? (
         <Input.PasswordField register={register} />
       ) : (
-        <Input.Field type={type} register={register} />
+        <Input.Field disabled={disabled} type={type} register={register} />
       )}
       <Input.Label label={label} />
       <Input.TextError errorMessage={errorMessage} />

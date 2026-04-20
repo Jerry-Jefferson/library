@@ -1,13 +1,28 @@
 import { getFilteredAuthors } from "@/lib/modules/authors/authors";
 import { getAllGenres } from "@/lib/modules/genres/genres";
-import AuthorDirectory from "../authors/authorDirectory";
+import { IAuthorSerialized } from "@/src/models/author";
+import { IGenreSerialized } from "@/src/models/genre";
 import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
+
+export interface AuthorRenderProps {
+  genres: IGenreSerialized[] | null;
+  authors: IAuthorSerialized[];
+  currentPage: number;
+  totalPages: number;
+  selectedGenres: string[];
+}
 
 export interface AuthorsContentProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
+  itemsPerPage?: number;
+  children: (data: AuthorRenderProps) => React.ReactNode;
 }
 
-export default async function AuthorsContent({ searchParams }: AuthorsContentProps) {
+export default async function AuthorsContent({
+  searchParams,
+  itemsPerPage = ITEMS_PER_PAGE.EIGHT,
+  children,
+}: AuthorsContentProps) {
   const params = await searchParams;
 
   const page = Number(params.page ?? 1);
@@ -17,18 +32,20 @@ export default async function AuthorsContent({ searchParams }: AuthorsContentPro
     getAllGenres(),
     getFilteredAuthors({
       page,
-      itemsPerPage: ITEMS_PER_PAGE.EIGHT,
+      itemsPerPage,
       genres: genreIds,
     }),
   ]);
 
   return (
-    <AuthorDirectory
-      authors={authorsData.items}
-      genres={genres}
-      currentPage={page}
-      totalPages={authorsData.totalPages}
-      selectedGenres={genreIds}
-    />
+    <>
+      {children({
+        genres,
+        authors: authorsData.items,
+        currentPage: page,
+        totalPages: authorsData.totalPages,
+        selectedGenres: genreIds,
+      })}
+    </>
   );
 }

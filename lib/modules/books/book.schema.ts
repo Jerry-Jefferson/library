@@ -11,7 +11,7 @@ export const bookCreationSchema = z.object({
     .max(new Date().getFullYear(), "Year cannot be in the future")
     .nullable(),
   genres: z.array(z.string()).min(1, "Select at least one genre"),
-  imageUrl: z.string().min(1, "Please upload a cover image"),
+  imageUrl: z.string().optional(),
 });
 
 export type BookCreationSchema = z.infer<typeof bookCreationSchema>;

@@ -1,6 +1,5 @@
 "use client";
 
-import DefaultAvatar from "@/public/default-avatar.png";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
 import MultiSelect from "@/src/components/client/select/multiSelect";
@@ -87,16 +86,15 @@ export default function AuthorDirectory({
             <ItemCard key={author._id} name="Author">
               <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
                 <div className="flex flex-col items-center gap-4 grow">
-                  <ItemCard.Avatar
-                    src={author.imageUrl ?? DefaultAvatar}
-                    alt={author.name}
-                    view="circle"
+                  <ItemCard.Avatar src={author.imageUrl} alt={author.name} view="circle" />
+                  <ItemCard.Title
+                    content={author.name}
+                    className="font-bold text-center truncate"
                   />
-                  <ItemCard.Title content={author.name} className="font-bold text-center" />
                   <ItemCard.Information
                     color="secondary"
                     content={author.bio}
-                    className="text-center whitespace-normal"
+                    className="text-center whitespace-normal line-clamp-2"
                   />
                 </div>
                 <LinkButton
