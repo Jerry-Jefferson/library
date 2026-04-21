@@ -9,6 +9,7 @@ import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/us
 import Pagination from "@/src/components/client/pagination/pagination";
 import MultiSelect from "@/src/components/client/select/multiSelect";
 import SingleSelect from "@/src/components/client/select/singleSelect";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IGenreSerialized } from "@/src/models/genre";
 import { authorSortOptions, SortOption } from "@/src/shared/constants/sortOptions";
@@ -106,33 +107,39 @@ export function AuthorManagementList({
         </div>
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-4">
-          {displayedAuthors.map((author) => (
-            <div key={author._id} className="relative">
-              <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                <Button
-                  size="small"
-                  className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
-                  disabled={Boolean(author.books.length)}
-                  onClick={() => handleOpen(author, "delete")}
-                >
-                  <MdDelete className="text-sm md:text-base text-black" />
-                </Button>
-                <Button
-                  size="small"
-                  className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
-                  onClick={() => handleOpen(author, "edit")}
-                >
-                  <MdEdit className="text-sm md:text-base text-black" />
-                </Button>
-              </div>
-              <ItemCard name="author">
-                <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                  <ItemCard.Avatar alt="author cover" src={author.imageUrl} view="rounded" />
-                  <ItemCard.Title content={author.name} className="truncate" />
+          {displayedAuthors.map((author) => {
+            const hasBooks = Boolean(author.books.length);
+            return (
+              <div key={author._id} className="relative">
+                <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
+                  <Tooltip helpText={hasBooks ? "Author has books" : ""}>
+                    <Button
+                      size="small"
+                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
+                      disabled={hasBooks}
+                      onClick={() => handleOpen(author, "delete")}
+                    >
+                      <MdDelete className="text-sm md:text-base text-black" />
+                    </Button>
+                  </Tooltip>
+
+                  <Button
+                    size="small"
+                    className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
+                    onClick={() => handleOpen(author, "edit")}
+                  >
+                    <MdEdit className="text-sm md:text-base text-black" />
+                  </Button>
                 </div>
-              </ItemCard>
-            </div>
-          ))}
+                <ItemCard name="author">
+                  <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
+                    <ItemCard.Avatar alt="author cover" src={author.imageUrl} view="rounded" />
+                    <ItemCard.Title content={author.name} className="truncate" />
+                  </div>
+                </ItemCard>
+              </div>
+            );
+          })}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
