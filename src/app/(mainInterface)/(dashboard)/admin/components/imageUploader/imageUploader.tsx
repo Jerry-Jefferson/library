@@ -32,21 +32,32 @@ export function ImageUploader<T extends FieldValues>({
   return (
     <div className="flex flex-col h-full w-full">
       <label
-        className="flex-1 border-2 border-dashed border-secondary rounded-md cursor-pointer 
-                        flex flex-col items-center justify-center gap-2 p-4"
+        className="h-full w-full rounded-md cursor-pointer 
+      flex flex-col items-center justify-center gap-2 overflow-hidden 
+      border border-secondary border-dashed hover:border-2 hover:border-primary"
       >
         <input type="file" className="hidden" onChange={handleChange} value="" />
-        <div className="relative w-[24px] h-[24px]">
-          <Image fill alt="upload a cover" src={UploadCloud} sizes="56px" />
-        </div>
-        <div className="text-center">
-          <p className="text-sm text-foreground font-medium">
-            {fileName ? "File selected" : "Click to upload"}
-          </p>
-          <p className="text-xs text-secondary truncate max-w-[150px]">
-            {fileName || "PNG, JPG up to 10MB"}
-          </p>
-        </div>
+        {fileName ? (
+          <div className="relative w-full h-full">
+            <Image
+              fill
+              className="object-cover"
+              alt="a cover"
+              src={fileName}
+              sizes="(min-width: 1024px) 100vw, (min-width: 768px) 25vw, (min-width: 640px) 50vw, 100vw"
+            />
+          </div>
+        ) : (
+          <>
+            <div className="relative w-[24px] h-[24px]">
+              <Image fill alt="upload a cover" src={UploadCloud} sizes="56px" />
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-foreground font-medium">Click to upload</p>
+              <p className="text-xs text-secondary truncate max-w-[150px]">PNG, JPG up to 10MB</p>
+            </div>
+          </>
+        )}
       </label>
       <TextError errorMessage={errorMessage} />
     </div>

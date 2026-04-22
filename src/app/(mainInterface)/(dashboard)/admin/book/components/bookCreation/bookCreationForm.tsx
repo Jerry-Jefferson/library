@@ -174,7 +174,7 @@ export function BookCreationForm({
         </div>
       </div>
       <div className="bg-card-back border border-secondary rounded-md w-[30%] p-10">
-        <div className="border border-secondary border-dashed rounded-md w-full h-full flex flex-col justify-center items-center">
+        <div className="w-full h-full flex flex-col justify-center items-center">
           <ImageUploader
             name="imageUrl"
             setValue={setValue}
