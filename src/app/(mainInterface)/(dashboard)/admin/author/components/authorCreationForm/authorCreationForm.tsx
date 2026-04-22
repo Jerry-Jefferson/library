@@ -56,7 +56,7 @@ export function AuthorCreationForm({
     control,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting, isSubmitSuccessful },
   } = useForm<AuthorCreationSchema>({
     resolver: zodResolver(authorCreationSchema),
     mode: "onChange",
@@ -147,7 +147,13 @@ export function AuthorCreationForm({
           errorMessage={errors.bio?.message}
         />
         <div className="flex justify-between gap-6">
-          <Button fullWidth size="medium" variant="primary" disabled={!isValid}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid || isSubmitSuccessful}
+            isLoading={isSubmitting}
+          >
             {acceptButton}
           </Button>
           <Button
