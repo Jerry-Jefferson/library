@@ -22,7 +22,7 @@ export function Information<T extends HTMLElement>({
 }: InformationProps<T>) {
   return (
     <p
-      className={`text-[clamp(12px,0.5rem+3cqw,20px)] ${colorVariants[color]} ${className}`}
+      className={`text-[clamp(12px,0.5rem+3cqw,20px)] whitespace-pre-wrap ${colorVariants[color]} ${className}`}
       ref={ref as React.Ref<HTMLParagraphElement>}
     >
       {content}

@@ -80,7 +80,7 @@ export function BookDirectory({
             <div key={book._id}>
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                  <ItemCard.Avatar alt="Book cover" src={book.imageUrl} view="rounded" />
+                  <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
                   <div className="flex items-center justify-between pt-2 pb-2">
                     <Rating rating={book.rating} />
                     <ItemCard.Favourite />

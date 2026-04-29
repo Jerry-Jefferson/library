@@ -133,7 +133,7 @@ export function AuthorManagementList({
                 </div>
                 <ItemCard name="author">
                   <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                    <ItemCard.Avatar alt="author cover" src={author.imageUrl} view="rounded" />
+                    <ItemCard.Avatar alt="author cover" src={author.image} view="rounded" />
                     <ItemCard.Title content={author.name} className="truncate" />
                   </div>
                 </ItemCard>

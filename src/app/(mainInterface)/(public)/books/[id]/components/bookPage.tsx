@@ -32,7 +32,7 @@ export function BookPage({
         <ItemCard name="book">
           <div className="flex items-start gap-10 border-b border-secondary pb-12">
             <div className="w-[35%] flex flex-col gap-4 pt-4">
-              <ItemCard.Avatar alt="book cover" src={book.imageUrl} view="rounded" />
+              <ItemCard.Avatar alt="book cover" src={book.image} view="rounded" />
               <Button fullWidth size="medium" variant="primary" className="font-bold">
                 Add to Favourites
               </Button>

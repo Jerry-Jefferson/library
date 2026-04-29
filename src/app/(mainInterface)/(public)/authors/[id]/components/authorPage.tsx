@@ -22,7 +22,7 @@ export default function AuthorPage({
     <ItemCard name="book">
       <div className="flex items-start gap-10 border-b border-secondary pb-12">
         <div className="w-[35%] flex flex-col gap-4 pt-4">
-          <ItemCard.Avatar src={author.imageUrl} alt={author.name} view="rounded" />
+          <ItemCard.Avatar src={author.image} alt={author.name} view="rounded" />
           <LinkButton href={backPath} className="py-4">
             Back to {BACK_PATHS_LABELS[routes.authors]}
           </LinkButton>

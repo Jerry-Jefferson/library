@@ -5,19 +5,26 @@ export interface IAuthor {
   name: string;
   bio: string;
   birthYear: number;
-  isAlive: boolean;
   deathYear?: number;
-  imageUrl: string;
+  image: {
+    data: Buffer;
+    contentType: string;
+  } | null;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface IAuthorSerialized extends Omit<IAuthor, "_id" | "createdAt" | "updatedAt"> {
+export interface IAuthorSerialized extends Omit<
+  IAuthor,
+  "_id" | "image" | "createdAt" | "updatedAt"
+> {
   _id: string;
   createdAt: string;
   updatedAt: string;
+  image: string | null;
   books: string[];
   genres: string[];
+  isAlive: boolean;
 }
 
 export const AuthorSchema = new Schema<IAuthor>(
@@ -39,17 +46,12 @@ export const AuthorSchema = new Schema<IAuthor>(
       min: [1, "Birth year is too far in the past"],
       max: [new Date().getFullYear(), "Birth year cannot be in the future"],
     },
-    isAlive: { type: Boolean },
     deathYear: {
       type: Number,
       min: [1, "Death year is too far in the past"],
       max: [new Date().getFullYear(), "Death year cannot be in the future"],
     },
-    imageUrl: {
-      type: String,
-      default: "/public/default-avatar.png",
-      trim: true,
-    },
+    image: { data: Buffer, contentType: String },
   },
   {
     timestamps: true,

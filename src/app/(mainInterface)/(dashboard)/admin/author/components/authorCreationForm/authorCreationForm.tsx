@@ -18,7 +18,7 @@ const authorFields = {
   isAlive: "isAlive",
   deathYear: "deathYear",
   bio: "bio",
-  imageUrl: "imageUrl",
+  image: "image",
 } as const;
 
 const defaultAuthorCreationValues = {
@@ -27,11 +27,12 @@ const defaultAuthorCreationValues = {
   [authorFields.isAlive]: false,
   [authorFields.deathYear]: null,
   [authorFields.bio]: "",
-  [authorFields.imageUrl]: "",
+  [authorFields.image]: null,
 };
 
-export interface EditionData extends AuthorCreationSchema {
+export interface EditionData extends Omit<AuthorCreationSchema, "image"> {
   _id: string;
+  image: string | null;
 }
 
 export interface AuthorCreationFormProps {
@@ -73,11 +74,23 @@ export function AuthorCreationForm({
 
   const onSubmit = async (data: AuthorCreationSchema) => {
     try {
+      const formData = new FormData();
+
+      formData.append("name", data.name);
+      formData.append("bio", data.bio);
+      formData.append("birthYear", String(data.birthYear));
+      const deathYearValue = data.isAlive ? "" : String(data.deathYear);
+      formData.append("isAlive", String(data.isAlive));
+      formData.append("deathYear", deathYearValue);
+      if (data.image instanceof File) {
+        formData.append("image", data.image);
+      }
+
       let result;
       if (isEditMode && editionData?._id) {
-        result = await updateAuthor(editionData._id, data);
+        result = await updateAuthor(editionData._id, formData);
       } else {
-        result = await createAuthor(data);
+        result = await createAuthor(formData);
       }
 
       if (!result.success) {
@@ -151,7 +164,7 @@ export function AuthorCreationForm({
             fullWidth
             size="medium"
             variant="primary"
-            disabled={!isValid || isSubmitSuccessful}
+            disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
             isLoading={isSubmitting}
           >
             {acceptButton}
@@ -170,10 +183,10 @@ export function AuthorCreationForm({
       <div className="bg-card-back border border-secondary rounded-md w-[30%] p-10">
         <div className="w-full h-full flex flex-col justify-center items-center">
           <ImageUploader
-            name="imageUrl"
+            name="image"
             setValue={setValue}
             watch={watch}
-            errorMessage={errors.imageUrl?.message}
+            errorMessage={errors.image?.message}
           />
         </div>
       </div>

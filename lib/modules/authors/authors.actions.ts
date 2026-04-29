@@ -3,15 +3,26 @@
 import { connectMongo } from "@/lib/mongoose";
 import { Author } from "@/src/models/author";
 import { Book } from "@/src/models/book";
-import { DEFAULT_AVATAR } from "@/src/shared/constants/defaultAvatar";
 import { updateTag } from "next/cache";
 import { z } from "zod";
-import { authorCreationSchema } from "./author.schema";
+import { authorCreationSchema, authorUpdateSchema } from "./author.schema";
 
-export async function createAuthor(data: unknown) {
+export async function createAuthor(data: FormData) {
   try {
     await connectMongo();
-    const validatedData = authorCreationSchema.safeParse(data);
+
+    const rawData = {
+      name: data.get("name"),
+      bio: data.get("bio"),
+      birthYear: data.get("birthYear") ? Number(data.get("birthYear")) : null,
+      deathYear: data.get("deathYear") ? Number(data.get("deathYear")) : null,
+      isAlive: data.get("isAlive") === "true",
+      image: data.get("image"),
+    };
+
+    const validatedData = authorCreationSchema.safeParse(rawData);
+
+    console.log(validatedData);
     if (!validatedData.success) {
       const flattened = z.flattenError(validatedData.error);
       return {
@@ -21,9 +32,23 @@ export async function createAuthor(data: unknown) {
       };
     }
 
+    let imageData = null;
+    const file = validatedData.data.image;
+
+    if (file instanceof File && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      imageData = {
+        data: buffer,
+        contentType: file.type,
+      };
+    }
+
     const dataToSave = {
-      ...validatedData.data,
-      imageUrl: validatedData.data.imageUrl || DEFAULT_AVATAR,
+      name: validatedData.data.name,
+      bio: validatedData.data.bio,
+      birthYear: validatedData.data.birthYear,
+      deathYear: validatedData.data.deathYear,
+      image: imageData,
     };
 
     await Author.create(dataToSave);
@@ -37,10 +62,19 @@ export async function createAuthor(data: unknown) {
   }
 }
 
-export async function updateAuthor(id: string, data: unknown) {
+export async function updateAuthor(id: string, data: FormData) {
   try {
     await connectMongo();
-    const validatedData = authorCreationSchema.safeParse(data);
+
+    const rawData = {
+      name: data.get("name"),
+      bio: data.get("bio"),
+      birthYear: data.get("birthYear") ? Number(data.get("birthYear")) : null,
+      deathYear: data.get("deathYear") ? Number(data.get("deathYear")) : null,
+      image: data.get("image"),
+    };
+
+    const validatedData = authorUpdateSchema.safeParse(rawData);
     if (!validatedData.success) {
       const flattened = z.flattenError(validatedData.error);
       return {
@@ -54,7 +88,18 @@ export async function updateAuthor(id: string, data: unknown) {
 
     if (!author) return { success: false, message: "The author wasn't found" };
 
-    author.set(validatedData.data);
+    const { image, ...otherData } = validatedData.data;
+    author.set(otherData);
+
+    const file = image;
+    if (file instanceof File && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      author.image = {
+        data: buffer,
+        contentType: file.type,
+      };
+    }
+
     await author.save();
 
     updateTag("authors");

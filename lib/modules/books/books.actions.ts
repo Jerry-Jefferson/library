@@ -2,15 +2,24 @@
 
 import { connectMongo } from "@/lib/mongoose";
 import { Book } from "@/src/models/book";
-import { DEFAULT_AVATAR } from "@/src/shared/constants/defaultAvatar";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { bookCreationSchema } from "./book.schema";
 
-export async function createBook(data: unknown) {
+export async function createBook(data: FormData) {
   try {
     await connectMongo();
-    const validatedData = bookCreationSchema.safeParse(data);
+
+    const rawData = {
+      title: data.get("title"),
+      description: data.get("description"),
+      authorId: data.get("authorId"),
+      year: data.get("year") ? Number(data.get("year")) : null,
+      genres: data.getAll("genres"),
+      image: data.get("image"),
+    };
+
+    const validatedData = bookCreationSchema.safeParse(rawData);
     if (!validatedData.success) {
       const flattened = z.flattenError(validatedData.error);
       return {
@@ -20,9 +29,20 @@ export async function createBook(data: unknown) {
       };
     }
 
+    let imageData = null;
+    const file = validatedData.data.image;
+
+    if (file instanceof File && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      imageData = {
+        data: buffer,
+        contentType: file.type,
+      };
+    }
+
     const dataToSave = {
       ...validatedData.data,
-      imageUrl: validatedData.data.imageUrl || DEFAULT_AVATAR,
+      image: imageData,
     };
 
     await Book.create(dataToSave);
@@ -37,10 +57,19 @@ export async function createBook(data: unknown) {
   }
 }
 
-export async function updateBook(id: string, data: unknown) {
+export async function updateBook(id: string, data: FormData) {
   try {
     await connectMongo();
-    const validatedData = bookCreationSchema.safeParse(data);
+
+    const rawData = {
+      title: data.get("title"),
+      description: data.get("description"),
+      authorId: data.get("authorId"),
+      year: data.get("year") ? Number(data.get("year")) : null,
+      genres: data.getAll("genres"),
+      image: data.get("image"),
+    };
+    const validatedData = bookCreationSchema.safeParse(rawData);
     if (!validatedData.success) {
       const flattened = z.flattenError(validatedData.error);
       return {
@@ -54,7 +83,18 @@ export async function updateBook(id: string, data: unknown) {
 
     if (!book) return { success: false, message: "The book wasn't found" };
 
-    book.set(validatedData.data);
+    const { image, ...otherData } = validatedData.data;
+    book.set(otherData);
+
+    const file = image;
+    if (file instanceof File && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      book.image = {
+        data: buffer,
+        contentType: file.type,
+      };
+    }
+
     await book.save();
 
     updateTag("books");

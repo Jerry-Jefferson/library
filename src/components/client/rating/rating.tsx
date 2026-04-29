@@ -42,7 +42,7 @@ export function Rating({ rating, max = 5, interactive = false, onChange }: Ratin
   return (
     <div className="flex items-center gap-3">
       <span className="text-md font-medium ">
-        {interactive ? displayRating : rating.toFixed(2)}
+        {interactive ? displayRating : rating.toFixed(1)}
       </span>
 
       <div className="flex items-center gap-1" onMouseLeave={() => setHover(null)}>
