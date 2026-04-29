@@ -20,10 +20,12 @@ function serializeBook(book: IBook): IBookSerialized {
   return {
     ...book,
     _id: book._id.toString(),
+    createdAt: book.createdAt.toISOString(),
+    updatedAt: book.updatedAt.toISOString(),
     authorName: authorName,
     authorId: authorIdStr,
     genres: genresIds,
-    createdAt: book.createdAt?.toISOString(),
+    image: book.image?.data ? `/api/books/${book._id}/image?v=${book.updatedAt.getTime()}` : null,
   };
 }
 

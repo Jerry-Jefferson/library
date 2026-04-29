@@ -1,3 +1,4 @@
+import BookIcon from "@/public/book.png";
 import { getAuthorById, getAuthors } from "@/lib/modules/authors/authors";
 import { getBooksByAuthorId } from "@/lib/modules/books/books";
 import { Suspense } from "react";
@@ -31,7 +32,7 @@ export default async function Author({
         <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
           <AuthorPage author={author} from={from} />
           <BookSection books={books}>
-            <SectionHeader alt="" src="/book.png" title="Books by Author" />
+            <SectionHeader alt="" src={BookIcon} title="Books by Author" />
           </BookSection>
         </div>
       </div>

@@ -18,7 +18,7 @@ export function EmblaCarousel({ children }: EmblaCarouselProps) {
 
   return (
     <CarouselContext value={{ emblaRef, scrollPrev, scrollNext }}>
-      <div className="embla flex items-center gap-2 w-full">{children}</div>
+      <div className="embla flex items-center justify-center gap-2 w-full">{children}</div>
     </CarouselContext>
   );
 }

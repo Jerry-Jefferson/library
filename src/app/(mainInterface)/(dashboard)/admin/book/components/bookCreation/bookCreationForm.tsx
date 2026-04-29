@@ -21,7 +21,7 @@ const bookFields = {
   authorId: "authorId",
   genres: "genres",
   year: "year",
-  imageUrl: "imageUrl",
+  image: "image",
 } as const;
 
 const defaultBookCreationValues = {
@@ -30,11 +30,12 @@ const defaultBookCreationValues = {
   [bookFields.authorId]: "",
   [bookFields.genres]: [],
   [bookFields.year]: null,
-  [bookFields.imageUrl]: "",
+  [bookFields.image]: null,
 };
 
-export interface EditionData extends BookCreationSchema {
+export interface EditionData extends Omit<BookCreationSchema, "image"> {
   _id: string;
+  image: string | null;
 }
 
 export interface BookCreationFormProps {
@@ -78,11 +79,22 @@ export function BookCreationForm({
 
   const onSubmit = async (data: BookCreationSchema) => {
     try {
+      const formData = new FormData();
+
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("authorId", data.authorId);
+      formData.append("year", String(data.year));
+      data.genres.forEach((genreId) => formData.append("genres", genreId));
+      if (data.image instanceof File) {
+        formData.append("image", data.image);
+      }
+
       let result;
       if (isEditMode && editionData?._id) {
-        result = await updateBook(editionData._id, data);
+        result = await updateBook(editionData._id, formData);
       } else {
-        result = await createBook(data);
+        result = await createBook(formData);
       }
 
       if (!result.success) {
@@ -157,7 +169,7 @@ export function BookCreationForm({
             fullWidth
             size="medium"
             variant="primary"
-            disabled={!isValid || isSubmitSuccessful}
+            disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
             isLoading={isSubmitting}
           >
             {acceptButton}
@@ -176,10 +188,10 @@ export function BookCreationForm({
       <div className="bg-card-back border border-secondary rounded-md w-[30%] p-10">
         <div className="w-full h-full flex flex-col justify-center items-center">
           <ImageUploader
-            name="imageUrl"
+            name="image"
             setValue={setValue}
             watch={watch}
-            errorMessage={errors.imageUrl?.message}
+            errorMessage={errors.image?.message}
           />
         </div>
       </div>

@@ -18,6 +18,8 @@ function serializeAuthor(author: IAuthor, books: IBook[]): IAuthorSerialized {
     updatedAt: author.updatedAt.toISOString(),
     books: authorBooksIds,
     genres: genresIds,
+    isAlive: !author.deathYear,
+    image: author.image ? `/api/authors/${author._id}/image?v=${author.updatedAt.getTime()}` : null,
   };
 }
 
@@ -27,7 +29,7 @@ export async function getAuthors(): Promise<IAuthorSerialized[] | null> {
 
   await connectMongo();
 
-  const authors = await Author.find().lean<IAuthor[]>();
+  const authors = await Author.find().select("+image.contentType").lean<IAuthor[]>();
   if (!authors.length) return null;
 
   const books: IBook[] = await Book.find().select("_id authorId genres").lean();
@@ -65,7 +67,7 @@ export async function getFilteredAuthors({
 
   const skip = (page - 1) * itemsPerPage;
 
-  const authors = await Author.find().lean<IAuthor[]>();
+  const authors = await Author.find().select("+image.contentType").lean<IAuthor[]>();
   const books = await Book.find().select("_id authorId genres").lean<IBook[]>();
 
   const serializedAuthors = authors.map((author) => serializeAuthor(author, books));

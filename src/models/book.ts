@@ -10,16 +10,25 @@ export interface IBook {
   year: number;
   genres: Types.ObjectId[] | IGenreSerialized[];
   rating: number;
-  createdAt?: Date;
-  imageUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
+  image: {
+    data: Buffer;
+    contentType: string;
+  } | null;
 }
 
-export interface IBookSerialized extends Omit<IBook, "_id" | "authorId" | "createdAt" | "genres"> {
+export interface IBookSerialized extends Omit<
+  IBook,
+  "_id" | "authorId" | "image" | "createdAt" | "updatedAt" | "genres"
+> {
   _id: string;
   authorId: string;
   authorName: string;
   genres: string[];
-  createdAt?: string;
+  image: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const BookSchema = new Schema<IBook>(
@@ -35,8 +44,7 @@ const BookSchema = new Schema<IBook>(
       },
     ],
     rating: { type: Number, default: 0 },
-    createdAt: { type: Date },
-    imageUrl: { type: String, default: "/default-avatar.png" },
+    image: { data: Buffer, contentType: String },
   },
   {
     timestamps: true,

@@ -86,7 +86,7 @@ export default function AuthorDirectory({
             <ItemCard key={author._id} name="Author">
               <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
                 <div className="flex flex-col items-center gap-4 grow">
-                  <ItemCard.Avatar src={author.imageUrl} alt={author.name} view="circle" />
+                  <ItemCard.Avatar src={author.image} alt={author.name} view="circle" />
                   <ItemCard.Title
                     content={author.name}
                     className="font-bold text-center truncate"
