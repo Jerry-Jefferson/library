@@ -2,6 +2,7 @@
 
 import { IAuthorSerialized } from "@/src/models/author";
 import { IBookSerialized } from "@/src/models/book";
+import { IGenreSerialized } from "@/src/models/genre";
 import { useState } from "react";
 import { Button } from "../button/button";
 
@@ -10,7 +11,7 @@ export interface DeleteMessageProps {
   cancelButton: string;
   acceptButton: string;
   handleDelete: () => Promise<void>;
-  entity: IBookSerialized | IAuthorSerialized;
+  entity: IBookSerialized | IAuthorSerialized | IGenreSerialized;
 }
 
 export function DeleteMessage({

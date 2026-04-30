@@ -3,21 +3,35 @@
 import { connectMongo } from "@/lib/mongoose";
 import { Genre } from "@/src/models/genre";
 import { updateTag } from "next/cache";
-import { genreCreationSchema } from "./genreCreation.schema";
+import { z } from "zod";
+import { genresCreationSchema } from "./genreCreation.schema";
 
 export async function addGenre(data: unknown) {
   try {
     await connectMongo();
-    const validatedData = genreCreationSchema.safeParse(data);
+    const validatedData = genresCreationSchema.safeParse(data);
     if (!validatedData.success) {
+      const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
         message: "Invalid genre data",
-        errors: validatedData.error.flatten().fieldErrors,
+        errors: flattened.fieldErrors,
       };
     }
 
-    await Genre.create(validatedData.data);
+    const normalizedTitle = validatedData.data.title.trim().toLowerCase();
+    const existingGenre = await Genre.findOne({ title: normalizedTitle });
+
+    if (existingGenre) {
+      return { success: false, message: "Genre already exists" };
+    }
+
+    const dataToSave = {
+      ...validatedData.data,
+      title: normalizedTitle,
+    };
+
+    await Genre.create(dataToSave);
 
     updateTag("genres");
 
@@ -31,20 +45,33 @@ export async function addGenre(data: unknown) {
 export async function updateGenre(id: string, data: unknown) {
   try {
     await connectMongo();
-    const validatedData = genreCreationSchema.safeParse(data);
+    const validatedData = genresCreationSchema.safeParse(data);
     if (!validatedData.success) {
+      const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
         message: "Invalid genre data",
-        errors: validatedData.error.flatten().fieldErrors,
+        errors: flattened.fieldErrors,
       };
     }
+
+    const normalizedTitle = validatedData.data.title.trim().toLowerCase();
+    const existingGenre = await Genre.findOne({ normalizedTitle, _id: { $ne: id } });
+
+    if (existingGenre) {
+      return { success: false, message: "Genre already exists" };
+    }
+
+    const dataToSave = {
+      ...validatedData.data,
+      title: normalizedTitle,
+    };
 
     const genre = await Genre.findById(id);
 
     if (!genre) return { success: false, message: "The genre wasn't found" };
 
-    genre.set(validatedData.data);
+    genre.set(dataToSave);
     await genre.save();
 
     updateTag("genres");

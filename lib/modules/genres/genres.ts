@@ -15,7 +15,7 @@ export async function getAllGenres(): Promise<IGenreSerialized[] | null> {
   cacheTag("genres");
 
   await connectMongo();
-  const genres = await Genre.find().lean<IGenre[]>();
+  const genres = await Genre.find().sort({ title: 1 }).lean<IGenre[]>();
 
   return genres ? genres.map(serializeGenre) : null;
 }

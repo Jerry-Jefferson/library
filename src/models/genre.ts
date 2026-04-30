@@ -10,7 +10,12 @@ export interface IGenreSerialized extends Omit<IGenre, "_id"> {
 }
 
 const GenreSchema = new Schema<IGenre>({
-  title: { type: String, required: [true, "Genre name is required"] },
+  title: {
+    type: String,
+    required: [true, "Genre name is required"],
+    unique: true,
+    trim: true,
+  },
 });
 
 export const Genre = mongoose.models.Genre || mongoose.model<IGenre>("Genre", GenreSchema);

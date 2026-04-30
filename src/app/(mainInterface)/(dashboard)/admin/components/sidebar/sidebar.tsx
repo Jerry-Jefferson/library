@@ -17,6 +17,12 @@ export function Sidebar() {
         >
           Add New Book
         </Link>
+        <Link
+          href={routes.genreCreation}
+          className="text-[clamp(12px,5cqw+10px,20px)] hover:text-primary-hover transition-colors"
+        >
+          Add New Genre
+        </Link>
       </div>
     </aside>
   );
