@@ -13,6 +13,7 @@ export const routes = {
   admin: "/admin",
   bookCreation: "/admin/book",
   authorCreation: "/admin/author",
+  genreCreation: "/admin/genre",
   booksManagement: "/admin/books",
   authorsManagement: "/admin/authors",
   genresManagement: "/admin/genres",
