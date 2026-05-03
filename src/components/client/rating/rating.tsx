@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+
 export interface RatingProps {
   rating: number;
   max?: number;
@@ -45,7 +46,10 @@ export function Rating({ rating, max = 5, interactive = false, onChange }: Ratin
         {interactive ? displayRating : rating.toFixed(1)}
       </span>
 
-      <div className="flex items-center gap-1" onMouseLeave={() => setHover(null)}>
+      <div
+        className={`flex items-center gap-1 ${interactive ? "cursor-pointer" : ""}`}
+        onMouseLeave={() => setHover(null)}
+      >
         {Array.from({ length: max }).map((_, i) => {
           const value = i + 1;
 
