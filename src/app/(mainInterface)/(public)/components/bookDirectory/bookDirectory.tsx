@@ -20,7 +20,10 @@ export function BookDirectory({
   currentPage,
   totalPages,
   selectedGenres,
+  session,
 }: BooksRenderProps) {
+  const isAuthenticated = Boolean(session?.user);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -83,7 +86,7 @@ export function BookDirectory({
                   <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
                   <div className="flex items-center justify-between pt-2 pb-2">
                     <Rating rating={book.rating} />
-                    <ItemCard.Favourite />
+                    {isAuthenticated ? <ItemCard.Favourite /> : null}
                   </div>
                   <ItemCard.Title content={book.title} className="truncate" />
                   <div className="flex justify-between pb-2">

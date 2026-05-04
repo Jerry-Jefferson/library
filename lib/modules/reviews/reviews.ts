@@ -1,9 +1,20 @@
 "use cache";
 
 import { connectMongo } from "@/lib/mongoose";
-import { Review, IReview, IReviewSerialized } from "@/src/models/review";
+import { IReview, IReviewSerialized, Review } from "@/src/models/review";
 import { cacheLife, cacheTag } from "next/cache";
-import { serializeReview } from "./review.actions";
+
+export function serializeReview(review: IReview): IReviewSerialized {
+  return {
+    _id: review._id.toString(),
+    bookId: review.bookId.toString(),
+    userId: review.userId.toString(),
+    rating: review.rating,
+    comment: review.comment,
+    createdAt: review.createdAt?.toISOString(),
+    updatedAt: review.updatedAt?.toISOString(),
+  };
+}
 
 export async function getReviewsByBookId(bookId: string): Promise<IReviewSerialized[]> {
   cacheLife("hours");

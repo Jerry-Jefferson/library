@@ -1,22 +1,31 @@
 "use client";
 
+import { ReviewForm } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
+import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
+import { useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 import { BACK_PATHS_LABELS, DEFAULT_LABEL } from "@/src/shared/constants/backPathsLabels";
 import { routes } from "@/src/shared/constants/routes";
+import { Session } from "next-auth";
 import { useSearchParams } from "next/navigation";
 
 export function BookPage({
   book,
   genres,
+  session,
 }: {
   book: IBookSerialized | null;
   genres: IGenreSerialized[] | null;
+  session: Session | null;
 }) {
+  const isAuthenticated = Boolean(session?.user);
+  const { modal, openModal, closeModal } = useModalQuery();
+
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   const backPath = from ? decodeURIComponent(from) : routes.home;
@@ -33,9 +42,11 @@ export function BookPage({
           <div className="flex items-start gap-10 border-b border-secondary pb-12">
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.image} view="rounded" />
-              <Button fullWidth size="medium" variant="primary" className="font-bold">
-                Add to Favourites
-              </Button>
+              {isAuthenticated ? (
+                <Button fullWidth size="medium" variant="primary" className="font-bold">
+                  Add to Favourites
+                </Button>
+              ) : null}
               <LinkButton href={backPath} className="py-4">
                 Back to {label ?? DEFAULT_LABEL}
               </LinkButton>
@@ -73,7 +84,22 @@ export function BookPage({
             </div>
           </div>
         </ItemCard>
+        {isAuthenticated ? (
+          <Button variant="primary" size="medium" onClick={() => openModal("review")}>
+            Write review
+          </Button>
+        ) : null}
       </div>
+      {modal === "review" && book && (
+        <ModalWindow header={`Reviewing: ${book.title}`} handleCancel={closeModal}>
+          <ReviewForm
+            handleCancel={closeModal}
+            cancelButton="Cancel"
+            acceptButton="Add review"
+            bookId={book._id}
+          />
+        </ModalWindow>
+      )}
     </div>
   );
 }
