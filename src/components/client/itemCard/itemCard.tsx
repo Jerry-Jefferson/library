@@ -4,9 +4,9 @@ import { ReactNode } from "react";
 import { Avatar } from "./avatar";
 import { Badge } from "./badge";
 import { CardContext } from "./cardContext";
-import { Favourite } from "./favourite";
 import { Information } from "./information";
 import { Title } from "./title";
+import { Favorite } from "./favorite";
 
 export interface ItemCardProps {
   children: ReactNode;
@@ -23,5 +23,5 @@ export default function ItemCard({ children, name }: ItemCardProps) {
 ItemCard.Title = Title;
 ItemCard.Information = Information;
 ItemCard.Avatar = Avatar;
-ItemCard.Favourite = Favourite;
+ItemCard.Favorite = Favorite;
 ItemCard.Badge = Badge;

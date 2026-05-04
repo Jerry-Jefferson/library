@@ -34,7 +34,7 @@ export function BookPage({
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.image} view="rounded" />
               <Button fullWidth size="medium" variant="primary" className="font-bold">
-                Add to Favourites
+                Add to Favorites
               </Button>
               <LinkButton href={backPath} className="py-4">
                 Back to {label ?? DEFAULT_LABEL}

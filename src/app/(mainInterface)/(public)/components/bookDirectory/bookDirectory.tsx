@@ -20,6 +20,7 @@ export function BookDirectory({
   currentPage,
   totalPages,
   selectedGenres,
+  favorites,
 }: BooksRenderProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -83,7 +84,10 @@ export function BookDirectory({
                   <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
                   <div className="flex items-center justify-between pt-2 pb-2">
                     <Rating rating={book.rating} />
-                    <ItemCard.Favourite />
+                    <ItemCard.Favorite
+                      bookId={book._id}
+                      initial={favorites.includes(book._id.toString())}
+                    />
                   </div>
                   <ItemCard.Title content={book.title} className="truncate" />
                   <div className="flex justify-between pb-2">

@@ -1,3 +1,10 @@
+import { Suspense } from "react";
+import { FavoritesList } from "./components/favoritesList";
+
 export default function Favourites() {
-  return <p>Favourites</p>;
+  return (
+    <Suspense fallback={<p>Loading favorites...</p>}>
+      <FavoritesList />
+    </Suspense>
+  );
 }
