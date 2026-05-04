@@ -16,7 +16,6 @@ export function AuthMenu(props: UserActionsProps) {
     <div className="flex items-center gap-4">
       {props.logged ? (
         <>
-          <p className="hidden sm:block text-sm font-medium">Hello, {props.userName}</p>
           {props.role === roles.admin && (
             <LinkButton href={routes.admin} className="font-normal">
               Dashboard
