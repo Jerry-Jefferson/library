@@ -7,13 +7,24 @@ export interface AvatarProps {
   alt: string;
   src: string | null;
   view: AvatarType;
+  width?: number;
+  height?: number;
 }
 
-export function Avatar({ alt, src, view }: AvatarProps) {
+export function Avatar({ alt, src, view, width, height }: AvatarProps) {
   const circle = view === "circle";
+
   return (
     <div
-      className={`relative overflow-hidden w-full ${circle ? "aspect-square rounded-full" : "aspect-3/4 rounded-lg"}`}
+      style={{
+        width: width ? `${width}px` : "100%",
+        height: height ? `${height}px` : undefined,
+      }}
+      className={`
+        relative overflow-hidden
+        ${!height && (circle ? "aspect-square" : "aspect-3/4")}
+        ${circle ? "rounded-full" : "rounded-lg"}
+      `}
     >
       <Image
         fill
