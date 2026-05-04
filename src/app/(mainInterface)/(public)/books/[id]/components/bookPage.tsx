@@ -8,21 +8,28 @@ import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 import { BACK_PATHS_LABELS, DEFAULT_LABEL } from "@/src/shared/constants/backPathsLabels";
 import { routes } from "@/src/shared/constants/routes";
+import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { useSearchParams } from "next/navigation";
 
-export function BookPage({
-  book,
-  genres,
-}: {
-  book: IBookSerialized | null;
+export type BookPageProps = {
+  book: IBookSerialized;
   genres: IGenreSerialized[] | null;
-}) {
+  isFavorite: boolean;
+};
+
+export function BookPage({ book, genres, isFavorite }: BookPageProps) {
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
+  console.log(from);
   const backPath = from ? decodeURIComponent(from) : routes.home;
-  const label =
-    BACK_PATHS_LABELS[backPath] ||
-    (backPath?.startsWith(routes.books) ? BACK_PATHS_LABELS[routes.books] : null);
+
+  const normalizedPath = backPath.split("?")[0];
+  const label = BACK_PATHS_LABELS[normalizedPath] ?? DEFAULT_LABEL;
+
+  const { isFavorite: fav, toggle } = useFavorite({
+    initial: isFavorite,
+    bookId: book._id,
+  });
 
   if (!book) return <p>No book found</p>;
 
@@ -33,8 +40,14 @@ export function BookPage({
           <div className="flex items-start gap-10 border-b border-secondary pb-12">
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.image} view="rounded" />
-              <Button fullWidth size="medium" variant="primary" className="font-bold">
-                Add to Favorites
+              <Button
+                fullWidth
+                size="medium"
+                variant={fav ? "secondary" : "primary"}
+                onClick={toggle}
+                className="font-bold"
+              >
+                {fav ? "Remove from Favorites" : "Add to Favorites"}
               </Button>
               <LinkButton href={backPath} className="py-4">
                 Back to {label ?? DEFAULT_LABEL}

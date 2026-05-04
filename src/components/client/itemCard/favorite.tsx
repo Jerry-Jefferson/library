@@ -1,9 +1,8 @@
 "use client";
 
-import { useOptimistic, startTransition } from "react";
 import { MdFavorite } from "react-icons/md";
 import { Button } from "../button/button";
-import { toggleFavorite } from "@/lib/modules/users/user";
+import { useFavorite } from "@/src/shared/hooks/useFavorite";
 
 export type FavoriteProps = {
   bookId: string;
@@ -11,25 +10,13 @@ export type FavoriteProps = {
   onRemoved?: () => void;
 };
 
-export function Favorite({ bookId, initial, onRemoved }: FavoriteProps) {
-  const [optimisticFavorite, setOptimisticFavorite] = useOptimistic(initial, (state) => !state);
-
-  const handleClick = () => {
-    startTransition(async () => {
-      setOptimisticFavorite(null);
-
-      const newState = await toggleFavorite(bookId);
-
-      if (!newState && onRemoved) {
-        onRemoved(); // ✅ теперь тип знает про это
-      }
-    });
-  };
+export function Favorite(props: FavoriteProps) {
+  const { isFavorite, toggle } = useFavorite(props);
 
   return (
-    <Button onClick={handleClick} variant="icon">
+    <Button onClick={toggle} variant="icon">
       <MdFavorite
-        className={`transition-colors ${optimisticFavorite ? "text-primary" : "text-secondary"}`}
+        className={`transition-colors ${isFavorite ? "text-primary" : "text-secondary"}`}
       />
     </Button>
   );

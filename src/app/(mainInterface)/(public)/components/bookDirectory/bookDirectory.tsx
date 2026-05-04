@@ -25,6 +25,8 @@ export function BookDirectory({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const query = searchParams.toString();
+  const fromPath = query ? `${pathname}?${query}` : pathname;
 
   const updateFilters = (value: IGenreSerialized[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -95,9 +97,7 @@ export function BookDirectory({
                     <ItemCard.Information content={book.year} color="secondary" />
                   </div>
                   <LinkButton
-                    href={`${routes.books}/${book._id}?from=${encodeURIComponent(
-                      `${pathname}?${searchParams.toString()}`
-                    )}`}
+                    href={`${routes.books}/${book._id}?from=${encodeURIComponent(fromPath)}`}
                   >
                     View Information
                   </LinkButton>

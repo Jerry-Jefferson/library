@@ -1,6 +1,7 @@
 import { auth } from "@/src/auth";
 import { getFavoriteBooks } from "@/lib/modules/books/books";
-import List from "./list";
+import BooksList from "./booksList";
+
 export async function FavoritesList() {
   const session = await auth();
   const userId = session?.user.id;
@@ -11,9 +12,5 @@ export async function FavoritesList() {
 
   if (!books.length) return <p>No favorites yet</p>;
 
-  return (
-    <>
-      <List books={books} />
-    </>
-  );
+  return <BooksList books={books} />;
 }

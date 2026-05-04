@@ -37,7 +37,6 @@ export default async function BooksContent({
   const genreIds = params.genres?.split(",") ?? [];
 
   const favorites = user?.favorites?.map((id: string) => id.toString()) ?? [];
-  console.log(favorites);
   const [genres, authors, booksData] = await Promise.all([
     getAllGenres(),
     getAuthors(),
