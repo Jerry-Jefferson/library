@@ -1,16 +1,23 @@
-import Image from "next/image";
-import { DEFAULT_AVATAR } from "@/src/shared/constants/defaultAvatar";
+"use client";
 
 export type AvatarProps = {
-  src?: string | null;
-  alt?: string;
+  name?: string;
   fallback?: string;
 };
 
-export function Avatar({ src, alt = "User avatar" }: AvatarProps) {
+export function Avatar({ name, fallback = "U" }: AvatarProps) {
+  const initials = name
+    ? name
+        .split(" ")
+        .map((word) => word[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
+    : fallback;
+
   return (
-    <div className="relative inline-flex h-10 w-10 rounded-full bg-gray-200 overflow-hidden">
-      <Image src={src || DEFAULT_AVATAR} alt={alt} fill className="object-cover" />
+    <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-black ">
+      {initials}
     </div>
   );
 }
