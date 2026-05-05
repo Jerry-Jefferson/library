@@ -27,6 +27,8 @@ export function BookDirectory({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const query = searchParams.toString();
+  const fromPath = query ? `${pathname}?${query}` : pathname;
 
   const updateFilters = (value: IGenreSerialized[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -86,7 +88,7 @@ export function BookDirectory({
                   <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
                   <div className="flex items-center justify-between pt-2 pb-2">
                     <Rating rating={book.rating} />
-                    {isAuthenticated ? <ItemCard.Favourite /> : null}
+                    {isAuthenticated ? <ItemCard.Favorite bookId={book._id} /> : null}
                   </div>
                   <ItemCard.Title content={book.title} className="truncate" />
                   <div className="flex justify-between pb-2">
@@ -94,9 +96,7 @@ export function BookDirectory({
                     <ItemCard.Information content={book.year} color="secondary" />
                   </div>
                   <LinkButton
-                    href={`${routes.books}/${book._id}?from=${encodeURIComponent(
-                      `${pathname}?${searchParams.toString()}`
-                    )}`}
+                    href={`${routes.books}/${book._id}?from=${encodeURIComponent(fromPath)}`}
                   >
                     View Information
                   </LinkButton>
