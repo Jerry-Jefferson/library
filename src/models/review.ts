@@ -56,4 +56,28 @@ const ReviewSchema = new Schema<IReview>(
 
 ReviewSchema.index({ bookId: 1, userId: 1 }, { unique: true });
 
+const updateBookRating = async (bookId: Types.ObjectId) => {
+  const stats = await mongoose
+    .model("Review")
+    .aggregate([
+      { $match: { bookId: bookId } },
+      { $group: { _id: "$bookId", rating: { $avg: "$rating" } } },
+    ]);
+
+  if (stats.length > 0) {
+    await mongoose
+      .model("Book")
+      .findByIdAndUpdate(bookId, { rating: Math.round(stats[0].rating * 10) / 10 });
+  } else {
+    await mongoose.model("Book").findByIdAndUpdate(bookId, { rating: 0 });
+  }
+};
+
+ReviewSchema.post("save", function () {
+  updateBookRating(this.bookId);
+});
+ReviewSchema.post("findOneAndDelete", function (doc) {
+  updateBookRating(doc.bookId);
+});
+
 export const Review = mongoose.models.Review || mongoose.model<IReview>("Review", ReviewSchema);

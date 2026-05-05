@@ -34,6 +34,7 @@ export default async function BooksContent({
     getAllGenres(),
     getAuthors(),
     getFilteredBooks({ page, itemsPerPage, genres: genreIds }),
+    auth(),
   ]);
 
   const totalPages = Math.ceil(booksData.totalPages / itemsPerPage);

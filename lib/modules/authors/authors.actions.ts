@@ -22,7 +22,6 @@ export async function createAuthor(data: FormData) {
 
     const validatedData = authorCreationSchema.safeParse(rawData);
 
-    console.log(validatedData);
     if (!validatedData.success) {
       const flattened = z.flattenError(validatedData.error);
       return {

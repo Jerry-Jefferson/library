@@ -21,6 +21,8 @@ export function BookDirectory({
   totalPages,
   selectedGenres,
 }: BooksRenderProps) {
+  const isAuthenticated = Boolean(session?.user);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
