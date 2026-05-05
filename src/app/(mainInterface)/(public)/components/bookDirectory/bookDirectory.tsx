@@ -22,6 +22,8 @@ export function BookDirectory({
   selectedGenres,
   favorites,
 }: BooksRenderProps) {
+  const isAuthenticated = Boolean(session?.user);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();

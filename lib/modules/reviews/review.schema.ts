@@ -1,10 +1,17 @@
 import * as z from "zod/v4";
 
-export const reviewCreationSchema = z.object({
-  bookId: z.string(),
-  userId: z.string(),
+export const baseReviewSchema = z.object({
   rating: z.number().min(1).max(5),
   comment: z.string().min(10, "Comment must be at least 10 characters"),
+});
+
+export type BaseReviewSchema = z.infer<typeof baseReviewSchema>;
+
+export const reviewCreationSchema = z.object({
+  rating: z.number().min(1).max(5),
+  comment: z.string().min(10, "Comment must be at least 10 characters"),
+  bookId: z.string(),
+  userId: z.string(),
 });
 
 export type ReviewCreationSchema = z.infer<typeof reviewCreationSchema>;

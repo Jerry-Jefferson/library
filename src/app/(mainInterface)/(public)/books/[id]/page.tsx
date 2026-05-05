@@ -1,5 +1,6 @@
 import { getAllBooks, getBookById } from "@/lib/modules/books/books";
 import { getGenresById } from "@/lib/modules/genres/genres";
+import { SessionFetcher } from "@/src/components/server/sessionFetcher/sessionFetcher";
 import { Suspense } from "react";
 import { BookPage } from "./components/bookPage";
 import User from "@/src/models/user";

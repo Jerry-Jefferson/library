@@ -1,25 +1,25 @@
-import { IReview, IReviewSerialized, Review } from "@/src/models/review";
+"use server";
+
+import { connectMongo } from "@/lib/mongoose";
+import { auth } from "@/src/auth";
+import { Review } from "@/src/models/review";
+import { revalidateTag, updateTag } from "next/cache";
 import { z } from "zod/v4";
 import { reviewCreationSchema, reviewUpdateSchema } from "./review.schema";
-import { revalidateTag } from "next/cache";
-import { connectMongo } from "@/lib/mongoose";
 
-export function serializeReview(review: IReview): IReviewSerialized {
-  return {
-    _id: review._id.toString(),
-    bookId: review.bookId.toString(),
-    userId: review.userId.toString(),
-    rating: review.rating,
-    comment: review.comment,
-    createdAt: review.createdAt?.toISOString(),
-    updatedAt: review.updatedAt?.toISOString(),
-  };
-}
 export async function createReview(data: unknown) {
   try {
     await connectMongo();
 
-    const parsed = reviewCreationSchema.safeParse(data);
+    const session = await auth();
+    const userId = session?.user?.id;
+    if (!userId) {
+      return { success: false, message: "You must be logged in" };
+    }
+
+    const fullData = typeof data === "object" && data !== null ? { ...data, userId } : { userId };
+
+    const parsed = reviewCreationSchema.safeParse(fullData);
 
     if (!parsed.success) {
       return {
@@ -30,14 +30,12 @@ export async function createReview(data: unknown) {
       };
     }
 
-    const review = await Review.create(parsed.data);
+    await Review.create(parsed.data);
 
     revalidateTag(`reviews-book-${parsed.data.bookId.toString()}`, "max");
+    updateTag("books");
 
-    return {
-      success: true,
-      data: serializeReview(review.toObject()),
-    };
+    return { success: true, message: "The review has been successfully sent" };
   } catch (error) {
     console.error("DB error in createReview", error);
 
@@ -75,11 +73,9 @@ export async function updateReview(data: unknown) {
     }
 
     revalidateTag(`review-${id}`, "max");
+    updateTag("books");
 
-    return {
-      success: true,
-      data: serializeReview(review.toObject()),
-    };
+    return { success: true, message: "The review has been successfully edited" };
   } catch (error) {
     console.error("DB error in updateReview", error);
 
@@ -105,6 +101,7 @@ export async function deleteReview(id: string) {
 
     revalidateTag(`reviews-book-${review.bookId.toString()}`, "max");
     revalidateTag(`review-${id}`, "max");
+    updateTag("books");
 
     return {
       success: true,
