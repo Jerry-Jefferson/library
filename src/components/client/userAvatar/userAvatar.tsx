@@ -1,11 +1,9 @@
-"use client";
-
 export type AvatarProps = {
   name?: string;
   fallback?: string;
 };
 
-export function Avatar({ name, fallback = "U" }: AvatarProps) {
+export function UserAvatar({ name, fallback = "U" }: AvatarProps) {
   const initials = name
     ? name
         .split(" ")
@@ -16,7 +14,7 @@ export function Avatar({ name, fallback = "U" }: AvatarProps) {
     : fallback;
 
   return (
-    <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-black ">
+    <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-black ">
       {initials}
     </div>
   );

@@ -1,6 +1,5 @@
-import mongoose, { Query, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { UserRole } from "../shared/types/newUser";
-import { Review } from "@/src/models/review";
 
 export interface IUser {
   name: string;
@@ -8,6 +7,13 @@ export interface IUser {
   password: string;
   role: UserRole;
   favourites: mongoose.Types.ObjectId[];
+}
+
+export interface IUserSerialized extends Omit<IUser, "password" | "favourites"> {
+  _id: string;
+  favourites: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const UserSchema = new Schema<IUser>(

@@ -1,15 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
 
-export interface IReviewSerialized extends Omit<
-  IReview,
-  "_id" | "bookId" | "userId" | "createdAt" | "updatedAt"
-> {
-  _id: string;
-  bookId: string;
-  userId: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
 export interface IReview {
   _id: Types.ObjectId;
   bookId: Types.ObjectId;
@@ -18,6 +8,19 @@ export interface IReview {
   comment: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface IReviewSerialized extends Omit<
+  IReview,
+  "_id" | "bookId" | "userId" | "createdAt" | "updatedAt"
+> {
+  _id: string;
+  bookId: string;
+  bookTitle: string;
+  userId: string;
+  userName: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const ReviewSchema = new Schema<IReview>(
@@ -73,11 +76,11 @@ const updateBookRating = async (bookId: Types.ObjectId) => {
   }
 };
 
-ReviewSchema.post("save", function () {
-  updateBookRating(this.bookId);
+ReviewSchema.post("save", async function () {
+  await updateBookRating(this.bookId);
 });
-ReviewSchema.post("findOneAndDelete", function (doc) {
-  updateBookRating(doc.bookId);
+ReviewSchema.post("findOneAndDelete", async function (doc) {
+  await updateBookRating(doc.bookId);
 });
 
 export const Review = mongoose.models.Review || mongoose.model<IReview>("Review", ReviewSchema);

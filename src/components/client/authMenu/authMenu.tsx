@@ -5,6 +5,7 @@ import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { AUTH_BUTTONS, SessionRoles } from "@/src/shared/constants/navigationLinks";
 import { roles } from "@/src/shared/constants/roles";
 import { routes } from "@/src/shared/constants/routes";
+import { UserAvatar } from "../../client/userAvatar/userAvatar";
 import { Button } from "../button/button";
 
 export type UserActionsProps =
@@ -16,6 +17,7 @@ export function AuthMenu(props: UserActionsProps) {
     <div className="flex items-center gap-4">
       {props.logged ? (
         <>
+          <UserAvatar name={props.userName} />
           {props.role === roles.admin && (
             <LinkButton href={routes.admin} className="font-normal">
               Dashboard
