@@ -14,10 +14,9 @@ import { useSearchParams } from "next/navigation";
 export type BookPageProps = {
   book: IBookSerialized;
   genres: IGenreSerialized[] | null;
-  isFavorite: boolean;
 };
 
-export function BookPage({ book, genres, isFavorite }: BookPageProps) {
+export function BookPage({ book, genres }: BookPageProps) {
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   console.log(from);
@@ -27,7 +26,6 @@ export function BookPage({ book, genres, isFavorite }: BookPageProps) {
   const label = BACK_PATHS_LABELS[normalizedPath] ?? DEFAULT_LABEL;
 
   const { isFavorite: fav, toggle } = useFavorite({
-    initial: isFavorite,
     bookId: book._id,
   });
 

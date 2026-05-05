@@ -6,6 +6,7 @@ import "@/src/models/genre";
 import { isAuthor, isGenre } from "@/src/shared/types/typeGuards";
 import { cacheLife, cacheTag } from "next/cache";
 import User from "@/src/models/user";
+import { unstable_cache } from "next/cache";
 
 function serializeBook(book: IBook): IBookSerialized {
   const author = book.authorId;
@@ -125,9 +126,8 @@ export async function getFilteredBooks({
   };
 }
 
-export async function getFavoriteBooks(userId: string): Promise<IBookSerialized[]> {
-  cacheLife("hours");
-  cacheTag(`favorites-${userId}`);
+export async function getFavoriteBooks(userId: string) {
+  cacheTag(`favorites:${userId}`);
 
   await connectMongo();
 
@@ -141,5 +141,5 @@ export async function getFavoriteBooks(userId: string): Promise<IBookSerialized[
     .populate("authorId", "name")
     .lean<IBook[]>();
 
-  return books.map((book) => serializeBook(book));
+  return books.map(serializeBook);
 }

@@ -6,12 +6,10 @@ import { useFavorite } from "@/src/shared/hooks/useFavorite";
 
 export type FavoriteProps = {
   bookId: string;
-  initial: boolean;
-  onRemoved?: () => void;
 };
 
-export function Favorite(props: FavoriteProps) {
-  const { isFavorite, toggle } = useFavorite(props);
+export function Favorite({ bookId }: FavoriteProps) {
+  const { isFavorite, toggle } = useFavorite({ bookId });
 
   return (
     <Button onClick={toggle} variant="icon">

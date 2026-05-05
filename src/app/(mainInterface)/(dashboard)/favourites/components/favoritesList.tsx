@@ -8,9 +8,9 @@ export async function FavoritesList() {
 
   if (!userId) return <p>Please log in</p>;
 
-  const books = await getFavoriteBooks(userId);
+  const favoriteBooks = await getFavoriteBooks(userId);
 
-  if (!books.length) return <p>No favorites yet</p>;
+  if (!favoriteBooks.length) return <p>No favorites yet</p>;
 
-  return <BooksList books={books} />;
+  return <BooksList books={favoriteBooks} />;
 }

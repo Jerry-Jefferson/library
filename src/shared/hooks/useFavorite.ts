@@ -1,33 +1,29 @@
 "use client";
 
-import { useOptimistic, startTransition } from "react";
+import { useRef } from "react";
 import { toggleFavorite } from "@/lib/modules/users/user";
-import { useRouter } from "next/navigation";
+import { useFavoritesStore } from "@/src/shared/context/useFavoritesStore";
 
-export type Params = {
-  initial: boolean;
-  bookId: string;
-  onRemoved?: () => void;
-};
+export function useFavorite({ bookId }: { bookId: string }) {
+  const { isFavorite, toggleLocal } = useFavoritesStore();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-export function useFavorite({ initial, bookId, onRemoved }: Params) {
-  const [isFavorite, setOptimistic] = useOptimistic(initial, (state) => !state);
-  const router = useRouter();
-  const toggle = () => {
-    startTransition(async () => {
-      setOptimistic(null);
+  const handleToggle = () => {
+    toggleLocal(bookId);
 
-      const newState = await toggleFavorite(bookId);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-      if (!newState && onRemoved) {
-        onRemoved();
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        await toggleFavorite(bookId);
+      } catch {
+        toggleLocal(bookId);
       }
-    });
-    router.refresh();
+    }, 300);
   };
 
   return {
-    isFavorite,
-    toggle,
+    isFavorite: isFavorite(bookId),
+    toggle: handleToggle,
   };
 }
