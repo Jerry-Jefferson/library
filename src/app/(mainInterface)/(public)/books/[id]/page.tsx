@@ -38,13 +38,7 @@ export default async function Book({ params }: { params: Promise<{ id: string }>
 
   return (
     <Suspense fallback={<p>Wait...</p>}>
-      <BookPage
-        book={book}
-        genres={genres}
-        session={session}
-        reviews={reviews}
-        isFavorite={isFavorite}
-      />
+      <BookPage book={book} genres={genres} session={session} reviews={reviews} />
     </Suspense>
   );
 }
