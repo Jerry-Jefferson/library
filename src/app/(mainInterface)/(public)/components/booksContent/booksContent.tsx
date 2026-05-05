@@ -1,10 +1,12 @@
 import { getAuthors } from "@/lib/modules/authors/authors";
 import { getFilteredBooks } from "@/lib/modules/books/books";
 import { getAllGenres } from "@/lib/modules/genres/genres";
+import { auth } from "@/src/auth";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
+import { Session } from "next-auth";
 
 export interface BooksRenderProps {
   books: IBookSerialized[];
@@ -13,6 +15,7 @@ export interface BooksRenderProps {
   currentPage: number;
   totalPages: number;
   selectedGenres: string[];
+  session: Session | null;
 }
 
 export interface BooksContentProps {
@@ -30,7 +33,7 @@ export default async function BooksContent({
   const page = Number(params.page ?? 1);
   const genreIds = params.genres?.split(",") ?? [];
 
-  const [genres, authors, booksData] = await Promise.all([
+  const [genres, authors, booksData, session] = await Promise.all([
     getAllGenres(),
     getAuthors(),
     getFilteredBooks({ page, itemsPerPage, genres: genreIds }),
@@ -48,6 +51,7 @@ export default async function BooksContent({
         currentPage: page,
         totalPages: totalPages,
         selectedGenres: genreIds,
+        session,
       })}
     </>
   );
