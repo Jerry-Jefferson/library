@@ -6,7 +6,7 @@ export interface IUser {
   email: string;
   password: string;
   role: UserRole;
-  favourites: mongoose.Types.ObjectId[];
+  favorites: mongoose.Types.ObjectId[];
 }
 
 export interface IUserSerialized extends Omit<IUser, "password" | "favourites"> {
@@ -37,7 +37,7 @@ const UserSchema = new Schema<IUser>(
       type: String,
       enum: { values: ["USER", "ADMIN"], message: "{VALUE} is not supported" },
     },
-    favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
   },
   {
     timestamps: true,

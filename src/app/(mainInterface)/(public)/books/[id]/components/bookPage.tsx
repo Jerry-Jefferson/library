@@ -13,6 +13,7 @@ import { IGenreSerialized } from "@/src/models/genre";
 import { IReviewSerialized } from "@/src/models/review";
 import { BACK_PATHS_LABELS, DEFAULT_LABEL } from "@/src/shared/constants/backPathsLabels";
 import { routes } from "@/src/shared/constants/routes";
+import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { formatDate } from "@/src/shared/utils/formatDate";
 import { Session } from "next-auth";
 import { useSearchParams } from "next/navigation";
@@ -23,22 +24,26 @@ export function BookPage({
   reviews,
   session,
 }: {
-  book: IBookSerialized | null;
+  book: IBookSerialized;
   genres: IGenreSerialized[] | null;
   reviews: IReviewSerialized[] | null;
   session: Session | null;
 }) {
   const isAuthenticated = Boolean(session?.user);
   const hasReviewed = reviews?.find((userReview) => userReview.userId === session?.user.id);
-
   const { modal, openModal, closeModal } = useModalQuery();
 
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
+  console.log(from);
   const backPath = from ? decodeURIComponent(from) : routes.home;
-  const label =
-    BACK_PATHS_LABELS[backPath] ||
-    (backPath?.startsWith(routes.books) ? BACK_PATHS_LABELS[routes.books] : null);
+
+  const normalizedPath = backPath.split("?")[0];
+  const label = BACK_PATHS_LABELS[normalizedPath] ?? DEFAULT_LABEL;
+
+  const { isFavorite: fav, toggle } = useFavorite({
+    bookId: book._id,
+  });
 
   if (!book) return <p>No book found</p>;
 
@@ -50,8 +55,14 @@ export function BookPage({
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.image} view="rounded" />
               {isAuthenticated ? (
-                <Button fullWidth size="medium" variant="primary" className="font-bold">
-                  Add to Favourites
+                <Button
+                  fullWidth
+                  size="medium"
+                  variant={fav ? "secondary" : "primary"}
+                  onClick={toggle}
+                  className="font-bold"
+                >
+                  {fav ? "Remove from Favorites" : "Add to Favorites"}
                 </Button>
               ) : null}
               <LinkButton href={backPath} className="py-4">
