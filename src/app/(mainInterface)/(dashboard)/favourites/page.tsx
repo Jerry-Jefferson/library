@@ -5,7 +5,7 @@ export default function Favourites() {
   return (
     <Suspense fallback={<p>Loading favorites...</p>}>
       <div className="w-full flex justify-center bg-background">
-        <div className="w-4/5 gap-4 flex flex-col mt-5 mb-5">
+        <div className="w-7/8 gap-4 flex flex-col mt-5 mb-5">
           <FavoritesList />
         </div>
       </div>

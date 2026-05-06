@@ -49,7 +49,7 @@ export function BookDirectory({
 
   return (
     <div className="w-full flex justify-center bg-background">
-      <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
+      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Books Directory</h2>
         <p className="text-xl text-secondary">
           Discover your next great read from our curated collection of timeless classics and modern

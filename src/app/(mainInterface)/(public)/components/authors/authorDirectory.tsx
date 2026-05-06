@@ -51,7 +51,7 @@ export default function AuthorDirectory({
 
   return (
     <div className="w-full flex justify-center bg-background">
-      <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
+      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Authors Directory</h2>
         <p className="text-xl text-secondary">
           Meet the brilliant minds behind our collection of over 50,000 titles.

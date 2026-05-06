@@ -41,7 +41,7 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
   };
   return (
     <div className="w-full flex justify-center bg-background">
-      <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
+      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Your Reviews</h2>
         <p className="text-xl text-secondary">
           Your literary legacy in one place: rediscover your past reviews and track how your
