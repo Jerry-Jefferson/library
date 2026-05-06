@@ -56,8 +56,8 @@ export default function AuthorDirectory({
         <p className="text-xl text-secondary">
           Meet the brilliant minds behind our collection of over 50,000 titles.
         </p>
-        <div className="flex gap-5 w-full justify-end mt-5">
-          <div className="flex gap-3 max-w-[2/4]">
+        <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
+          <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
               <div className="min-w-85 max-w-85">
                 <MultiSelect
@@ -81,7 +81,7 @@ export default function AuthorDirectory({
           </div>
         </div>
 
-        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-4">
+        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
           {displayedAuthors.map((author: IAuthorSerialized) => (
             <ItemCard key={author._id} name="Author">
               <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">

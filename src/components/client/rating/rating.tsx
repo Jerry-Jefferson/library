@@ -41,7 +41,7 @@ export function Rating({ rating, max = 5, interactive = false, onChange }: Ratin
   const displayRating = hover ?? rating;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 sm:justify-between sm:w-full lg:justify-start">
       <span className="text-md font-medium ">
         {interactive ? displayRating : rating.toFixed(1)}
       </span>

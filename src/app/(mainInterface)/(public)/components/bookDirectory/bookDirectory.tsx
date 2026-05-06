@@ -55,8 +55,8 @@ export function BookDirectory({
           Discover your next great read from our curated collection of timeless classics and modern
           masterpieces
         </p>
-        <div className="flex gap-5 w-full justify-end mt-5">
-          <div className="flex gap-3 max-w-[2/4]">
+        <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
+          <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
               <div className="min-w-85 max-w-85">
                 <MultiSelect
@@ -80,13 +80,13 @@ export function BookDirectory({
           </div>
         </div>
 
-        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-4">
+        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
           {displayedBooks.map((book) => (
             <div key={book._id}>
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
-                  <div className="flex items-center justify-between pt-2 pb-2">
+                  <div className="flex justify-between sm:flex-col-reverse sm:items-end pt-2 pb-2 lg:flex-row">
                     <Rating rating={book.rating} />
                     {isAuthenticated ? <ItemCard.Favorite bookId={book._id} /> : null}
                   </div>
