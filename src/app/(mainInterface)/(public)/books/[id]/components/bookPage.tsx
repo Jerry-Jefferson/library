@@ -1,5 +1,6 @@
 "use client";
 
+import { ReviewDisplay } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewDisplay/reviewDisplay";
 import { ReviewForm } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
@@ -9,17 +10,29 @@ import { useModalQuery } from "@/src/components/client/modalWindow/useModalQuery
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
+import { IReviewSerialized } from "@/src/models/review";
 import { BACK_PATHS_LABELS, DEFAULT_LABEL } from "@/src/shared/constants/backPathsLabels";
 import { routes } from "@/src/shared/constants/routes";
 import { useFavorite } from "@/src/shared/hooks/useFavorite";
+import { formatDate } from "@/src/shared/utils/formatDate";
+import { Session } from "next-auth";
 import { useSearchParams } from "next/navigation";
 
-export type BookPageProps = {
+export function BookPage({
+  book,
+  genres,
+  reviews,
+  session,
+}: {
   book: IBookSerialized;
   genres: IGenreSerialized[] | null;
-};
+  reviews: IReviewSerialized[] | null;
+  session: Session | null;
+}) {
+  const isAuthenticated = Boolean(session?.user);
+  const hasReviewed = reviews?.find((userReview) => userReview.userId === session?.user.id);
+  const { modal, openModal, closeModal } = useModalQuery();
 
-export function BookPage({ book, genres }: BookPageProps) {
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   console.log(from);
@@ -41,15 +54,17 @@ export function BookPage({ book, genres }: BookPageProps) {
           <div className="flex items-start gap-10 border-b border-secondary pb-12">
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.image} view="rounded" />
-              <Button
-                fullWidth
-                size="medium"
-                variant={fav ? "secondary" : "primary"}
-                onClick={toggle}
-                className="font-bold"
-              >
-                {fav ? "Remove from Favorites" : "Add to Favorites"}
-              </Button>
+              {isAuthenticated ? (
+                <Button
+                  fullWidth
+                  size="medium"
+                  variant={fav ? "secondary" : "primary"}
+                  onClick={toggle}
+                  className="font-bold"
+                >
+                  {fav ? "Remove from Favorites" : "Add to Favorites"}
+                </Button>
+              ) : null}
               <LinkButton href={backPath} className="py-4">
                 Back to {label ?? DEFAULT_LABEL}
               </LinkButton>
@@ -87,11 +102,40 @@ export function BookPage({ book, genres }: BookPageProps) {
             </div>
           </div>
         </ItemCard>
-        {isAuthenticated ? (
-          <Button variant="primary" size="medium" onClick={() => openModal("review")}>
-            Write review
-          </Button>
-        ) : null}
+        <div className="flex flex-col gap-4">
+          <div className="w-full flex justify-between">
+            <div className="flex flex-col">
+              <p className="text-2xl">Reader Reviews</p>
+              <p className="text-secondary">Join the conversation about this book</p>
+            </div>
+            {isAuthenticated && !hasReviewed ? (
+              <Button variant="primary" size="small" onClick={() => openModal("review")}>
+                Write a Review
+              </Button>
+            ) : null}
+          </div>
+          <div className="flex gap-8">
+            <div className="bg-card-back border border-primary-hover rounded-md w-[40%] h-[500px] flex items-center justify-center">
+              A quote incoming...
+            </div>
+            <div className="w-[60%] flex flex-col gap-4">
+              {reviews && reviews.length > 0 ? (
+                reviews?.map((review) => (
+                  <ReviewDisplay
+                    key={review._id}
+                    review={review}
+                    rating={review.rating}
+                    date={formatDate(review.createdAt)}
+                    comment={review.comment}
+                    userName={review.userName}
+                  />
+                ))
+              ) : (
+                <p>There are no reviews yet. Be first to leave one</p>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
       {modal === "review" && book && (
         <ModalWindow header={`Reviewing: ${book.title}`} handleCancel={closeModal}>

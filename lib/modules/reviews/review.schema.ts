@@ -7,9 +7,7 @@ export const baseReviewSchema = z.object({
 
 export type BaseReviewSchema = z.infer<typeof baseReviewSchema>;
 
-export const reviewCreationSchema = z.object({
-  rating: z.number().min(1).max(5),
-  comment: z.string().min(10, "Comment must be at least 10 characters"),
+export const reviewCreationSchema = baseReviewSchema.extend({
   bookId: z.string(),
   userId: z.string(),
 });
@@ -18,7 +16,7 @@ export type ReviewCreationSchema = z.infer<typeof reviewCreationSchema>;
 
 export const reviewUpdateSchema = z
   .object({
-    id: z.string(),
+    _id: z.string(),
     rating: z.number().min(1).max(5).optional(),
     comment: z.string().min(10).optional(),
   })

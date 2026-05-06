@@ -3,6 +3,7 @@
 import { connectMongo } from "@/lib/mongoose";
 import { auth } from "@/src/auth";
 import { Review } from "@/src/models/review";
+import { isMongoError } from "@/src/shared/types/typeGuards";
 import { revalidateTag, updateTag } from "next/cache";
 import { z } from "zod/v4";
 import { reviewCreationSchema, reviewUpdateSchema } from "./review.schema";
@@ -32,11 +33,21 @@ export async function createReview(data: unknown) {
 
     await Review.create(parsed.data);
 
-    revalidateTag(`reviews-book-${parsed.data.bookId.toString()}`, "max");
+    const bookId = parsed.data.bookId.toString();
+
+    revalidateTag(`reviews-book-${bookId}`, "max");
     updateTag("books");
+    updateTag(`book-${bookId}`);
+    updateTag(`reviews-user-${userId}`);
 
     return { success: true, message: "The review has been successfully sent" };
   } catch (error) {
+    if (isMongoError(error) && error.code === 11000) {
+      return {
+        success: false,
+        message: "You have written a review to this book",
+      };
+    }
     console.error("DB error in createReview", error);
 
     return {
@@ -61,9 +72,9 @@ export async function updateReview(data: unknown) {
       };
     }
 
-    const { id, ...updates } = parsed.data;
+    const { _id, ...updates } = parsed.data;
 
-    const review = await Review.findByIdAndUpdate(id, { $set: updates }, { new: true });
+    const review = await Review.findByIdAndUpdate(_id, { $set: updates }, { new: true });
 
     if (!review) {
       return {
@@ -72,8 +83,14 @@ export async function updateReview(data: unknown) {
       };
     }
 
-    revalidateTag(`review-${id}`, "max");
+    const bookId = review.bookId.toString();
+    const userId = review.userId.toString();
+
+    updateTag(`review-${_id}`);
+    updateTag(`reviews-book-${bookId}`);
+    updateTag(`book-${bookId}`);
     updateTag("books");
+    updateTag(`reviews-user-${userId}`);
 
     return { success: true, message: "The review has been successfully edited" };
   } catch (error) {
@@ -99,9 +116,14 @@ export async function deleteReview(id: string) {
       };
     }
 
-    revalidateTag(`reviews-book-${review.bookId.toString()}`, "max");
-    revalidateTag(`review-${id}`, "max");
+    const bookId = review.bookId.toString();
+    const userId = review.userId.toString();
+
+    updateTag(`review-${id}`);
+    updateTag(`reviews-book-${bookId}`);
+    updateTag(`book-${bookId}`);
     updateTag("books");
+    updateTag(`reviews-user-${userId}`);
 
     return {
       success: true,

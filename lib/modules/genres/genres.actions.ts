@@ -56,7 +56,7 @@ export async function updateGenre(id: string, data: unknown) {
     }
 
     const normalizedTitle = validatedData.data.title.trim().toLowerCase();
-    const existingGenre = await Genre.findOne({ normalizedTitle, _id: { $ne: id } });
+    const existingGenre = await Genre.findOne({ title: normalizedTitle, _id: { $ne: id } });
 
     if (existingGenre) {
       return { success: false, message: "Genre already exists" };

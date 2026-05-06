@@ -1,7 +1,11 @@
 "use client";
 
-import { createReview } from "@/lib/modules/reviews/review.actions";
-import { baseReviewSchema, BaseReviewSchema } from "@/lib/modules/reviews/review.schema";
+import { createReview, updateReview } from "@/lib/modules/reviews/review.actions";
+import {
+  baseReviewSchema,
+  BaseReviewSchema,
+  ReviewUpdateSchema,
+} from "@/lib/modules/reviews/review.schema";
 import { Button } from "@/src/components/client/button/button";
 import { FormRating } from "@/src/components/client/rating/variants/formRating/formRating";
 import { TextArea } from "@/src/components/client/textArea/textArea";
@@ -11,6 +15,7 @@ import { MdOutlineWarning } from "react-icons/md";
 import { toast } from "react-toastify";
 
 export interface ReviewFormProps {
+  editionData?: ReviewUpdateSchema;
   handleCancel?: () => void;
   cancelButton: string;
   acceptButton: string;
@@ -27,24 +32,36 @@ const defaultReviewValues = {
   [reviewFields.comment]: "",
 };
 
-export function ReviewForm({ handleCancel, cancelButton, acceptButton, bookId }: ReviewFormProps) {
+export function ReviewForm({
+  editionData,
+  handleCancel,
+  cancelButton,
+  acceptButton,
+  bookId,
+}: ReviewFormProps) {
+  const isEditMode = Boolean(editionData?._id);
+
   const {
     register,
     handleSubmit,
-    reset,
     control,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid, isSubmitting, isSubmitSuccessful },
   } = useForm<BaseReviewSchema>({
     resolver: zodResolver(baseReviewSchema),
     mode: "onChange",
     delayError: 500,
-    defaultValues: defaultReviewValues,
+    defaultValues: editionData || defaultReviewValues,
   });
 
   async function onSubmit({ rating, comment }: BaseReviewSchema) {
     try {
       const data = { rating, comment, bookId };
-      const result = await createReview(data);
+      let result;
+      if (isEditMode && editionData?._id) {
+        result = await updateReview({ ...editionData, rating, comment });
+      } else {
+        result = await createReview(data);
+      }
 
       if (!result.success) {
         toast.error(result.message);
@@ -52,16 +69,17 @@ export function ReviewForm({ handleCancel, cancelButton, acceptButton, bookId }:
       }
 
       toast.success(result.message);
-      reset();
+
       handleCancel?.();
     } catch (error) {
       console.error("Form submission error:", error);
       toast.error("Something went wrong");
     }
   }
+
   return (
     <form className="flex flex-col gap-4 w-full p-2" onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="text-secondary">RATE THIS BOOK</h1>
+      <h2 className="text-secondary">RATE THIS BOOK</h2>
       <FormRating control={control} name="rating" errorMessage={errors.rating?.message} />
       <TextArea
         label="YOUR THOUGHTS"
@@ -81,7 +99,7 @@ export function ReviewForm({ handleCancel, cancelButton, acceptButton, bookId }:
           fullWidth
           size="medium"
           variant="primary"
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting || isSubmitSuccessful}
           isLoading={isSubmitting}
         >
           {acceptButton}

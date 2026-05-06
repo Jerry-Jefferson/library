@@ -3,7 +3,6 @@ import { NAV_LINKS_ROLE, SessionRoles } from "@/src/shared/constants/navigationL
 import { roles } from "@/src/shared/constants/roles";
 import { AuthMenu } from "../../client/authMenu/authMenu";
 import { NavMenu } from "../navMenu/navMenu";
-import { Avatar } from "../../client/userAvatar/userAvatar";
 
 export async function Header() {
   const session = await auth();
@@ -15,12 +14,9 @@ export async function Header() {
   return (
     <header className="box-border bg-background border-b border-secondary flex justify-between px-6 py-4 text-base w-full">
       <NavMenu links={nav} />
-      <div className="flex gap-5">
-        <Avatar name={session?.user.name} />
-        <AuthMenu
-          {...(session ? { logged: true, userName: session.user.name, role } : { logged: false })}
-        />
-      </div>
+      <AuthMenu
+        {...(session ? { logged: true, userName: session.user.name, role } : { logged: false })}
+      />
     </header>
   );
 }

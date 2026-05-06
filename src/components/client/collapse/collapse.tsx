@@ -31,7 +31,7 @@ export function Collapse<T extends HTMLElement>({ children }: CollapseProps<T>) 
 
   const className = isShownFull
     ? "line-clamp-none"
-    : "line-clamp-6 sm:line-clamp-7 md:line-clamp-8 lg:line-clamp-10 xl:line-clamp-14";
+    : "line-clamp-6 sm:line-clamp-7 md:line-clamp-10 lg:line-clamp-12 xl:line-clamp-14";
 
   return <>{children({ isShownFull, toggle, className, isTruncated, textRef })}</>;
 }

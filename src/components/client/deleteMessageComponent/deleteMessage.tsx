@@ -3,6 +3,7 @@
 import { IAuthorSerialized } from "@/src/models/author";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
+import { IReviewSerialized } from "@/src/models/review";
 import { useState } from "react";
 import { Button } from "../button/button";
 
@@ -11,7 +12,7 @@ export interface DeleteMessageProps {
   cancelButton: string;
   acceptButton: string;
   handleDelete: () => Promise<void>;
-  entity: IBookSerialized | IAuthorSerialized | IGenreSerialized;
+  entity: IBookSerialized | IAuthorSerialized | IGenreSerialized | IReviewSerialized;
 }
 
 export function DeleteMessage({
@@ -33,13 +34,31 @@ export function DeleteMessage({
     }
   };
 
-  const isAuthor = "name" in entity;
-  const displayName = isAuthor ? entity.name : entity.title;
+  const isReview = "comment" in entity;
+  let displayContent;
+  if (isReview) {
+    displayContent = "this review";
+  } else {
+    const name = "name" in entity ? entity.name : entity.title;
+    displayContent = name;
+  }
+
+  const isBook = "rating" in entity && "description" in entity;
+  let isWarning;
+  if (isBook) {
+    isWarning = entity.rating > 0;
+  }
 
   return (
     <div className="flex flex-col justify-center gap-8 w-full">
-      <div className="self-center">
-        <p>Are you sure you want to delete {displayName}</p>
+      <div className="flex flex-col items-center">
+        <p>
+          Are you sure you want to delete{" "}
+          {isReview ? <strong>this review</strong> : <strong>{displayContent}</strong>}?
+        </p>
+        <p className="text-secondary">
+          {isWarning ? "The book has got reviews. They will be deleted with the book" : null}
+        </p>
       </div>
       <div className="flex justify-between gap-6">
         <Button

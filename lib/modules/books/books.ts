@@ -3,10 +3,9 @@ import { connectMongo } from "@/lib/mongoose";
 import "@/src/models/author";
 import { Book, IBook, IBookSerialized } from "@/src/models/book";
 import "@/src/models/genre";
+import User from "@/src/models/user";
 import { isAuthor, isGenre } from "@/src/shared/types/typeGuards";
 import { cacheLife, cacheTag } from "next/cache";
-import User from "@/src/models/user";
-import { unstable_cache } from "next/cache";
 
 function serializeBook(book: IBook): IBookSerialized {
   const author = book.authorId;

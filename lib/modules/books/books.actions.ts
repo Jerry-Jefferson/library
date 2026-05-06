@@ -2,6 +2,7 @@
 
 import { connectMongo } from "@/lib/mongoose";
 import { Book } from "@/src/models/book";
+import { Review } from "@/src/models/review";
 import { updateTag } from "next/cache";
 import { z } from "zod";
 import { bookCreationSchema } from "./book.schema";
@@ -110,12 +111,17 @@ export async function updateBook(id: string, data: FormData) {
 export async function deleteBook(id: string) {
   try {
     await connectMongo();
+
+    await Review.deleteMany({ bookId: id });
+
     const result = await Book.findByIdAndDelete(id);
 
     if (!result) return { success: false, message: "The book was not found" };
 
     updateTag("books");
     updateTag(`book-${id}`);
+    updateTag(`reviews-book-${id}`);
+    updateTag("all-user-reviews");
     updateTag("authors");
 
     return { success: true, message: "The book has been successfully deleted" };
