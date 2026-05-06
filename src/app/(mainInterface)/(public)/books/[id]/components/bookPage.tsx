@@ -7,6 +7,7 @@ import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
+import { VirtualizerList } from "@/src/components/client/virtualizerList/virtualizerList";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
@@ -35,7 +36,6 @@ export function BookPage({
 
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
-  console.log(from);
   const backPath = from ? decodeURIComponent(from) : routes.home;
 
   const normalizedPath = backPath.split("?")[0];
@@ -120,18 +120,21 @@ export function BookPage({
             </div>
             <div className="w-[60%] flex flex-col gap-4">
               {reviews && reviews.length > 0 ? (
-                reviews?.map((review) => (
-                  <ReviewDisplay
-                    key={review._id}
-                    review={review}
-                    rating={review.rating}
-                    date={formatDate(review.createdAt)}
-                    comment={review.comment}
-                    userName={review.userName}
-                  />
-                ))
+                <VirtualizerList items={reviews}>
+                  {(review) => (
+                    <ReviewDisplay
+                      review={review}
+                      rating={review.rating}
+                      date={formatDate(review.createdAt)}
+                      comment={review.comment}
+                      userName={review.userName}
+                    />
+                  )}
+                </VirtualizerList>
               ) : (
-                <p>There are no reviews yet. Be first to leave one</p>
+                <div className="flex items-center justify-center p-4 bg-background border border-secondary rounded-md">
+                  <p className="text-secondary">There are no reviews yet. Be first to leave one</p>
+                </div>
               )}
             </div>
           </div>
