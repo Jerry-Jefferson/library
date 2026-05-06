@@ -71,12 +71,12 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
   }
 
   return (
-    <div className="flex flex-col gap-6 w-[50%]">
+    <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
         <h1 className="text-2xl">Create an account</h1>
-        <p className="text-secondary text-xl">Start your literary journey today</p>
+        <p className="text-secondary text-md sm:text-xl">Start your literary journey today</p>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 sm:gap-6">
         <FormInput
           name="name"
           type="text"
@@ -118,10 +118,10 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
       </form>
       <div>
         <div className="flex gap-4 justify-between">
-          <p className="text-secondary">Already have an account?</p>
+          <p className="text-secondary text-xs md:text-sm lg:text-base">Already have an account?</p>
           <Link
             href={routes.signIn}
-            className="text-primary hover:text-primary-hover focus:border-primary"
+            className="text-primary hover:text-primary-hover focus:border-primary text-xs md:text-sm lg:text-base"
           >
             Sign in here
           </Link>
