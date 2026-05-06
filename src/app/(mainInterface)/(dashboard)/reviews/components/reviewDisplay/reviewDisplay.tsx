@@ -30,8 +30,8 @@ export function ReviewDisplay({
 }: ReviewDisplayProps) {
   return (
     <div className="bg-card-back border border-primary-hover w-full rounded-md flex flex-col gap-4 p-6">
-      <div className="flex justify-between items-center">
-        <div className="flex justify-between items-center gap-4">
+      <div className="flex flex-col gap-3 items-start  md:flex-row">
+        <div className="flex grow flex-row items-center gap-4">
           {userName ? <UserAvatar name={userName} /> : null}
           <div className="flex flex-col">
             <p>{userName ?? bookName}</p>
@@ -41,7 +41,7 @@ export function ReviewDisplay({
         <Rating rating={rating} />
       </div>
       {isDashboard ? (
-        <div className="flex-grow">
+        <div className="grow">
           <p className="text-secondary whitespace-pre-wrap line-clamp-3">{comment}</p>
         </div>
       ) : (
@@ -65,7 +65,7 @@ export function ReviewDisplay({
         </Collapse>
       )}
       {bookName ? (
-        <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col justify-between items-center gap-4 md:flex-row ">
           <Button
             fullWidth
             variant="custom"
