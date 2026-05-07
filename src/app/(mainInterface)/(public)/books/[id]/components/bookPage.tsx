@@ -6,7 +6,7 @@ import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
-import { useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
+import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
 import { VirtualizerList } from "@/src/components/client/virtualizerList/virtualizerList";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
@@ -18,6 +18,7 @@ import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { formatDate } from "@/src/shared/utils/formatDate";
 import { Session } from "next-auth";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export function BookPage({
   book,
@@ -31,8 +32,21 @@ export function BookPage({
   session: Session | null;
 }) {
   const isAuthenticated = Boolean(session?.user);
+  const userId = session?.user.id;
   const hasReviewed = reviews?.find((userReview) => userReview.userId === session?.user.id);
+
+  const [selectedReview, setSelectedReview] = useState<IReviewSerialized | null>(null);
+
   const { modal, openModal, closeModal } = useModalQuery();
+  const handleOpen = (review: IReviewSerialized, modalType: ModalType) => {
+    setSelectedReview(review);
+    openModal(modalType);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedReview(null);
+    closeModal();
+  };
 
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
@@ -128,6 +142,8 @@ export function BookPage({
                       date={formatDate(review.createdAt)}
                       comment={review.comment}
                       userName={review.userName}
+                      userId={userId}
+                      handleOpen={(review) => handleOpen(review, "edit")}
                     />
                   )}
                 </VirtualizerList>
@@ -140,13 +156,24 @@ export function BookPage({
           </div>
         </div>
       </div>
-      {modal === "review" && book && (
-        <ModalWindow header={`Reviewing: ${book.title}`} handleCancel={closeModal}>
+      {modal === "review" && !selectedReview && book && (
+        <ModalWindow header={`Reviewing: ${book.title}`} handleCancel={handleCloseModal}>
           <ReviewForm
-            handleCancel={closeModal}
+            handleCancel={handleCloseModal}
             cancelButton="Cancel"
             acceptButton="Add review"
             bookId={book._id}
+          />
+        </ModalWindow>
+      )}
+      {modal === "edit" && selectedReview && book && (
+        <ModalWindow header={`Editing review for: ${book.title}`} handleCancel={handleCloseModal}>
+          <ReviewForm
+            handleCancel={handleCloseModal}
+            cancelButton="Cancel"
+            acceptButton="Save changes"
+            bookId={book._id}
+            editionData={selectedReview}
           />
         </ModalWindow>
       )}
