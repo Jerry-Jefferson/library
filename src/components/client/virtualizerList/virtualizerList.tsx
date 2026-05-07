@@ -54,7 +54,7 @@ export function VirtualizerList<T>({
       className={`w-full ${
         isWindowScroll
           ? ""
-          : "h-full overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          : "h-full min-h-75 overflow-y-auto contain-strict [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       }`}
     >
       <div
@@ -79,7 +79,10 @@ export function VirtualizerList<T>({
                 key={virtualRow.key}
                 data-index={virtualRow.index}
                 ref={activeVirtualizer.measureElement}
-                className="grid gap-6 mb-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]"
+                className="grid gap-6 mb-6"
+                style={{
+                  gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+                }}
               >
                 {rowItems.map((item, index) => (
                   <div key={`${virtualRow.key}-${index}`}>{children(item)}</div>
