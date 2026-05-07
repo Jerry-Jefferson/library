@@ -66,7 +66,7 @@ export function Sidebar() {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full"
             >
-              <DialogPanel className="w-64 bg-background border border-primary p-6 shadow-xl">
+              <DialogPanel className="w-64 bg-background/50 backdrop-blur border-l border-primary p-6 shadow-xl">
                 <div className="flex justify-end mb-6">
                   <Button onClick={() => setIsOpen(false)}>
                     <FiX className="text-2xl" />
