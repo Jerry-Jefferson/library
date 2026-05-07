@@ -6,6 +6,7 @@ import { ModalType } from "@/src/components/client/modalWindow/useModalQuery";
 import { Rating } from "@/src/components/client/rating/rating";
 import { UserAvatar } from "@/src/components/client/userAvatar/userAvatar";
 import { IReviewSerialized } from "@/src/models/review";
+import { MdEdit } from "react-icons/md";
 
 export interface ReviewDisplayProps {
   review: IReviewSerialized;
@@ -16,6 +17,7 @@ export interface ReviewDisplayProps {
   bookName?: string;
   isDashboard?: boolean;
   handleOpen?: (review: IReviewSerialized, modal: ModalType) => void;
+  userId?: string;
 }
 
 export function ReviewDisplay({
@@ -27,9 +29,11 @@ export function ReviewDisplay({
   bookName,
   isDashboard = false,
   handleOpen,
+  userId,
 }: ReviewDisplayProps) {
+  const canEdit = userId === review.userId;
   return (
-    <div className="bg-card-back border border-primary-hover w-full rounded-md flex flex-col gap-4 p-6">
+    <div className="group relative bg-card-back border border-primary-hover w-full rounded-md flex flex-col gap-4 p-6">
       <div className="flex flex-col gap-3 items-start  md:flex-row">
         <div className="flex grow flex-row items-center gap-4">
           {userName ? <UserAvatar name={userName} /> : null}
@@ -39,6 +43,15 @@ export function ReviewDisplay({
           </div>
         </div>
         <Rating rating={rating} />
+        {canEdit ? (
+          <Button
+            size="small"
+            className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110 opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 right-2"
+            onClick={() => handleOpen?.(review, "edit")}
+          >
+            <MdEdit className="text-sm md:text-base text-black" />
+          </Button>
+        ) : null}
       </div>
       {isDashboard ? (
         <div className="grow">

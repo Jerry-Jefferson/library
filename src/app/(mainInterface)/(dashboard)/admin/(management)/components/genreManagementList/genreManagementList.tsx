@@ -84,7 +84,7 @@ export function GenreManagementList({ genres }: ManagementListProps) {
         </ModalWindow>
       )}
       {modal === "edit" && selectedGenre && (
-        <ModalWindow header={`${selectedGenre.title} editing`} handleCancel={closeModal}>
+        <ModalWindow header={`"${selectedGenre.title}" editing`} handleCancel={closeModal}>
           <GenreCreationForm
             handleCancel={closeModal}
             cancelButton="Cancel"
