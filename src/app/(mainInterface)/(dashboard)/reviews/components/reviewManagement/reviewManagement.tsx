@@ -48,7 +48,7 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
           Your literary legacy in one place: rediscover your past reviews and track how your
           perspective has evolved over time
         </p>
-        <div className="w-full">
+        <div className="w-full flex flex-col sm:flex-row gap-4">
           {userReviews && userReviews.length > 0 ? (
             <VirtualizerList items={userReviews} isWindowScroll columns={2}>
               {(review) => (

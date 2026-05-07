@@ -33,8 +33,8 @@ export function ReviewDisplay({
 }: ReviewDisplayProps) {
   const canEdit = userId === review.userId;
   return (
-    <div className="group relative bg-card-back border border-primary-hover w-full rounded-md flex flex-col gap-4 p-6">
-      <div className="flex flex-col gap-3 items-start  md:flex-row">
+    <div className="group relative bg-card-back border border-primary-hover w-full h-full rounded-md flex flex-col gap-4 p-6">
+      <div className="flex flex-col gap-3 items-start lg:flex-row">
         <div className="flex grow flex-row items-center gap-4">
           {userName ? <UserAvatar name={userName} /> : null}
           <div className="flex flex-col">
@@ -46,7 +46,10 @@ export function ReviewDisplay({
         {canEdit ? (
           <Button
             size="small"
-            className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110 opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 right-2"
+            className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3
+            transition-all hover:scale-110
+            opacity-100 lg:opacity-0 md:group-hover:opacity-100
+            absolute top-2 right-2"
             onClick={() => handleOpen?.(review, "edit")}
           >
             <MdEdit className="text-sm md:text-base text-black" />
