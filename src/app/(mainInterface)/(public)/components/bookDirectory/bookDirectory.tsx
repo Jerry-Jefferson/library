@@ -86,7 +86,7 @@ export function BookDirectory({
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
-                  <div className="flex justify-between sm:flex-col-reverse sm:items-end pt-2 pb-2 lg:flex-row">
+                  <div className="flex items-center justify-between pt-2 pb-2">
                     <Rating rating={book.rating} />
                     {isAuthenticated ? <ItemCard.Favorite bookId={book._id} /> : null}
                   </div>
