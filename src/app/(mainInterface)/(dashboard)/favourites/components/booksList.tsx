@@ -17,7 +17,7 @@ export default function BookList({ books }: BookListProps) {
   const visibleBooks = books.filter((book) => isFavorite(book._id));
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {visibleBooks.map((book) => (
         <div key={book._id}>
           <ItemCard name="book">

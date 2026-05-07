@@ -40,10 +40,10 @@ export function PasswordRecoveryForm() {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-[50%]">
+    <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
         <h1 className="text-2xl">Forgot Password?</h1>
-        <p className="text-secondary text-xl">
+        <p className="text-secondary text-md sm:text-xl">
           Enter your email to reset password and regain access to your collection
         </p>
       </div>
@@ -69,7 +69,7 @@ export function PasswordRecoveryForm() {
       </form>
       <Link
         href={routes.signIn}
-        className="text-primary self-center hover:text-primary-hover focus:border-primary"
+        className="text-primary self-center hover:text-primary-hover focus:border-primary text-xs md:text-sm lg:text-base"
       >
         Back to Sign In
       </Link>

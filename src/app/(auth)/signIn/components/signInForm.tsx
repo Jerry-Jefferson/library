@@ -62,10 +62,12 @@ export function SignInForm() {
   }
 
   return (
-    <div className="flex flex-col gap-6 w-[50%]">
+    <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
         <h1 className="text-2xl">Welcome Back</h1>
-        <p className="text-secondary text-xl">Sign in to access your digital bookshelf</p>
+        <p className="text-secondary text-md sm:text-xl">
+          Sign in to access your digital bookshelf
+        </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <FormInput

@@ -121,8 +121,11 @@ export function AuthorCreationForm({
   };
 
   return (
-    <form className="flex gap-6 w-full" onSubmit={handleSubmit(onSubmit)}>
-      <div className="bg-card-back border border-secondary rounded-md w-[70%] p-8 flex flex-col gap-4">
+    <form
+      className="flex flex-col-reverse items-center gap-6 w-full md:flex-row md:items-stretch"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="bg-card-back border border-secondary rounded-md w-full md:w-[70%] p-4 sm:p-8 flex flex-col gap-4">
         <FormInput
           name="name"
           type="text"
@@ -183,7 +186,7 @@ export function AuthorCreationForm({
           </Button>
         </div>
       </div>
-      <div className="bg-card-back border border-secondary rounded-md w-[30%] p-10">
+      <div className="bg-card-back border border-secondary rounded-md w-full md:w-[30%] p-10">
         <div className="w-full h-full flex flex-col justify-center items-center">
           <ImageUploader
             name="image"

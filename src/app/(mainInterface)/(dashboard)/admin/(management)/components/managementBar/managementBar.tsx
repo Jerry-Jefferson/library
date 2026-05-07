@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 export function ManagementBar() {
   const pathname = usePathname();
   return (
-    <div className="flex gap-4 text-primary">
+    <div className="flex mt-5 sm:mt-0 gap-4 text-primary">
       {adminBarLinks.map((barLink) => {
         const isActive = pathname === barLink.href;
         return (

@@ -80,9 +80,9 @@ export function AuthorManagementList({
   if (!authors || authors.length === 0) return <p>No authors found</p>;
   return (
     <div className="w-full flex bg-background">
-      <div className="w-full gap-4 flex flex-col mt-10 m5-10">
-        <div className="flex gap-5 w-full justify-end">
-          <div className="flex gap-3 max-w-[2/4]">
+      <div className="w-full gap-4 flex flex-col mt-3 m5-10">
+        <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
+          <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
               <div className="min-w-85 max-w-85">
                 <MultiSelect

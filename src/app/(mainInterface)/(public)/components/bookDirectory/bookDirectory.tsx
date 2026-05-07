@@ -49,14 +49,14 @@ export function BookDirectory({
 
   return (
     <div className="w-full flex justify-center bg-background">
-      <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
+      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Books Directory</h2>
         <p className="text-xl text-secondary">
           Discover your next great read from our curated collection of timeless classics and modern
           masterpieces
         </p>
-        <div className="flex gap-5 w-full justify-end mt-5">
-          <div className="flex gap-3 max-w-[2/4]">
+        <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
+          <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
               <div className="min-w-85 max-w-85">
                 <MultiSelect
@@ -80,7 +80,7 @@ export function BookDirectory({
           </div>
         </div>
 
-        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-4">
+        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
           {displayedBooks.map((book) => (
             <div key={book._id}>
               <ItemCard name="book">

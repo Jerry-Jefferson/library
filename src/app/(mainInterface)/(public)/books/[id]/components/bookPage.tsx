@@ -63,9 +63,9 @@ export function BookPage({
 
   return (
     <div className="w-full flex justify-center bg-background">
-      <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
+      <div className="w-7/8 sm:w-4/5 gap-4 flex flex-col mt-10 mb-10">
         <ItemCard name="book">
-          <div className="flex items-start gap-10 border-b border-secondary pb-12">
+          <div className="flex items-start gap-5 sm:gap-10 border-b border-secondary pb-12">
             <div className="w-[35%] flex flex-col gap-4 pt-4">
               <ItemCard.Avatar alt="book cover" src={book.image} view="rounded" />
               {isAuthenticated ? (
@@ -128,11 +128,11 @@ export function BookPage({
               </Button>
             ) : null}
           </div>
-          <div className="flex gap-8">
-            <div className="bg-card-back border border-primary-hover rounded-md w-[40%] h-[500px] flex items-center justify-center">
+          <div className="flex flex-col sm:flex-row gap-8">
+            <div className="bg-card-back border border-primary-hover rounded-md w-full sm:w-[40%] h-[200px] sm:h-[500px] flex items-center justify-center">
               A quote incoming...
             </div>
-            <div className="w-[60%] flex flex-col gap-4">
+            <div className="w-full sm:w-[60%] flex flex-col gap-4">
               {reviews && reviews.length > 0 ? (
                 <VirtualizerList items={reviews}>
                   {(review) => (
