@@ -9,6 +9,7 @@ import {
 import { Button } from "@/src/components/client/button/button";
 import { FormRating } from "@/src/components/client/rating/variants/formRating/formRating";
 import { TextArea } from "@/src/components/client/textArea/textArea";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { MdOutlineWarning } from "react-icons/md";
@@ -95,15 +96,17 @@ export function ReviewForm({
         </p>
       </div>
       <div className="flex justify-between gap-6">
-        <Button
-          fullWidth
-          size="medium"
-          variant="primary"
-          disabled={!isValid || isSubmitting || isSubmitSuccessful}
-          isLoading={isSubmitting}
-        >
-          {acceptButton}
-        </Button>
+        <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid || isSubmitting || isSubmitSuccessful}
+            isLoading={isSubmitting}
+          >
+            {acceptButton}
+          </Button>
+        </Tooltip>
         <Button fullWidth size="medium" variant="secondary" type="button" onClick={handleCancel}>
           {cancelButton}
         </Button>

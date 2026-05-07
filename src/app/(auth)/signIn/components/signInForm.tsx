@@ -2,6 +2,7 @@
 
 import { signin } from "@/src/actions/auth/signin";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -81,15 +82,17 @@ export function SignInForm() {
           label="Password"
           errorMessage={errors.password?.message}
         />
-        <Button
-          fullWidth
-          size="medium"
-          variant="primary"
-          disabled={!isValid}
-          isLoading={isSubmitting}
-        >
-          Sign in
-        </Button>
+        <Tooltip helpText={!isValid ? "Fill in all the fields" : ""}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid}
+            isLoading={isSubmitting}
+          >
+            Sign in
+          </Button>
+        </Tooltip>
       </form>
       <div>
         <div className="flex gap-4 justify-between">
