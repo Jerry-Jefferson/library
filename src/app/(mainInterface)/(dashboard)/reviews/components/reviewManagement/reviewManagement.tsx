@@ -42,13 +42,13 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
   };
   return (
     <div className="w-full flex justify-center bg-background">
-      <div className="w-4/5 gap-4 flex flex-col mt-10 mb-10">
+      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
         <h2 className="text-6xl font-bold">Your Reviews</h2>
         <p className="text-xl text-secondary">
           Your literary legacy in one place: rediscover your past reviews and track how your
           perspective has evolved over time
         </p>
-        <div className="w-full">
+        <div className="w-full flex flex-col sm:flex-row gap-4">
           {userReviews && userReviews.length > 0 ? (
             <VirtualizerList items={userReviews} isWindowScroll columns={2}>
               {(review) => (

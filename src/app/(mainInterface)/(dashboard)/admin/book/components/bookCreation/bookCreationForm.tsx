@@ -124,8 +124,11 @@ export function BookCreationForm({
   };
 
   return (
-    <form className="flex gap-6 w-full" onSubmit={handleSubmit(onSubmit)}>
-      <div className="bg-card-back border border-secondary rounded-md w-[70%] p-8 flex flex-col gap-4">
+    <form
+      className="flex flex-col-reverse items-center gap-6 w-full md:flex-row md:items-stretch"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="bg-card-back border border-secondary rounded-md w-full md:w-[70%] p-4 sm:p-8 flex flex-col gap-4">
         <div className="flex justify-between gap-6">
           <FormInput
             name="title"
@@ -142,7 +145,7 @@ export function BookCreationForm({
             errorMessage={errors.year?.message}
           />
         </div>
-        <div className="flex justify-between gap-6">
+        <div className="flex flex-col justify-between gap-6 sm:flex-row">
           <FormSingleSelect
             name="authorId"
             control={control}
@@ -185,7 +188,7 @@ export function BookCreationForm({
           </Button>
         </div>
       </div>
-      <div className="bg-card-back border border-secondary rounded-md w-[30%] p-10">
+      <div className="bg-card-back border border-secondary rounded-md w-full md:w-[30%] p-10">
         <div className="w-full h-full flex flex-col justify-center items-center">
           <ImageUploader
             name="image"

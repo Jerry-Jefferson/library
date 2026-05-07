@@ -54,7 +54,7 @@ export function VirtualizerList<T>({
       className={`w-full ${
         isWindowScroll
           ? ""
-          : "h-full overflow-y-auto contain-strict [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          : "h-full min-h-75 overflow-y-auto contain-strict [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       }`}
     >
       <div
