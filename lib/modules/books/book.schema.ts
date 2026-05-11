@@ -13,6 +13,7 @@ export const bookCreationSchema = z
       .nullable(),
     genres: z.array(z.string()).min(1, "Select at least one genre"),
     image: z.union([z.string(), z.instanceof(File)]).nullable(),
+    quote: z.string().min(10, "Quote must be longer"),
   })
   .refine(
     (data) => {

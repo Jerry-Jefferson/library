@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
 @import "tailwindcss";
 
 :root {
@@ -11,6 +13,7 @@
   --toastify-color-error: #ef4444;
   --neutral-dark: #2d2d2d;
   --fair: #fff;
+  --font-lobster: "Lobster", cursive;
 }
 
 @theme inline {
@@ -24,6 +27,7 @@
   --font-mono: var(--font-geist-mono);
   --color-neutral-dark: var(--neutral-dark);
   --color-fair: var(--fair);
+  --font-lobster: var(--font-lobster);
 }
 
 @media (prefers-color-scheme: dark) {
