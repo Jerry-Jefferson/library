@@ -7,6 +7,7 @@ import {
 import { addGenre, updateGenre } from "@/lib/modules/genres/genres.actions";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -92,15 +93,17 @@ export function GenreCreationForm({
           />
         </div>
         <div className="flex justify-between gap-6">
-          <Button
-            fullWidth
-            size="medium"
-            variant="primary"
-            disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
-            isLoading={isSubmitting}
-          >
-            {acceptButton}
-          </Button>
+          <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="primary"
+              disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
+              isLoading={isSubmitting}
+            >
+              {acceptButton}
+            </Button>
+          </Tooltip>
           <Button
             fullWidth
             size="medium"

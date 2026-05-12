@@ -6,6 +6,7 @@ import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/de
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { IGenreSerialized } from "@/src/models/genre";
 import { useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -51,20 +52,24 @@ export function GenreManagementList({ genres }: ManagementListProps) {
                 <div className="bg-card-back flex items-center justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Title content={genre.title} className="truncate" />
                   <div className="flex gap-2 md:gap-3">
-                    <Button
-                      size="small"
-                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                      onClick={() => handleOpen(genre, "delete")}
-                    >
-                      <MdDelete className="text-sm md:text-base text-black" />
-                    </Button>
-                    <Button
-                      size="small"
-                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                      onClick={() => handleOpen(genre, "edit")}
-                    >
-                      <MdEdit className="text-sm md:text-base text-black" />
-                    </Button>
+                    <Tooltip helpText="Delete">
+                      <Button
+                        size="small"
+                        className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                        onClick={() => handleOpen(genre, "delete")}
+                      >
+                        <MdDelete className="text-sm md:text-base text-black" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip helpText="Edit">
+                      <Button
+                        size="small"
+                        className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                        onClick={() => handleOpen(genre, "edit")}
+                      >
+                        <MdEdit className="text-sm md:text-base text-black" />
+                      </Button>
+                    </Tooltip>
                   </div>
                 </div>
               </ItemCard>

@@ -9,6 +9,7 @@ import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/us
 import Pagination from "@/src/components/client/pagination/pagination";
 import MultiSelect from "@/src/components/client/select/multiSelect";
 import SingleSelect from "@/src/components/client/select/singleSelect";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
@@ -111,20 +112,24 @@ export function ManagementList({
           {displayedBooks.map((book) => (
             <div key={book._id} className="relative">
               <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                <Button
-                  size="small"
-                  className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                  onClick={() => handleOpen(book, "delete")}
-                >
-                  <MdDelete className="text-sm md:text-base text-black" />
-                </Button>
-                <Button
-                  size="small"
-                  className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                  onClick={() => handleOpen(book, "edit")}
-                >
-                  <MdEdit className="text-sm md:text-base text-black" />
-                </Button>
+                <Tooltip helpText="Delete">
+                  <Button
+                    size="small"
+                    className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                    onClick={() => handleOpen(book, "delete")}
+                  >
+                    <MdDelete className="text-sm md:text-base text-black" />
+                  </Button>
+                </Tooltip>
+                <Tooltip helpText="Edit">
+                  <Button
+                    size="small"
+                    className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                    onClick={() => handleOpen(book, "edit")}
+                  >
+                    <MdEdit className="text-sm md:text-base text-black" />
+                  </Button>
+                </Tooltip>
               </div>
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
