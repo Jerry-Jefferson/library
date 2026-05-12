@@ -9,8 +9,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Button } from "../../../../components/client/button/button";
+
 import { signInSchema, SignInSchema } from "./signIn.schema";
+import { Button } from "@/src/components/client/button/button";
 
 const signinFields = {
   email: "email",

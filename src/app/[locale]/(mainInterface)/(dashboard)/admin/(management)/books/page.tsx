@@ -1,4 +1,4 @@
-import BooksContent from "@/src/app/(mainInterface)/(public)/components/booksContent/booksContent";
+import BooksContent from "@/src/app/[locale]/(mainInterface)/(public)/components/booksContent/booksContent";
 import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
 import { Suspense } from "react";
 import { ManagementList } from "../components/managementList/managementList";

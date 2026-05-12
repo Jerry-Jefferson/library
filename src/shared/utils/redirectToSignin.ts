@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 import { routes } from "../constants/routes";
 
 export function redirectToSignin(nextUrl: URL) {
-  const { pathname, search, origin } = nextUrl;
-  const url = new URL(routes.signIn, origin);
+  const segments = nextUrl.pathname.split("/");
+  const locale = segments[1];
 
-  url.searchParams.set("callbackUrl", pathname + search);
-
-  return NextResponse.redirect(url);
+  return NextResponse.redirect(new URL(`/${locale}${routes.signIn}`, nextUrl.origin));
 }

@@ -1,0 +1,19 @@
+{
+  "Base": {},
+  "Auth": {
+    "base": {
+      "name": "Имя",
+      "password": "Пароль",
+      "email": "Email"
+    },
+    "signIn": {},
+    "signUp": {
+      "confirmPassword": "Подтвердите пароль"
+    },
+    "passwordReset": {}
+  },
+  "HomePage": {
+    "title": "Hello world!"
+  },
+  "Dashboard": {}
+}

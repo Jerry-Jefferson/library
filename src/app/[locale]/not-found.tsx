@@ -1,7 +1,7 @@
 import { routes } from "@/src/shared/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
-import NotFound from "../../public/404.png";
+import NotFound from "../../../public/404.png";
 
 export default function NotFoundPage() {
   return (

@@ -1,8 +1,7 @@
-import AuthorsContent from "@/src/app/(mainInterface)/(public)/components/authorsContent/authorsContent";
 import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
 import { Suspense } from "react";
 import { AuthorManagementList } from "../components/authorManagementList/authorManagementList";
-
+import AuthorsContent from "@/src/app/[locale]/(mainInterface)/(public)/components/authorsContent/authorsContent";
 export interface AuthorsProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
 }

@@ -1,7 +1,7 @@
 "use server";
 
 import { connectMongo } from "@/lib/mongoose";
-import { baseSignUpSchema } from "@/src/app/(auth)/signUp/components/signUp.schema";
+import { baseSignUpSchema } from "@/src/app/[locale]/(auth)/signUp/components/signUp.schema";
 import User from "@/src/models/user";
 import { createUser } from "@/src/queries/users";
 import bcrypt from "bcrypt";

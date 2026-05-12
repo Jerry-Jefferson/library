@@ -2,7 +2,7 @@
 
 import { connectMongo } from "@/lib/mongoose";
 import { AuthError } from "next-auth";
-import { signInSchema } from "../../app/(auth)/signIn/components/signIn.schema";
+import { signInSchema } from "@/src/app/[locale]/(auth)/signIn/components/signIn.schema";
 import { signIn } from "../../auth";
 
 export async function signin(data: unknown) {

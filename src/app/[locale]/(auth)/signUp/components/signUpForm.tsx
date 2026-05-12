@@ -14,6 +14,7 @@ import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { signUpSchema, SignUpSchema } from "./signUp.schema";
+import { useTranslations } from "next-intl";
 
 const signUpFields = {
   name: "name",
@@ -32,7 +33,7 @@ const defaultSignUpValues = {
 
 export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
   const navigate = useRouter();
-
+  const t = useTranslations("Auth");
   const {
     register,
     handleSubmit,
@@ -81,14 +82,14 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           name="name"
           type="text"
           register={register}
-          label="Name"
+          label={t("base.name")}
           errorMessage={errors.name?.message}
         />
         <FormInput
           name="email"
           type="email"
           register={register}
-          label="Email"
+          label={t("base.email")}
           errorMessage={errors.email?.message}
         />
         <RadioButton legend="Choose Role" name="role" options={roleOptions} register={register} />
@@ -96,14 +97,14 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           name="password"
           password
           register={register}
-          label="Password"
+          label={t("base.password")}
           errorMessage={errors.password?.message}
         />
         <FormInput
           name="confirmPassword"
           password
           register={register}
-          label="Confirm password"
+          label={t("signUp.confirmPassword")}
           errorMessage={errors.confirmPassword?.message}
         />
         <Button
