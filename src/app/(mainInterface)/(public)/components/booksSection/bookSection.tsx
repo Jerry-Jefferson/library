@@ -42,6 +42,7 @@ export function BookSection({ children, books }: BookSectionProps) {
                       <ItemCard.Information
                         color="secondary"
                         content={isAuthorPage(pathname) ? book.year : book.authorName}
+                        className="line-clamp-1"
                       />
                     </div>
                   </ItemCard>

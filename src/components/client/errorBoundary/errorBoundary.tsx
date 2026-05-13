@@ -6,8 +6,8 @@ import { Button } from "../button/button";
 
 interface Props {
   children: ReactNode;
-  title: string;
-  message: string;
+  title?: string;
+  message?: string;
   className?: string;
 }
 
@@ -37,22 +37,34 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div
-          className={`flex flex-col items-center justify-center rounded-xl bg-card-back p-8 gap-2 text-center ${this.props.className}`}
-        >
-          <BsFillExclamationSquareFill className="text-primary text-5xl" />
-          <p className="text-lg font-bold">Failed to load</p>
-          <p className="text-md mb-2">{this.props.title || "Content failed"}</p>
-          <p className="text-secondary">{this.props.message}</p>
-          <Button
-            fullWidth
-            onClick={this.reset}
-            variant="primary"
-            size="small"
-            className="text-[10px] transition-colors"
+        <div className={`@container w-full h-full ${this.props.className}`}>
+          <div
+            className={`flex flex-col h-full w-full items-center justify-center rounded-xl bg-card-back p-8 gap-2 text-center
+              @lg:flex-row @lg:justify-between @lg:text-left @lg:text-xl @lg:gap-6 @[150px]:text-sm`}
           >
-            Retry
-          </Button>
+            <div
+              className={`flex flex-col items-center gap-2 text-center
+              @lg:flex-row @lg:text-left @lg:text-xl @lg:gap-6`}
+            >
+              <BsFillExclamationSquareFill className="text-primary text-5xl" />
+              <div>
+                <p className="text-lg font-bold">Failed to load</p>
+                <p className="text-md mb-2">{this.props.title || "Content failed"}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 @lg:max-w-[300px] @lg:text-center ">
+              <p className="text-secondary">{this.props.message || "Try again later"}</p>
+              <Button
+                fullWidth
+                onClick={this.reset}
+                variant="primary"
+                size="small"
+                className="transition-colors"
+              >
+                Retry
+              </Button>
+            </div>
+          </div>
         </div>
       );
     }

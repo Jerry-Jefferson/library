@@ -1,7 +1,5 @@
 "use client";
 
-import Quote from "@/public/quote.png";
-import Sparkle from "@/public/sparkle.png";
 import { ReviewDisplay } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewDisplay/reviewDisplay";
 import { ReviewForm } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
 import { Button } from "@/src/components/client/button/button";
@@ -20,9 +18,9 @@ import { routes } from "@/src/shared/constants/routes";
 import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { formatDate } from "@/src/shared/utils/formatDate";
 import { Session } from "next-auth";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { QuoteDisplay } from "../../../components/quoteDisplay/quoteDisplay";
 
 export function BookPage({
   book,
@@ -138,29 +136,14 @@ export function BookPage({
             ) : null}
           </div>
           <div className="flex flex-col sm:flex-row gap-8">
-            <div className="bg-card-back border border-primary-hover rounded-md w-full sm:w-[40%] flex flex-col min-h-[200px]">
-              <div className="relative flex items-center gap-4">
-                <div className="relative leading-none">
-                  <Image src={Quote} alt="" width={80} height={80} className="block" />
-                  <Image
-                    src={Sparkle}
-                    alt=""
-                    className="absolute -bottom-2 -right-2"
-                    width={40}
-                    height={40}
-                  />
-                </div>
-                <p className="text-primary text-sm sm:text-lg font-bold">FEATURED QUOTE</p>
-              </div>
-              <div className="w-full flex text-center justify-center p-10">
-                <p className="text-[clamp(1.25rem,4vw,2.25rem)] font-lobster leading-normal">{`"${book.quote || "A quote incoming..."}"`}</p>
-              </div>
-            </div>
+            <ErrorBoundary title="Quote" message="There has been a mistake">
+              <QuoteDisplay quote={book.quote} />
+            </ErrorBoundary>
             <div className="w-full sm:w-[60%] flex flex-col gap-4">
               {reviews && reviews.length > 0 ? (
                 <VirtualizerList items={reviews}>
                   {(review) => (
-                    <ErrorBoundary title={review.bookTitle} message="The card went wild">
+                    <ErrorBoundary title="User Review" message="The card went wild">
                       <ReviewDisplay
                         review={review}
                         rating={review.rating}

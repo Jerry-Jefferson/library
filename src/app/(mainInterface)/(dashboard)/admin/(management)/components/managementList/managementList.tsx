@@ -138,7 +138,11 @@ export function ManagementList({
                     <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
                     <ItemCard.Title content={book.title} className="truncate" />
                     <div className="flex justify-between pb-2">
-                      <ItemCard.Information content={book.authorName} color="secondary" />
+                      <ItemCard.Information
+                        content={book.authorName}
+                        color="secondary"
+                        className="line-clamp-1"
+                      />
                       <ItemCard.Information content={book.year} color="secondary" />
                     </div>
                   </div>
