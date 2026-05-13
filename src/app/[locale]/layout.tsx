@@ -5,6 +5,7 @@ import ToastifyProvider from "@/src/providers/toastifyProvider/toastifyProvider"
 import { routing } from "@/src/i18n/routing";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { SessionProvider } from "next-auth/react";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -29,10 +30,12 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   return (
     <html lang="en">
       <body>
-        <NextIntlClientProvider>
-          <ToastifyProvider />
-          {children}
-        </NextIntlClientProvider>
+        <SessionProvider>
+          <NextIntlClientProvider>
+            <ToastifyProvider />
+            {children}
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

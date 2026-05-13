@@ -42,5 +42,17 @@
       "signUpError": "Ошибка регистрации"
     }
   },
-  "Dashboard": {}
+  "Dashboard": {
+    "navLinks": {
+      "home": "Домашняя",
+      "books": "Книги",
+      "authors": "Авторы",
+      "favourites": "Избранное",
+      "reviews": "Ревью"
+    },
+    "authMenu": {
+      "dashboard": "Админпанель",
+      "quit": "Выйти"
+    }
+  }
 }

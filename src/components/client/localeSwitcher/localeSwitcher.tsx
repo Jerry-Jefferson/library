@@ -18,7 +18,7 @@ export default function LocaleSwitcher() {
     <div className="relative">
       <Menu>
         <MenuButton className="flex items-center gap-2 rounded-lg border px-4 py-2">
-          {locales.find((l) => l.id === locale)?.name}
+          {locales.find((lang) => lang.id === locale)?.name}
 
           <FiChevronDown className="transition data-open:rotate-180" />
         </MenuButton>
@@ -27,17 +27,15 @@ export default function LocaleSwitcher() {
           anchor="bottom"
           className="mt-2 w-20 rounded-lg border bg-background p-1 shadow-lg"
         >
-          {locales.map((l) => (
-            <MenuItem key={l.id}>
+          {locales.map((lang) => (
+            <MenuItem key={lang.id}>
               <button
                 onClick={() => {
-                  router.replace(pathname, {
-                    locale: l.id,
-                  });
+                  router.replace("/", { locale: lang.id });
                 }}
                 className="block w-full rounded-md px-3 py-2 text-left data-focus:bg-primary"
               >
-                {l.name}
+                {lang.name}
               </button>
             </MenuItem>
           ))}

@@ -42,5 +42,17 @@
       "signUpError": "Sign up error"
     }
   },
-  "Dashboard": {}
+  "Dashboard": {
+    "navLinks": {
+      "home": "Home",
+      "books": "Books",
+      "authors": "Authors",
+      "favourites": "Favourites",
+      "reviews": "Reviews"
+    },
+    "authMenu": {
+      "dashboard": "Dashboard",
+      "quit": "Quit"
+    }
+  }
 }
