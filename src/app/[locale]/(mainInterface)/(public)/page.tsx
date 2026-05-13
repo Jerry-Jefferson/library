@@ -9,10 +9,10 @@ export default async function Home() {
   return (
     <div className="flex flex-col gap-6 p-6">
       <BookSection books={popularBooks}>
-        <SectionHeader alt="arrow icon" src={FireIcon} title="Popular Books" />
+        <SectionHeader alt="arrow icon" src={FireIcon} title="popular" />
       </BookSection>
       <BookSection books={newBooks}>
-        <SectionHeader alt="check icon" src={NewIcon} title="New Arrivals" />
+        <SectionHeader alt="check icon" src={NewIcon} title="new" />
       </BookSection>
     </div>
   );

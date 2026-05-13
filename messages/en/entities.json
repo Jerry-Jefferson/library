@@ -1,0 +1,18 @@
+{
+  "Entities": {
+    "books": {
+      "filter": "books",
+      "sort": "books",
+      "select": "books"
+    },
+    "authors": {
+      "filter": "authors",
+      "sort": "authors",
+      "select": "authors"
+    },
+    "genres": {
+      "filter": "genre",
+      "genres": "genres"
+    }
+  }
+}

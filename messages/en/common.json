@@ -1,0 +1,9 @@
+{
+  "Common": {
+    "filterBy": "Filter by {entity}",
+    "sortBy": "Sort {entity}",
+    "sort": "Sort...",
+    "viewInfo": "View information",
+    "select": "Select {entity}"
+  }
+}

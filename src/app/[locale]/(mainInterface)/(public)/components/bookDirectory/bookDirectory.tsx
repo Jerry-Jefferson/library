@@ -13,6 +13,7 @@ import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { BooksRenderProps } from "../booksContent/booksContent";
+import { useTranslations } from "next-intl";
 
 export function BookDirectory({
   books,
@@ -23,7 +24,9 @@ export function BookDirectory({
   session,
 }: BooksRenderProps) {
   const isAuthenticated = Boolean(session?.user);
-
+  const tCommon = useTranslations("Common");
+  const tEntity = useTranslations("Entities");
+  const tBooks = useTranslations("Books");
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -45,16 +48,21 @@ export function BookDirectory({
     if (!selectedSort) return books;
     return [...books].sort(selectedSort.comparator);
   }, [books, selectedSort]);
-  if (!books || books.length === 0) return <p>No books found</p>;
+
+  const localizedSortOptions = useMemo(() => {
+    return bookSortOptions.map((option) => ({
+      ...option,
+      title: tBooks(`sortOptions.${option._id}`),
+    }));
+  }, [tBooks]);
+
+  if (!books || books.length === 0) return <p>{tBooks("noBooks")}</p>;
 
   return (
     <div className="w-full flex justify-center bg-background">
       <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">Books Directory</h2>
-        <p className="text-xl text-secondary">
-          Discover your next great read from our curated collection of timeless classics and modern
-          masterpieces
-        </p>
+        <h2 className="text-6xl font-bold">{tBooks("booksDirectory")}</h2>
+        <p className="text-xl text-secondary">{tBooks("description")}</p>
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
@@ -62,20 +70,26 @@ export function BookDirectory({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label="Filter by genres"
+                  label={tCommon("filterBy", {
+                    entity: tEntity("genres.filter"),
+                  })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder="Select genres..."
+                  placeholder={tCommon("select", {
+                    entity: tEntity("genres.genres"),
+                  })}
                 />
               </div>
             )}
             <SingleSelect<SortOption<IBookSerialized>>
-              items={bookSortOptions}
+              items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder="Sort by..."
-              label="Sort Books"
+              placeholder={tCommon("sort")}
+              label={tCommon("sortBy", {
+                entity: tEntity("books.sort"),
+              })}
             />
           </div>
         </div>
@@ -98,7 +112,7 @@ export function BookDirectory({
                   <LinkButton
                     href={`${routes.books}/${book._id}?from=${encodeURIComponent(fromPath)}`}
                   >
-                    View Information
+                    {tCommon("viewInfo")}
                   </LinkButton>
                 </div>
               </ItemCard>

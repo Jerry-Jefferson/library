@@ -1,0 +1,18 @@
+{
+  "Entities": {
+    "books": {
+      "filter": "книгам",
+      "sort": "книги",
+      "select": "книги"
+    },
+    "authors": {
+      "filter": "авторам",
+      "sort": "авторов",
+      "select": "авторов"
+    },
+    "genres": {
+      "filter": "жанрам",
+      "genres": "жанры"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "Dashboard": {
+    "navLinks": {
+      "home": "Домашняя",
+      "books": "Книги",
+      "authors": "Авторы",
+      "favourites": "Избранное",
+      "reviews": "Ревью"
+    },
+    "authMenu": {
+      "dashboard": "Админпанель",
+      "quit": "Выйти"
+    },
+    "main": {
+      "popular": "Популярные книги",
+      "new": "Новые поступления"
+    }
+  }
+}

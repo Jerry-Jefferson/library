@@ -1,0 +1,15 @@
+{
+  "Books": {
+    "booksDirectory": "Books directory",
+    "description": "Discover your next great read from our curated collection of timeless classics and modern masterpieces",
+    "sortOptions": {
+      "title-asc": "Title A → Z",
+      "title-desc": "Title Z → A",
+      "year-desc": "Newest first",
+      "year-asc": "Oldest first",
+      "rating-desc": "Highest rating",
+      "rating-asc": "Lowest rating"
+    },
+    "noBooks": "No books found"
+  }
+}

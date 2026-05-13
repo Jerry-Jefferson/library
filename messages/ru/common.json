@@ -1,0 +1,9 @@
+{
+  "Common": {
+    "filterBy": "Фильтровать по {entity}",
+    "sortBy": "Сортировать {entity}",
+    "sort": "Сортировать...",
+    "viewInfo": "Подробнее",
+    "select": "Выберите {entity}"
+  }
+}

@@ -31,7 +31,10 @@ export default function LocaleSwitcher() {
             <MenuItem key={lang.id}>
               <button
                 onClick={() => {
-                  router.replace("/", { locale: lang.id });
+                  router.replace(pathname, {
+                    locale: lang.id,
+                    scroll: false,
+                  });
                 }}
                 className="block w-full rounded-md px-3 py-2 text-left data-focus:bg-primary"
               >
