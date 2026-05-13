@@ -4,6 +4,7 @@ import { connectMongo } from "@/lib/mongoose";
 import { AuthError } from "next-auth";
 import { signInSchema } from "@/src/app/[locale]/(auth)/signIn/components/signIn.schema";
 import { signIn } from "../../auth";
+import { userMessages } from "@/src/shared/constants/userMessages";
 
 export async function signin(data: unknown) {
   try {
@@ -12,7 +13,7 @@ export async function signin(data: unknown) {
     if (!validatedData.success) {
       return {
         success: false,
-        message: "Invalid form data",
+        message: userMessages.auth.invalidFormData,
         errors: validatedData.error.flatten().fieldErrors,
       };
     }
@@ -26,7 +27,7 @@ export async function signin(data: unknown) {
 
     return {
       success: true,
-      message: "Signed in successfully",
+      message: userMessages.auth.signedIn,
     };
   } catch (error) {
     console.error(error);
@@ -34,13 +35,13 @@ export async function signin(data: unknown) {
     if (error instanceof AuthError) {
       return {
         success: false,
-        message: "Invalid email or password",
+        message: userMessages.auth.emailOrPassword,
       };
     }
 
     return {
       success: false,
-      message: "Something went wrong",
+      message: userMessages.auth.wentWrong,
     };
   }
 }

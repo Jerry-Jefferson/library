@@ -5,6 +5,7 @@ import { baseSignUpSchema } from "@/src/app/[locale]/(auth)/signUp/components/si
 import User from "@/src/models/user";
 import { createUser } from "@/src/queries/users";
 import bcrypt from "bcrypt";
+import { userMessages } from "@/src/shared/constants/userMessages";
 
 export async function signup(data: unknown) {
   try {
@@ -14,7 +15,7 @@ export async function signup(data: unknown) {
     if (!validatedData.success) {
       return {
         success: false,
-        message: "Invalid form data",
+        message: userMessages.auth.invalidFormData,
         errors: validatedData.error.flatten().fieldErrors,
       };
     }
@@ -25,8 +26,8 @@ export async function signup(data: unknown) {
       console.error("User already exists");
       return {
         success: false,
-        message: "User with this email already exists",
-        errors: { email: ["User with this email already exists"] },
+        message: userMessages.auth.emailExist,
+        errors: { email: [userMessages.auth.emailExist] },
       };
     }
 
@@ -37,12 +38,12 @@ export async function signup(data: unknown) {
       role,
       password: hashedPassword,
     });
-    return { success: true, message: "Account created successfully" };
+    return { success: true, message: userMessages.auth.accountCreated };
   } catch (error) {
-    console.error("Sign up error", error);
+    console.error(userMessages.auth.signUpError, error);
     return {
       success: false,
-      message: "Something went wrong. Please try again later",
+      message: userMessages.auth.wentWrong,
     };
   }
 }

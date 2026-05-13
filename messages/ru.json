@@ -6,14 +6,41 @@
       "password": "Пароль",
       "email": "Email"
     },
-    "signIn": {},
-    "signUp": {
-      "confirmPassword": "Подтвердите пароль"
+    "signIn": {
+      "welcomeBack": "Рады видеть вас",
+      "signInToAccess": "Войдите для доступа к вашей цифровой библиотеке",
+      "signIn": "Войти",
+      "doNotHaveAccount": "Ещё нет аккаунта?",
+      "create": "Создать",
+      "recover": "Восстановить"
     },
-    "passwordReset": {}
-  },
-  "HomePage": {
-    "title": "Hello world!"
+    "signUp": {
+      "confirmPassword": "Подтвердите пароль",
+      "chooseRole": "Выберите роль",
+      "createAccount": "Создать аккаунт",
+      "startJourney": "Начните ваше литературное приключение сегодня",
+      "haveAnAccount": "Уже есть аккаунт?",
+      "signInHere": "Войти",
+      "user": "Пользователь",
+      "admin": "Администратор"
+    },
+    "passwordReset": {
+      "forgotPassword": "Забыли пароль?",
+      "enterEmail": "Введите ваш email, сбросьте пароль и верните доступ к вашей коллекции",
+      "sendLink": "Отправить ссылку",
+      "backToSignIn": "Вернуться на страницу входа"
+    },
+    "userMessages": {
+      "invalidFormData": "Неверные данные формы",
+      "userExist": "Пользователь уже существует",
+      "accountCreated": "Аккаунт успешно создан",
+      "emailExist": "Пользователь с таким email уже существует",
+      "emailOrPassword": "Неверный email или пароль",
+      "wentWrong": "Что-то пошло не так",
+      "tryAgainLater": "Пожалуйста, попробуйте позже",
+      "signedIn": "Вход выполнен успешно",
+      "signUpError": "Ошибка регистрации"
+    }
   },
   "Dashboard": {}
 }

@@ -55,13 +55,13 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
     try {
       const result = await signup({ name, email, role, password });
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
-      toast.success(result.message);
+      toast.success(t(`userMessages.${result.message}`));
       const signinResult = await signin({ email, password });
       if (!signinResult.success) {
-        toast.error(signinResult.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
       reset();
@@ -74,8 +74,8 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
   return (
     <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
-        <h1 className="text-2xl">Create an account</h1>
-        <p className="text-secondary text-md sm:text-xl">Start your literary journey today</p>
+        <h1 className="text-2xl">{t("signUp.createAccount")}</h1>
+        <p className="text-secondary text-md sm:text-xl">{t("signUp.startJourney")}</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 sm:gap-6">
         <FormInput
@@ -92,7 +92,12 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           label={t("base.email")}
           errorMessage={errors.email?.message}
         />
-        <RadioButton legend="Choose Role" name="role" options={roleOptions} register={register} />
+        <RadioButton
+          legend={t("signUp.chooseRole")}
+          name="role"
+          options={roleOptions}
+          register={register}
+        />
         <FormInput
           name="password"
           password
@@ -114,17 +119,19 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           disabled={!isValid}
           isLoading={isSubmitting}
         >
-          Create Account
+          {t("signUp.createAccount")}
         </Button>
       </form>
       <div>
         <div className="flex gap-4 justify-between">
-          <p className="text-secondary text-xs md:text-sm lg:text-base">Already have an account?</p>
+          <p className="text-secondary text-xs md:text-sm lg:text-base">
+            {t("signUp.haveAnAccount")}
+          </p>
           <Link
             href={routes.signIn}
             className="text-primary hover:text-primary-hover focus:border-primary text-xs md:text-sm lg:text-base"
           >
-            Sign in here
+            {t("signUp.signInHere")}
           </Link>
         </div>
       </div>

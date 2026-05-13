@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "../../../../components/client/button/button";
 import { passwordRecoverySchema, PasswordRecoverySchema } from "./passwordRecovery.schema";
+import { Button } from "@/src/components/client/button/button";
+import { useTranslations } from "next-intl";
 
 const passRecoveryFields = {
   email: "email",
@@ -18,6 +19,7 @@ const defaultPassRecoveryValues = {
 };
 
 export function PasswordRecoveryForm() {
+  const t = useTranslations("Auth");
   const {
     register,
     handleSubmit,
@@ -41,17 +43,15 @@ export function PasswordRecoveryForm() {
   return (
     <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
-        <h1 className="text-2xl">Forgot Password?</h1>
-        <p className="text-secondary text-md sm:text-xl">
-          Enter your email to reset password and regain access to your collection
-        </p>
+        <h1 className="text-2xl"> {t("passwordReset.forgotPassword")}</h1>
+        <p className="text-secondary text-md sm:text-xl">{t("passwordReset.enterEmail")}</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <FormInput
           name="email"
           type="email"
           register={register}
-          label="Email"
+          label={t("base.email")}
           errorMessage={errors.email?.message}
         />
         <Button
@@ -61,14 +61,14 @@ export function PasswordRecoveryForm() {
           disabled={!isValid}
           isLoading={isSubmitting}
         >
-          Send reset link
+          {t("passwordReset.sendLink")}
         </Button>
       </form>
       <Link
         href={routes.signIn}
         className="text-primary self-center hover:text-primary-hover focus:border-primary text-xs md:text-sm lg:text-base"
       >
-        Back to Sign In
+        {t("passwordReset.backToSignIn")}
       </Link>
     </div>
   );

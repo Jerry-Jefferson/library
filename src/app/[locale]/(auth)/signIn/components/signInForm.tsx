@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 import { signInSchema, SignInSchema } from "./signIn.schema";
 import { Button } from "@/src/components/client/button/button";
+import { useTranslations } from "next-intl";
 
 const signinFields = {
   email: "email",
@@ -25,7 +26,7 @@ const defaultSignInValues = {
 
 export function SignInForm() {
   const navigate = useRouter();
-
+  const t = useTranslations("Auth");
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || routes.home;
 
@@ -50,10 +51,10 @@ export function SignInForm() {
     try {
       const result = await signin({ email, password });
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
-      toast.success(result.message);
+      toast.success(t(`userMessages.${result.message}`));
       reset();
       navigate.push(callbackUrl);
     } catch (error) {
@@ -64,24 +65,22 @@ export function SignInForm() {
   return (
     <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
-        <h1 className="text-2xl">Welcome Back</h1>
-        <p className="text-secondary text-md sm:text-xl">
-          Sign in to access your digital bookshelf
-        </p>
+        <h1 className="text-2xl">{t("signIn.welcomeBack")}</h1>
+        <p className="text-secondary text-md sm:text-xl">{t("signIn.signInToAccess")}</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <FormInput
           name="email"
           type="email"
           register={register}
-          label="Email"
+          label={t("base.email")}
           errorMessage={errors.email?.message}
         />
         <FormInput
           name="password"
           password
           register={register}
-          label="Password"
+          label={t("base.password")}
           errorMessage={errors.password?.message}
         />
         <Button
@@ -91,28 +90,30 @@ export function SignInForm() {
           disabled={!isValid}
           isLoading={isSubmitting}
         >
-          Sign in
+          {t("signIn.signIn")}
         </Button>
       </form>
       <div>
         <div className="flex gap-4 justify-between">
           <p className="text-secondary text-xs md:text-sm lg:text-base">
-            Don&apos;t have an account?
+            {t("signIn.doNotHaveAccount")}
           </p>
           <Link
             href={routes.signUp}
             className="text-primary text-xs md:text-sm lg:text-base hover:text-primary-hover focus:border-primary"
           >
-            Create
+            {t("signIn.create")}
           </Link>
         </div>
         <div className="flex gap-4 justify-between">
-          <p className="text-secondary text-xs md:text-sm lg:text-base">Forgot password?</p>
+          <p className="text-secondary text-xs md:text-sm lg:text-base">
+            {t("passwordReset.forgotPassword")}
+          </p>
           <Link
             href={routes.recovery}
             className="text-primary text-xs md:text-sm lg:text-base hover:text-primary-hover focus:border-primary"
           >
-            Recover
+            {t("signIn.recover")}
           </Link>
         </div>
       </div>

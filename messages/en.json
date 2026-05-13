@@ -6,14 +6,41 @@
       "password": "Password",
       "email": "Email"
     },
-    "signIn": {},
-    "signUp": {
-      "confirmPassword": "Confirm password"
+    "signIn": {
+      "welcomeBack": "Welcome back",
+      "signInToAccess": "Sign in to access your digital bookshelf",
+      "signIn": "Sign in",
+      "doNotHaveAccount": "Don't have an account?",
+      "create": "Create",
+      "recover": "Recover"
     },
-    "passwordReset": {}
-  },
-  "HomePage": {
-    "title": "Hello world!"
+    "signUp": {
+      "confirmPassword": "Confirm password",
+      "chooseRole": "Choose your role",
+      "createAccount": "Create account",
+      "startJourney": "Start your literary journey today",
+      "haveAnAccount": "Already have an account?",
+      "signInHere": "Sign in here",
+      "user": "User",
+      "admin": "Admin"
+    },
+    "passwordReset": {
+      "forgotPassword": "Forgot password?",
+      "enterEmail": "Enter your email to reset password and regain access to your collection",
+      "sendLink": "Send reset link",
+      "backToSignIn": "Back to Sign In"
+    },
+    "userMessages": {
+      "invalidFormData": "Invalid form data",
+      "userExist": "User already exists",
+      "accountCreated": "Account created successfully",
+      "emailExist": "User with this email already exists",
+      "emailOrPassword": "Invalid email or password",
+      "wentWrong": "Something went wrong",
+      "tryAgainLater": "Please try again later",
+      "signedIn": "Signed in successfully",
+      "signUpError": "Sign up error"
+    }
   },
   "Dashboard": {}
 }
