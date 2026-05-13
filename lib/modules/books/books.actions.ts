@@ -18,6 +18,7 @@ export async function createBook(data: FormData) {
       year: data.get("year") ? Number(data.get("year")) : null,
       genres: data.getAll("genres"),
       image: data.get("image"),
+      quote: data.get("quote"),
     };
 
     const validatedData = bookCreationSchema.safeParse(rawData);
@@ -69,6 +70,7 @@ export async function updateBook(id: string, data: FormData) {
       year: data.get("year") ? Number(data.get("year")) : null,
       genres: data.getAll("genres"),
       image: data.get("image"),
+      quote: data.get("quote"),
     };
     const validatedData = bookCreationSchema.safeParse(rawData);
     if (!validatedData.success) {
