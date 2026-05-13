@@ -16,6 +16,7 @@ export interface IBook {
     data: Buffer;
     contentType: string;
   } | null;
+  quote: string;
 }
 
 export interface IBookSerialized extends Omit<
@@ -45,6 +46,7 @@ const BookSchema = new Schema<IBook>(
     ],
     rating: { type: Number, default: 0 },
     image: { data: Buffer, contentType: String },
+    quote: { type: String, required: [true, "Quote is required"] },
   },
   {
     timestamps: true,
