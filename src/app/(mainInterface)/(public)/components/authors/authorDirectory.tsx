@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
 import MultiSelect from "@/src/components/client/select/multiSelect";
@@ -83,29 +84,31 @@ export default function AuthorDirectory({
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
           {displayedAuthors.map((author: IAuthorSerialized) => (
-            <ItemCard key={author._id} name="Author">
-              <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
-                <div className="flex flex-col items-center gap-4 grow">
-                  <ItemCard.Avatar src={author.image} alt={author.name} view="circle" />
-                  <ItemCard.Title
-                    content={author.name}
-                    className="font-bold text-center truncate"
-                  />
-                  <ItemCard.Information
-                    color="secondary"
-                    content={author.bio}
-                    className="text-center whitespace-normal line-clamp-2"
-                  />
+            <ErrorBoundary key={author._id} title={author.name} message="The card went wild">
+              <ItemCard name="Author">
+                <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
+                  <div className="flex flex-col items-center gap-4 grow">
+                    <ItemCard.Avatar src={author.image} alt={author.name} view="circle" />
+                    <ItemCard.Title
+                      content={author.name}
+                      className="font-bold text-center truncate"
+                    />
+                    <ItemCard.Information
+                      color="secondary"
+                      content={author.bio}
+                      className="text-center whitespace-normal line-clamp-2"
+                    />
+                  </div>
+                  <LinkButton
+                    href={`${routes.authors}/${author._id}?from=${encodeURIComponent(
+                      `${pathname}?${searchParams.toString()}`
+                    )}`}
+                  >
+                    View Information
+                  </LinkButton>
                 </div>
-                <LinkButton
-                  href={`${routes.authors}/${author._id}?from=${encodeURIComponent(
-                    `${pathname}?${searchParams.toString()}`
-                  )}`}
-                >
-                  View Information
-                </LinkButton>
-              </div>
-            </ItemCard>
+              </ItemCard>
+            </ErrorBoundary>
           ))}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}

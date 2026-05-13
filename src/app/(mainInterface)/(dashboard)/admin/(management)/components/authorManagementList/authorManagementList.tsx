@@ -3,6 +3,7 @@
 import { deleteAuthor } from "@/lib/modules/authors/authors.actions";
 import { Button } from "@/src/components/client/button/button";
 import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/deleteMessage";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
@@ -110,35 +111,37 @@ export function AuthorManagementList({
           {displayedAuthors.map((author) => {
             const hasBooks = Boolean(author.books.length);
             return (
-              <div key={author._id} className="relative">
-                <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                  <Tooltip helpText={hasBooks ? "Author has books" : "Delete"}>
-                    <Button
-                      size="small"
-                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
-                      disabled={hasBooks}
-                      onClick={() => handleOpen(author, "delete")}
-                    >
-                      <MdDelete className="text-sm md:text-base text-black" />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip helpText="Edit">
-                    <Button
-                      size="small"
-                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
-                      onClick={() => handleOpen(author, "edit")}
-                    >
-                      <MdEdit className="text-sm md:text-base text-black" />
-                    </Button>
-                  </Tooltip>
-                </div>
-                <ItemCard name="author">
-                  <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                    <ItemCard.Avatar alt="author cover" src={author.image} view="rounded" />
-                    <ItemCard.Title content={author.name} className="truncate" />
+              <ErrorBoundary key={author._id} title={author.name} message="The card went wild">
+                <div className="relative">
+                  <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
+                    <Tooltip helpText={hasBooks ? "Author has books" : "Delete"}>
+                      <Button
+                        size="small"
+                        className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
+                        disabled={hasBooks}
+                        onClick={() => handleOpen(author, "delete")}
+                      >
+                        <MdDelete className="text-sm md:text-base text-black" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip helpText="Edit">
+                      <Button
+                        size="small"
+                        className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
+                        onClick={() => handleOpen(author, "edit")}
+                      >
+                        <MdEdit className="text-sm md:text-base text-black" />
+                      </Button>
+                    </Tooltip>
                   </div>
-                </ItemCard>
-              </div>
+                  <ItemCard name="author">
+                    <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
+                      <ItemCard.Avatar alt="author cover" src={author.image} view="rounded" />
+                      <ItemCard.Title content={author.name} className="truncate" />
+                    </div>
+                  </ItemCard>
+                </div>
+              </ErrorBoundary>
             );
           })}
         </div>

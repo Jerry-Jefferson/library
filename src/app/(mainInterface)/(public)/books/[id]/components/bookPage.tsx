@@ -4,6 +4,7 @@ import { ReviewDisplay } from "@/src/app/(mainInterface)/(dashboard)/reviews/com
 import { ReviewForm } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
@@ -136,15 +137,17 @@ export function BookPage({
               {reviews && reviews.length > 0 ? (
                 <VirtualizerList items={reviews}>
                   {(review) => (
-                    <ReviewDisplay
-                      review={review}
-                      rating={review.rating}
-                      date={formatDate(review.createdAt)}
-                      comment={review.comment}
-                      userName={review.userName}
-                      userId={userId}
-                      handleOpen={(review) => handleOpen(review, "edit")}
-                    />
+                    <ErrorBoundary title={review.bookTitle} message="The card went wild">
+                      <ReviewDisplay
+                        review={review}
+                        rating={review.rating}
+                        date={formatDate(review.createdAt)}
+                        comment={review.comment}
+                        userName={review.userName}
+                        userId={userId}
+                        handleOpen={(review) => handleOpen(review, "edit")}
+                      />
+                    </ErrorBoundary>
                   )}
                 </VirtualizerList>
               ) : (

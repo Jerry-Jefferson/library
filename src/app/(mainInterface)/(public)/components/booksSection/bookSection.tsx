@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
@@ -28,18 +29,24 @@ export function BookSection({ children, books }: BookSectionProps) {
         <EmblaCarousel.Container>
           {books.map((book) => (
             <EmblaCarousel.Slide key={book._id}>
-              <Link href={`${routes.book(book._id)}?from=${pathname}`}>
-                <ItemCard name="Book">
-                  <div className="flex flex-col gap-1">
-                    <ItemCard.Avatar alt={book.title} src={book.image} view="rounded" />
-                    <ItemCard.Title content={book.title} className="truncate" />
-                    <ItemCard.Information
-                      color="secondary"
-                      content={isAuthorPage(pathname) ? book.year : book.authorName}
-                    />
-                  </div>
-                </ItemCard>
-              </Link>
+              <ErrorBoundary
+                title={book.title}
+                message="The card went wild"
+                className="min-h-[400px]"
+              >
+                <Link href={`${routes.book(book._id)}?from=${pathname}`}>
+                  <ItemCard name="Book">
+                    <div className="flex flex-col gap-1">
+                      <ItemCard.Avatar alt={book.title} src={book.image} view="rounded" />
+                      <ItemCard.Title content={book.title} className="truncate" />
+                      <ItemCard.Information
+                        color="secondary"
+                        content={isAuthorPage(pathname) ? book.year : book.authorName}
+                      />
+                    </div>
+                  </ItemCard>
+                </Link>
+              </ErrorBoundary>
             </EmblaCarousel.Slide>
           ))}
         </EmblaCarousel.Container>

@@ -3,6 +3,7 @@
 import { deleteGenre } from "@/lib/modules/genres/genres.actions";
 import { Button } from "@/src/components/client/button/button";
 import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/deleteMessage";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
@@ -47,7 +48,7 @@ export function GenreManagementList({ genres }: ManagementListProps) {
       <div className="w-full gap-4 flex flex-col mt-5">
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-3">
           {genres.map((genre) => (
-            <div key={genre._id}>
+            <ErrorBoundary key={genre._id} title={genre.title} message="The card went wild">
               <ItemCard name="genre">
                 <div className="bg-card-back flex items-center justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Title content={genre.title} className="truncate" />
@@ -73,7 +74,7 @@ export function GenreManagementList({ genres }: ManagementListProps) {
                   </div>
                 </div>
               </ItemCard>
-            </div>
+            </ErrorBoundary>
           ))}
         </div>
       </div>
