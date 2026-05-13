@@ -9,6 +9,7 @@ import { IAuthorSerialized } from "@/src/models/author";
 import { IGenreSerialized } from "@/src/models/genre";
 import { routes } from "@/src/shared/constants/routes";
 import { authorSortOptions, SortOption } from "@/src/shared/constants/sortOptions";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -29,6 +30,9 @@ export default function AuthorDirectory({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const tCommon = useTranslations("Common");
+  const tEntity = useTranslations("Entities");
+  const tAuthors = useTranslations("Authors");
 
   const updateFilters = (value: IGenreSerialized[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -47,15 +51,20 @@ export default function AuthorDirectory({
     return [...authors].sort(selectedSort.comparator);
   }, [authors, selectedSort]);
 
+  const localizedSortOptions = useMemo(() => {
+    return authorSortOptions.map((option) => ({
+      ...option,
+      title: tAuthors(`sortOptions.${option._id}`),
+    }));
+  }, [tAuthors]);
+
   if (!authors || authors.length === 0) return <p>No authors found</p>;
 
   return (
     <div className="w-full flex justify-center bg-background">
       <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">Authors Directory</h2>
-        <p className="text-xl text-secondary">
-          Meet the brilliant minds behind our collection of over 50,000 titles.
-        </p>
+        <h2 className="text-6xl font-bold">{tAuthors("authorsDirectory")}</h2>
+        <p className="text-xl text-secondary">{tAuthors("description")}</p>
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
@@ -63,20 +72,26 @@ export default function AuthorDirectory({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label="Filter by genres"
+                  label={tCommon("filterBy", {
+                    entity: tEntity("genres.filter"),
+                  })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder="Select genres..."
+                  placeholder={tCommon("select", {
+                    entity: tEntity("genres.genres"),
+                  })}
                 />
               </div>
             )}
             <SingleSelect<SortOption<IAuthorSerialized>>
-              items={authorSortOptions}
+              items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder="Sort by..."
-              label="Sort Authors"
+              placeholder={tCommon("sort")}
+              label={tCommon("sortBy", {
+                entity: tEntity("authors.sort"),
+              })}
             />
           </div>
         </div>
@@ -102,7 +117,7 @@ export default function AuthorDirectory({
                     `${pathname}?${searchParams.toString()}`
                   )}`}
                 >
-                  View Information
+                  {tCommon("viewInfo")}
                 </LinkButton>
               </div>
             </ItemCard>

@@ -1,0 +1,12 @@
+{
+  "Authors": {
+    "authorsDirectory": "Authors Directory",
+    "description": "Meet the brilliant minds behind our collection of over 50,000 titles.",
+    "sortOptions": {
+      "name-asc": "Name A → Z",
+      "name-desc": "Name Z → A",
+      "books-desc": "Most books",
+      "books-asc": "Fewest books"
+    }
+  }
+}
