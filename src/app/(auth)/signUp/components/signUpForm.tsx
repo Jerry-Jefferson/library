@@ -5,6 +5,7 @@ import { signin } from "@/src/actions/auth/signin";
 import { signup } from "@/src/actions/auth/signup";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { RadioButton } from "@/src/components/server/radioButton/radioButton";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -106,15 +107,17 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           label="Confirm password"
           errorMessage={errors.confirmPassword?.message}
         />
-        <Button
-          fullWidth
-          size="medium"
-          variant="primary"
-          disabled={!isValid}
-          isLoading={isSubmitting}
-        >
-          Create Account
-        </Button>
+        <Tooltip helpText={!isValid ? "Fill in all the fields" : ""}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid}
+            isLoading={isSubmitting}
+          >
+            Create Account
+          </Button>
+        </Tooltip>
       </form>
       <div>
         <div className="flex gap-4 justify-between">

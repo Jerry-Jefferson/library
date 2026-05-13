@@ -8,6 +8,8 @@ export interface TooltipProps {
   helpText?: string;
   bgColor?: string;
   textColor?: string;
+  fullWidth?: boolean;
+  className?: string;
 }
 
 export function Tooltip({
@@ -15,11 +17,25 @@ export function Tooltip({
   helpText,
   bgColor = "bg-neutral-800",
   textColor = "text-white",
+  fullWidth = false,
+  className = "",
 }: TooltipProps) {
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(null);
 
   const triggerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<NodeJS.Timeout>(null);
+
+  function handleMouseEnter() {
+    timerRef.current = setTimeout(() => setCoords({ top: 0, left: 0 }), 600);
+  }
+  function handleMouseLeave() {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    setCoords(null);
+  }
 
   useLayoutEffect(() => {
     const trigger = triggerRef.current;
@@ -50,15 +66,19 @@ export function Tooltip({
     }
 
     calculatePosition(trigger, tooltip);
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [coords, helpText]);
 
   if (!helpText?.trim()) return <>{children}</>;
   return (
     <div
       ref={triggerRef}
-      onMouseEnter={() => setCoords({ top: 0, left: 0 })}
-      onMouseLeave={() => setCoords(null)}
-      className="inline-block"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`${fullWidth ? "block w-full" : "grid place-items-center"} ${className}`}
     >
       {children}
 

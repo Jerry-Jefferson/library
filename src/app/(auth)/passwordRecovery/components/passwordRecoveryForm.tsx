@@ -1,6 +1,7 @@
 "use client";
 
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -54,15 +55,17 @@ export function PasswordRecoveryForm() {
           label="Email"
           errorMessage={errors.email?.message}
         />
-        <Button
-          fullWidth
-          size="medium"
-          variant="primary"
-          disabled={!isValid}
-          isLoading={isSubmitting}
-        >
-          Send reset link
-        </Button>
+        <Tooltip helpText={!isValid ? "Fill in all the fields" : ""}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid}
+            isLoading={isSubmitting}
+          >
+            Send reset link
+          </Button>
+        </Tooltip>
       </form>
       <Link
         href={routes.signIn}

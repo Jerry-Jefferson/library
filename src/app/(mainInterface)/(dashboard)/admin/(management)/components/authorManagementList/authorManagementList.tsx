@@ -112,7 +112,7 @@ export function AuthorManagementList({
             return (
               <div key={author._id} className="relative">
                 <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                  <Tooltip helpText={hasBooks ? "Author has books" : ""}>
+                  <Tooltip helpText={hasBooks ? "Author has books" : "Delete"}>
                     <Button
                       size="small"
                       className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
@@ -122,14 +122,15 @@ export function AuthorManagementList({
                       <MdDelete className="text-sm md:text-base text-black" />
                     </Button>
                   </Tooltip>
-
-                  <Button
-                    size="small"
-                    className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
-                    onClick={() => handleOpen(author, "edit")}
-                  >
-                    <MdEdit className="text-sm md:text-base text-black" />
-                  </Button>
+                  <Tooltip helpText="Edit">
+                    <Button
+                      size="small"
+                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
+                      onClick={() => handleOpen(author, "edit")}
+                    >
+                      <MdEdit className="text-sm md:text-base text-black" />
+                    </Button>
+                  </Tooltip>
                 </div>
                 <ItemCard name="author">
                   <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">

@@ -8,6 +8,7 @@ import { FormInput } from "@/src/components/client/input/variants/formInput/form
 import { FormMultiselect } from "@/src/components/client/select/variants/formMultiselect/formMultiselect";
 import { FormSingleSelect } from "@/src/components/client/select/variants/formSingleSelect/formSingleSelect";
 import { TextArea } from "@/src/components/client/textArea/textArea";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IGenreSerialized } from "@/src/models/genre";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -219,15 +220,17 @@ export function BookCreationForm({
           errorMessage={errors.description?.message}
         />
         <div className="flex justify-between gap-6">
-          <Button
-            fullWidth
-            size="medium"
-            variant="primary"
-            disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
-            isLoading={isSubmitting}
-          >
-            {acceptButton}
-          </Button>
+          <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="primary"
+              disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
+              isLoading={isSubmitting}
+            >
+              {acceptButton}
+            </Button>
+          </Tooltip>
           <Button
             fullWidth
             size="medium"

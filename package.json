@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "node -r ts-node/register scripts/seed_db.ts"
+    "seed": "node -r ts-node/register scripts/seed_db.ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@google/genai": "^2.0.0",
@@ -33,7 +35,12 @@
   "devDependencies": {
     "@naverpay/eslint-plugin-use-client": "^0.0.2",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/bcrypt": "^6.0.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -41,8 +48,11 @@
     "eslint-config-next": "16.1.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
+    "ts-jest": "^29.4.9",
     "ts-node": "^10.9.2",
     "typescript": "^5"
   }
