@@ -1,7 +1,7 @@
 "use client";
 
-import { ReviewDisplay } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewDisplay/reviewDisplay";
-import { ReviewForm } from "@/src/app/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
+import { ReviewDisplay } from "@/src/app/[locale]/(mainInterface)/(dashboard)/reviews/components/reviewDisplay/reviewDisplay";
+import { ReviewForm } from "@/src/app/[locale]/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
@@ -17,6 +17,7 @@ import { routes } from "@/src/shared/constants/routes";
 import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { formatDate } from "@/src/shared/utils/formatDate";
 import { Session } from "next-auth";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -34,7 +35,8 @@ export function BookPage({
   const isAuthenticated = Boolean(session?.user);
   const userId = session?.user.id;
   const hasReviewed = reviews?.find((userReview) => userReview.userId === session?.user.id);
-
+  const tBooks = useTranslations("Books");
+  const tCommon = useTranslations("Common");
   const [selectedReview, setSelectedReview] = useState<IReviewSerialized | null>(null);
 
   const { modal, openModal, closeModal } = useModalQuery();
@@ -59,7 +61,7 @@ export function BookPage({
     bookId: book._id,
   });
 
-  if (!book) return <p>No book found</p>;
+  if (!book) return <p>{tBooks("noBook")}</p>;
 
   return (
     <div className="w-full flex justify-center bg-background">
@@ -76,11 +78,11 @@ export function BookPage({
                   onClick={toggle}
                   className="font-bold"
                 >
-                  {fav ? "Remove from Favorites" : "Add to Favorites"}
+                  {fav ? tBooks("removeFromFavs") : tBooks("addToFavs")}
                 </Button>
               ) : null}
               <LinkButton href={backPath} className="py-4">
-                Back to {label ?? DEFAULT_LABEL}
+                {tCommon("back")}
               </LinkButton>
             </div>
             <div className="w-[65%] flex flex-col gap-6">
@@ -90,7 +92,9 @@ export function BookPage({
               </div>
               <ItemCard.Badge genres={genres} />
               <div className="flex flex-col gap-4">
-                <h2 className="text-[clamp(12px,0.5rem+3cqw,24px)] font-bold">Synopsis</h2>
+                <h2 className="text-[clamp(12px,0.5rem+3cqw,24px)] font-bold">
+                  {tBooks("synopsis")}
+                </h2>
                 <Collapse>
                   {({ className, toggle, isShownFull, isTruncated, textRef }) => (
                     <>
@@ -106,7 +110,7 @@ export function BookPage({
                           onClick={toggle}
                           className="hover:text-primary-hover text-primary text-[clamp(10px,0.5rem+1vw,16px)]"
                         >
-                          {isShownFull ? "Collapse" : "Read more"}
+                          {isShownFull ? tCommon("collapse") : tCommon("readMore")}
                         </Button>
                       )}
                     </>
@@ -119,18 +123,18 @@ export function BookPage({
         <div className="flex flex-col gap-4">
           <div className="w-full flex justify-between">
             <div className="flex flex-col">
-              <p className="text-2xl">Reader Reviews</p>
-              <p className="text-secondary">Join the conversation about this book</p>
+              <p className="text-2xl">{tBooks("readerReviews")}</p>
+              <p className="text-secondary">{tBooks("joinConversation")}</p>
             </div>
             {isAuthenticated && !hasReviewed ? (
               <Button variant="primary" size="small" onClick={() => openModal("review")}>
-                Write a Review
+                {tBooks("writeReview")}
               </Button>
             ) : null}
           </div>
           <div className="flex flex-col sm:flex-row gap-8">
             <div className="bg-card-back border border-primary-hover rounded-md w-full sm:w-[40%] h-[200px] sm:h-[500px] flex items-center justify-center">
-              A quote incoming...
+              {tBooks("quoteIncoming")}
             </div>
             <div className="w-full sm:w-[60%] flex flex-col gap-4">
               {reviews && reviews.length > 0 ? (
@@ -149,7 +153,7 @@ export function BookPage({
                 </VirtualizerList>
               ) : (
                 <div className="flex items-center justify-center p-4 bg-background border border-secondary rounded-md">
-                  <p className="text-secondary">There are no reviews yet. Be first to leave one</p>
+                  <p className="text-secondary">{tBooks("noReviews")}</p>
                 </div>
               )}
             </div>
@@ -160,8 +164,8 @@ export function BookPage({
         <ModalWindow header={`Reviewing: ${book.title}`} handleCancel={handleCloseModal}>
           <ReviewForm
             handleCancel={handleCloseModal}
-            cancelButton="Cancel"
-            acceptButton="Add review"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tBooks("addReview")}
             bookId={book._id}
           />
         </ModalWindow>
@@ -170,8 +174,8 @@ export function BookPage({
         <ModalWindow header={`Editing review for: ${book.title}`} handleCancel={handleCloseModal}>
           <ReviewForm
             handleCancel={handleCloseModal}
-            cancelButton="Cancel"
-            acceptButton="Save changes"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("saveChanges")}
             bookId={book._id}
             editionData={selectedReview}
           />

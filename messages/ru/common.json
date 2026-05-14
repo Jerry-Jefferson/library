@@ -4,6 +4,11 @@
     "sortBy": "Сортировать {entity}",
     "sort": "Сортировать...",
     "viewInfo": "Подробнее",
-    "select": "Выберите {entity}"
+    "select": "Выберите {entity}",
+    "back": "Назад",
+    "collapse": "Свернуть",
+    "readMore": "Читать далее",
+    "cancel": "Отмена",
+    "saveChanges": "Сохранить изменения"
   }
 }

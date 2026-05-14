@@ -10,6 +10,17 @@
       "rating-desc": "Highest rating",
       "rating-asc": "Lowest rating"
     },
-    "noBooks": "No books found"
+    "noBooks": "No books found",
+    "noBook": "No book found",
+    "removeFromFavs": "Remove from Favorites",
+    "addToFavs": "Add to Favorites",
+    "synopsis": "Synopsis",
+    "readerReviews": "Reader Reviews",
+    "joinConversation": "Join the conversation about this book",
+    "writeReview": "Write a Review",
+    "quoteIncoming": "A quote incoming...",
+    "noReviews": "There are no reviews yet. Be first to leave one",
+    "addReview": "Add review",
+    "editReview": "Editing review for:"
   }
 }

@@ -4,6 +4,11 @@
     "sortBy": "Sort {entity}",
     "sort": "Sort...",
     "viewInfo": "View information",
-    "select": "Select {entity}"
+    "select": "Select {entity}",
+    "back": "Back",
+    "collapse": "Collapse",
+    "readMore": "Read more",
+    "cancel": "Cancel",
+    "saveChanges": "Save changes"
   }
 }

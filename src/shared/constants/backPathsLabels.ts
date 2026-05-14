@@ -7,4 +7,4 @@ export const BACK_PATHS_LABELS: Record<string, string> = {
   [routes.favourites]: "Favorites",
 };
 
-export const DEFAULT_LABEL = "Previous";
+export const DEFAULT_LABEL = "previous";
