@@ -32,7 +32,7 @@ export default async function Author({
         <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
           <AuthorPage author={author} from={from} />
           <BookSection books={books}>
-            <SectionHeader alt="" src={BookIcon} title="Books by Author" />
+            <SectionHeader alt="" src={BookIcon} title="byAuthor" />
           </BookSection>
         </div>
       </div>

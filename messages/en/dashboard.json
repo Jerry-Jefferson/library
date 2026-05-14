@@ -13,7 +13,8 @@
     },
     "main": {
       "popular": "Popular Books",
-      "new": "New Arrivals"
+      "new": "New Arrivals",
+      "byAuthor": "By author"
     }
   }
 }

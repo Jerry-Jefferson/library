@@ -7,6 +7,8 @@
       "name-desc": "Name Z → A",
       "books-desc": "Most books",
       "books-asc": "Fewest books"
-    }
+    },
+    "present": "Present",
+    "biography": "Biography"
   }
 }
