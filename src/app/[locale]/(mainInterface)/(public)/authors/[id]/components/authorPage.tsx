@@ -5,7 +5,6 @@ import { Collapse } from "@/src/components/client/collapse/collapse";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IAuthorSerialized } from "@/src/models/author";
-import { BACK_PATHS_LABELS } from "@/src/shared/constants/backPathsLabels";
 import { routes } from "@/src/shared/constants/routes";
 import { useTranslations } from "next-intl";
 

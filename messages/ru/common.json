@@ -9,6 +9,7 @@
     "collapse": "Свернуть",
     "readMore": "Читать далее",
     "cancel": "Отмена",
-    "saveChanges": "Сохранить изменения"
+    "saveChanges": "Сохранить изменения",
+    "loading": "{entity} загружаются"
   }
 }

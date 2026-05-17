@@ -9,6 +9,7 @@
     "collapse": "Collapse",
     "readMore": "Read more",
     "cancel": "Cancel",
-    "saveChanges": "Save changes"
+    "saveChanges": "Save changes",
+    "loading": "Loading {entity}"
   }
 }

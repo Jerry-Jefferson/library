@@ -6,6 +6,7 @@ import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { routes } from "@/src/shared/constants/routes";
 import { useFavoritesStore } from "@/src/shared/context/useFavoritesStore";
+import { useTranslations } from "next-intl";
 
 export type BookListProps = {
   books: IBookSerialized[];
@@ -13,7 +14,7 @@ export type BookListProps = {
 
 export default function BookList({ books }: BookListProps) {
   const { isFavorite } = useFavoritesStore();
-
+  const t = useTranslations("Common");
   const visibleBooks = books.filter((book) => isFavorite(book._id));
 
   return (
@@ -39,7 +40,7 @@ export default function BookList({ books }: BookListProps) {
               <LinkButton
                 href={`${routes.books}/${book._id}?from=${encodeURIComponent(routes.favourites)}`}
               >
-                View Information
+                {t("viewInfo")}
               </LinkButton>
             </div>
           </ItemCard>

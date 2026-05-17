@@ -13,6 +13,9 @@
     "genres": {
       "filter": "genre",
       "genres": "genres"
+    },
+    "favorites": {
+      "loading": "favorites"
     }
   }
 }
