@@ -11,6 +11,7 @@ import { useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
 import { GenreCreationForm } from "../../../genre/components/genreCreation/genreCreationForm";
+import { useTranslations } from "next-intl";
 
 export interface ManagementListProps {
   genres: IGenreSerialized[] | null;
@@ -18,7 +19,9 @@ export interface ManagementListProps {
 export function GenreManagementList({ genres }: ManagementListProps) {
   const { modal, openModal, closeModal } = useModalQuery();
   const [selectedGenre, setSelectedGenre] = useState<IGenreSerialized | null>(null);
-
+  const t = useTranslations("Genres");
+  const tEntity = useTranslations("Entities");
+  const tCommon = useTranslations("Common");
   function handleOpen(genre: IGenreSerialized, modalType: ModalType) {
     setSelectedGenre(genre);
     openModal(modalType);
@@ -28,18 +31,18 @@ export function GenreManagementList({ genres }: ManagementListProps) {
     try {
       const result = await deleteGenre(id);
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
       closeModal();
-      toast.success(result.message);
+      toast.success(t(`userMessages.${result.message}`));
       setSelectedGenre(null);
     } catch (error) {
       console.error(error);
     }
   }
 
-  if (!genres || genres.length === 0) return <p>No genres found</p>;
+  if (!genres || genres.length === 0) return <p>{t("noGenres")}</p>;
 
   return (
     <div className="w-full flex bg-background">
@@ -73,22 +76,32 @@ export function GenreManagementList({ genres }: ManagementListProps) {
         </div>
       </div>
       {modal === "delete" && selectedGenre && (
-        <ModalWindow header="Genre deletion" handleCancel={closeModal}>
+        <ModalWindow
+          header={tCommon("deletion", {
+            entity: tEntity("genres.editing"),
+          })}
+          handleCancel={closeModal}
+        >
           <DeleteMessage
             handleCancel={closeModal}
-            cancelButton="Cancel"
-            acceptButton="Delete"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("delete")}
             handleDelete={() => handleDelete(selectedGenre._id)}
             entity={selectedGenre}
           />
         </ModalWindow>
       )}
       {modal === "edit" && selectedGenre && (
-        <ModalWindow header={`"${selectedGenre.title}" editing`} handleCancel={closeModal}>
+        <ModalWindow
+          header={tCommon("editing", {
+            entity: tEntity("genres.editing"),
+          })}
+          handleCancel={closeModal}
+        >
           <GenreCreationForm
             handleCancel={closeModal}
-            cancelButton="Cancel"
-            acceptButton="Save"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("saveChanges")}
             editionData={selectedGenre}
           />
         </ModalWindow>

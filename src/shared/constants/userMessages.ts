@@ -72,4 +72,18 @@ export const userMessages = {
     imageTooLarge: "imageTooLarge",
     imageInvalidType: "imageInvalidType",
   },
+  genres: {
+    invalidGenreData: "invalidGenreData",
+    genreExists: "genreExists",
+    genreCreated: "genreCreated",
+    genreUpdated: "genreUpdated",
+    genreDeleted: "genreDeleted",
+    genreNotFound: "genreNotFound",
+    failedToCreateGenre: "failedToCreateGenre",
+    failedToUpdateGenre: "failedToUpdateGenre",
+    failedToDeleteGenre: "failedToDeleteGenre",
+  },
+  genresValidation: {
+    titleRequired: "titleRequired",
+  },
 } as const;

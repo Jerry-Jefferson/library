@@ -14,7 +14,7 @@ export async function addGenre(data: unknown) {
       const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
-        message: "Invalid genre data",
+        message: "invalidGenreData",
         errors: flattened.fieldErrors,
       };
     }
@@ -23,7 +23,7 @@ export async function addGenre(data: unknown) {
     const existingGenre = await Genre.findOne({ title: normalizedTitle });
 
     if (existingGenre) {
-      return { success: false, message: "Genre already exists" };
+      return { success: false, message: "genreExists" };
     }
 
     const dataToSave = {
@@ -35,10 +35,10 @@ export async function addGenre(data: unknown) {
 
     updateTag("genres");
 
-    return { success: true, message: "The genre has been successfully added" };
+    return { success: true, message: "genreCreated" };
   } catch (error) {
     console.error("DB error while adding a genre", error);
-    return { success: false, message: "Failed to add a genre" };
+    return { success: false, message: "failedToCreateGenre" };
   }
 }
 
@@ -50,7 +50,7 @@ export async function updateGenre(id: string, data: unknown) {
       const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
-        message: "Invalid genre data",
+        message: "invalidGenreData",
         errors: flattened.fieldErrors,
       };
     }
@@ -59,7 +59,7 @@ export async function updateGenre(id: string, data: unknown) {
     const existingGenre = await Genre.findOne({ title: normalizedTitle, _id: { $ne: id } });
 
     if (existingGenre) {
-      return { success: false, message: "Genre already exists" };
+      return { success: false, message: "genreExists" };
     }
 
     const dataToSave = {
@@ -69,17 +69,17 @@ export async function updateGenre(id: string, data: unknown) {
 
     const genre = await Genre.findById(id);
 
-    if (!genre) return { success: false, message: "The genre wasn't found" };
+    if (!genre) return { success: false, message: "genreNotFound" };
 
     genre.set(dataToSave);
     await genre.save();
 
     updateTag("genres");
 
-    return { success: true, message: "The genre has been successfully edited" };
+    return { success: true, message: "genreUpdated" };
   } catch (error) {
     console.error("DB error while editing genre", error);
-    return { success: false, message: "Failed to edit a genre" };
+    return { success: false, message: "failedToUpdateGenre" };
   }
 }
 
@@ -88,13 +88,13 @@ export async function deleteGenre(id: string) {
     await connectMongo();
     const result = await Genre.findByIdAndDelete(id);
 
-    if (!result) return { success: false, message: "The genre was not found" };
+    if (!result) return { success: false, message: "genreNotFound" };
 
     updateTag("genres");
 
-    return { success: true, message: "The genre has been successfully deleted" };
+    return { success: true, message: "genreDeleted" };
   } catch (error) {
     console.error("DB error in deleteGenre", error);
-    return { success: false, message: "Failed to delete the genre" };
+    return { success: false, message: "failedToDeleteGenre" };
   }
 }

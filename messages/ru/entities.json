@@ -15,7 +15,9 @@
     },
     "genres": {
       "filter": "жанрам",
-      "genres": "жанры"
+      "genres": "жанры",
+      "entry": "о жанре",
+      "editing": "жанра"
     },
     "favorites": {
       "loading": "избранные"

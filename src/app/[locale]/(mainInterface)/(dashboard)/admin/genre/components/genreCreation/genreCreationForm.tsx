@@ -8,6 +8,7 @@ import { addGenre, updateGenre } from "@/lib/modules/genres/genres.actions";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -39,6 +40,8 @@ export function GenreCreationForm({
   border = false,
 }: GenreCreationFormProps) {
   const isEditMode = Boolean(editionData?._id);
+  const t = useTranslations("Genres");
+  const tCommon = useTranslations("Common");
   const {
     register,
     handleSubmit,
@@ -61,11 +64,11 @@ export function GenreCreationForm({
       }
 
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
 
-      toast.success(result.message);
+      toast.success(t(`userMessages.${result.message}`));
 
       if (isEditMode) {
         handleCancel?.();
@@ -74,7 +77,7 @@ export function GenreCreationForm({
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Something went wrong");
+      toast.error(tCommon(`userMessages.wentWrong`));
     }
   };
   return (
@@ -87,8 +90,10 @@ export function GenreCreationForm({
             name="title"
             type="text"
             register={register}
-            label="Title"
-            errorMessage={errors.title?.message}
+            label={t("title")}
+            errorMessage={
+              errors.title?.message ? t(`genresValidation.${errors.title.message}`) : undefined
+            }
           />
         </div>
         <div className="flex justify-between gap-6">

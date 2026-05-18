@@ -1,0 +1,21 @@
+{
+  "Genres": {
+    "noGenres": "Жанры не найдены",
+    "userMessages": {
+      "invalidGenreData": "Некорректные данные жанра",
+      "genreExists": "Жанр уже существует",
+      "genreCreated": "Жанр успешно добавлен",
+      "genreUpdated": "Жанр успешно обновлен",
+      "genreDeleted": "Жанр успешно удален",
+      "genreNotFound": "Жанр не найден",
+      "failedToCreateGenre": "Не удалось добавить жанр",
+      "failedToUpdateGenre": "Не удалось обновить жанр",
+      "failedToDeleteGenre": "Не удалось удалить жанр"
+    },
+    "genresValidation": {
+      "titleRequired": "Введите название жанра",
+      "titleTooShort": "Название жанра слишком короткое"
+    },
+    "title": "Название"
+  }
+}
