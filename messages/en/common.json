@@ -10,6 +10,17 @@
     "readMore": "Read more",
     "cancel": "Cancel",
     "saveChanges": "Save changes",
-    "loading": "Loading {entity}"
+    "loading": "Loading {entity}",
+    "deletion": "{entity} deletion",
+    "edit": "Edit",
+    "delete": "Delete",
+    "wantToDelete": "Are you sure you want to delete",
+    "userMessages": {
+      "unauthorized": "You must be logged in",
+      "invalidData": "Invalid data",
+      "wentWrong": "Something went wrong",
+      "tryAgainLater": "Please try again later",
+      "notFound": "Not found"
+    }
   }
 }

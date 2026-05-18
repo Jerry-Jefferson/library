@@ -10,6 +10,7 @@ import { Button } from "@/src/components/client/button/button";
 import { FormRating } from "@/src/components/client/rating/variants/formRating/formRating";
 import { TextArea } from "@/src/components/client/textArea/textArea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { MdOutlineWarning } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -40,7 +41,8 @@ export function ReviewForm({
   bookId,
 }: ReviewFormProps) {
   const isEditMode = Boolean(editionData?._id);
-
+  const t = useTranslations("Reviews");
+  const tCommon = useTranslations("Common");
   const {
     register,
     handleSubmit,
@@ -64,35 +66,32 @@ export function ReviewForm({
       }
 
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
 
-      toast.success(result.message);
+      toast.success(t(`userMessages.${result.message}`));
 
       handleCancel?.();
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Something went wrong");
+      toast.error(tCommon(`userMessages.wentWrong`));
     }
   }
 
   return (
     <form className="flex flex-col gap-4 w-full p-2" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-secondary">RATE THIS BOOK</h2>
+      <h2 className="text-secondary">{t("rateBook")}</h2>
       <FormRating control={control} name="rating" errorMessage={errors.rating?.message} />
       <TextArea
-        label="YOUR THOUGHTS"
+        label={t("yourThoughts")}
         register={register}
         name="comment"
         errorMessage={errors.comment?.message}
       />
       <div className="flex items-center justify-center gap-4 p-4 bg-background border border-secondary rounded-md">
         <MdOutlineWarning className="text-4xl md:text-4xl lg:text-4xl text-primary" />
-        <p className="text-secondary">
-          Your review will be public. Please follow our community guidelines: avoid spoilers and be
-          respectful of other readers&apos; opinions.
-        </p>
+        <p className="text-secondary">{t("publicReview")}</p>
       </div>
       <div className="flex justify-between gap-6">
         <Button

@@ -6,6 +6,7 @@ import { ModalType } from "@/src/components/client/modalWindow/useModalQuery";
 import { Rating } from "@/src/components/client/rating/rating";
 import { UserAvatar } from "@/src/components/client/userAvatar/userAvatar";
 import { IReviewSerialized } from "@/src/models/review";
+import { useTranslations } from "next-intl";
 import { MdEdit } from "react-icons/md";
 
 export interface ReviewDisplayProps {
@@ -32,6 +33,7 @@ export function ReviewDisplay({
   userId,
 }: ReviewDisplayProps) {
   const canEdit = userId === review.userId;
+  const t = useTranslations("Common");
   return (
     <div className="group relative bg-card-back border border-primary-hover w-full h-full rounded-md flex flex-col gap-4 p-6">
       <div className="flex flex-col gap-3 items-start lg:flex-row">
@@ -89,7 +91,7 @@ export function ReviewDisplay({
             className="border border-primary hover:bg-primary-hover transition-colors"
             onClick={() => handleOpen?.(review, "edit")}
           >
-            Edit review
+            {t("edit")}
           </Button>
           <Button
             fullWidth
@@ -98,7 +100,7 @@ export function ReviewDisplay({
             className="border border-primary hover:bg-primary-hover transition-colors"
             onClick={() => handleOpen?.(review, "delete")}
           >
-            Delete review
+            {t("delete")}
           </Button>
         </div>
       ) : null}

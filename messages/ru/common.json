@@ -10,6 +10,17 @@
     "readMore": "Читать далее",
     "cancel": "Отмена",
     "saveChanges": "Сохранить изменения",
-    "loading": "{entity} загружаются"
+    "loading": "{entity} загружаются",
+    "deletion": "Удаление {entity}",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "wantToDelete": "Вы уверены, что хотите удалить",
+    "userMessages": {
+      "unauthorized": "Вы должны войти в аккаунт",
+      "invalidData": "Некорректные данные",
+      "wentWrong": "Что-то пошло не так",
+      "tryAgainLater": "Пожалуйста, попробуйте позже",
+      "notFound": "Ничего не найдено"
+    }
   }
 }

@@ -37,6 +37,7 @@ export function BookPage({
   const hasReviewed = reviews?.find((userReview) => userReview.userId === session?.user.id);
   const tBooks = useTranslations("Books");
   const tCommon = useTranslations("Common");
+  const tReview = useTranslations("Reviews");
   const [selectedReview, setSelectedReview] = useState<IReviewSerialized | null>(null);
 
   const { modal, openModal, closeModal } = useModalQuery();
@@ -53,9 +54,6 @@ export function BookPage({
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   const backPath = from ? decodeURIComponent(from) : routes.home;
-
-  const normalizedPath = backPath.split("?")[0];
-  const label = BACK_PATHS_LABELS[normalizedPath] ?? DEFAULT_LABEL;
 
   const { isFavorite: fav, toggle } = useFavorite({
     bookId: book._id,
@@ -161,7 +159,10 @@ export function BookPage({
         </div>
       </div>
       {modal === "review" && !selectedReview && book && (
-        <ModalWindow header={`Reviewing: ${book.title}`} handleCancel={handleCloseModal}>
+        <ModalWindow
+          header={`${tReview("reviewing")}: ${book.title}`}
+          handleCancel={handleCloseModal}
+        >
           <ReviewForm
             handleCancel={handleCloseModal}
             cancelButton={tCommon("cancel")}

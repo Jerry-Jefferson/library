@@ -41,7 +41,7 @@ export async function signin(data: unknown) {
 
     return {
       success: false,
-      message: userMessages.auth.wentWrong,
+      message: userMessages.common.wentWrong,
     };
   }
 }

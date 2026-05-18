@@ -1,0 +1,26 @@
+{
+  "Reviews": {
+    "noReviews": "You have not left any reviews yet",
+    "yourReviews": "Your Reviews",
+    "reviewing": "Reviewing",
+    "description": "Your literary legacy in one place: rediscover your past reviews and track how your perspective has evolved over time",
+    "noReviewsWritten": "You have not written any reviews yet",
+    "editReviews": "{bookName} review editing",
+    "publicReview": "Your review will be public. Please follow our community guidelines: avoid spoilers and be respectful of other readers' opinions.",
+    "rateBook": "RATE THIS BOOK",
+    "yourThoughts": "YOUR THOUGHTS",
+    "thisReview": "this review",
+    "bookHasReviews": "The book has got reviews. They will be deleted with the book",
+    "userMessages": {
+      "invalidReviewData": "Invalid review data",
+      "alreadyReviewed": "You have already written a review for this book",
+      "reviewCreated": "The review has been successfully submitted",
+      "reviewUpdated": "The review has been successfully updated",
+      "reviewDeleted": "Review deleted successfully",
+      "reviewNotFound": "Review not found",
+      "failedToCreateReview": "Failed to create review",
+      "failedToUpdateReview": "Failed to update review",
+      "failedToDeleteReview": "Failed to delete review"
+    }
+  }
+}

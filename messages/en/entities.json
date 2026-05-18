@@ -16,6 +16,10 @@
     },
     "favorites": {
       "loading": "favorites"
+    },
+    "review": {
+      "loading": "reviews",
+      "deletion": "review"
     }
   }
 }

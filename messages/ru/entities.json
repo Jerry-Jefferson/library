@@ -16,6 +16,10 @@
     },
     "favorites": {
       "loading": "избранные"
+    },
+    "review": {
+      "loading": "ревью",
+      "deletion": "ревью"
     }
   }
 }

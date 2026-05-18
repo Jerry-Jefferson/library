@@ -6,6 +6,7 @@ import { IGenreSerialized } from "@/src/models/genre";
 import { IReviewSerialized } from "@/src/models/review";
 import { useState } from "react";
 import { Button } from "../button/button";
+import { useTranslations } from "next-intl";
 
 export interface DeleteMessageProps {
   handleCancel: () => void;
@@ -23,6 +24,8 @@ export function DeleteMessage({
   entity,
 }: DeleteMessageProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const t = useTranslations("Reviews");
+  const tCommon = useTranslations("Common");
   if (!entity) return null;
 
   const onDelete = async () => {
@@ -37,7 +40,7 @@ export function DeleteMessage({
   const isReview = "comment" in entity;
   let displayContent;
   if (isReview) {
-    displayContent = "this review";
+    displayContent = t("thisReview");
   } else {
     const name = "name" in entity ? entity.name : entity.title;
     displayContent = name;
@@ -53,12 +56,10 @@ export function DeleteMessage({
     <div className="flex flex-col justify-center gap-8 w-full">
       <div className="flex flex-col items-center">
         <p>
-          Are you sure you want to delete{" "}
-          {isReview ? <strong>this review</strong> : <strong>{displayContent}</strong>}?
+          {tCommon("wantToDelete")}
+          {isReview ? <strong> {t("thisReview")}</strong> : <strong>{displayContent}</strong>}?
         </p>
-        <p className="text-secondary">
-          {isWarning ? "The book has got reviews. They will be deleted with the book" : null}
-        </p>
+        <p className="text-secondary">{isWarning ? t("bookHasReviews") : null}</p>
       </div>
       <div className="flex justify-between gap-6">
         <Button

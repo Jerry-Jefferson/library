@@ -11,11 +11,14 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { ReviewDisplay } from "../reviewDisplay/reviewDisplay";
 import { ReviewForm } from "../reviewForm/reviewForm";
+import { useTranslations } from "next-intl";
 
 export function ReviewManagement({ userReviews }: { userReviews: IReviewSerialized[] }) {
   const { modal, openModal, closeModal } = useModalQuery();
   const [selectedReview, setSelectedReview] = useState<IReviewSerialized | null>(null);
-
+  const tReview = useTranslations("Reviews");
+  const tCommon = useTranslations("Common");
+  const tEntity = useTranslations("Entities");
   function handleOpen(review: IReviewSerialized, modalType: ModalType) {
     setSelectedReview(review);
     openModal(modalType);
@@ -25,11 +28,11 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
     try {
       const result = await deleteReview(id);
       if (!result.success) {
-        toast.error(result.message);
+        toast.success(tReview(`userMessages.${result.message}`));
         return;
       }
       closeModal();
-      toast.success(result.message);
+      toast.success(tReview(`userMessages.${result.message}`));
       setSelectedReview(null);
     } catch (error) {
       console.error(error);
@@ -43,11 +46,8 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
   return (
     <div className="w-full flex justify-center bg-background">
       <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">Your Reviews</h2>
-        <p className="text-xl text-secondary">
-          Your literary legacy in one place: rediscover your past reviews and track how your
-          perspective has evolved over time
-        </p>
+        <h2 className="text-6xl font-bold">{tReview("yourReviews")}</h2>
+        <p className="text-xl text-secondary">{tReview("description")}</p>
         <div className="w-full flex flex-col sm:flex-row gap-4">
           {userReviews && userReviews.length > 0 ? (
             <VirtualizerList items={userReviews} isWindowScroll columns={2}>
@@ -65,17 +65,22 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
             </VirtualizerList>
           ) : (
             <div className="flex items-center justify-center p-4 bg-background border border-secondary rounded-md">
-              <p className="text-secondary">You have not written any reviews yet</p>
+              <p className="text-secondary">{tReview("noReviewsWritten")}</p>
             </div>
           )}
         </div>
       </div>
       {modal === "delete" && selectedReview && (
-        <ModalWindow header="Review deletion" handleCancel={handleCancel}>
+        <ModalWindow
+          header={tCommon("deletion", {
+            entity: tEntity("review.deletion"),
+          })}
+          handleCancel={handleCancel}
+        >
           <DeleteMessage
             handleCancel={closeModal}
-            cancelButton="Cancel"
-            acceptButton="Delete"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("delete")}
             handleDelete={() => handleDelete(selectedReview._id)}
             entity={selectedReview}
           />
@@ -83,13 +88,13 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
       )}
       {modal === "edit" && selectedReview && (
         <ModalWindow
-          header={`"${selectedReview.bookTitle}" review editing`}
+          header={tReview("editReviews", { bookName: selectedReview.bookTitle })}
           handleCancel={handleCancel}
         >
           <ReviewForm
             handleCancel={handleCancel}
-            cancelButton="Cancel"
-            acceptButton="Save"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("saveChanges")}
             editionData={selectedReview}
             bookId={selectedReview.bookId}
           />
