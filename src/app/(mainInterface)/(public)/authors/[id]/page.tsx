@@ -1,7 +1,6 @@
-import BookIcon from "@/public/book.png";
 import { getAuthorById, getAuthors } from "@/lib/modules/authors/authors";
 import { getBooksByAuthorId } from "@/lib/modules/books/books";
-import { Suspense } from "react";
+import BookIcon from "@/public/book.png";
 import { BookSection } from "../../components/booksSection/bookSection";
 import { SectionHeader } from "../../components/booksSection/sectionHeader";
 import AuthorPage from "./components/authorPage";
@@ -27,15 +26,13 @@ export default async function Author({
   const from = searchParam.from ?? "1";
 
   return (
-    <Suspense fallback={<p>Wait...</p>}>
-      <div className="w-full flex justify-center bg-background">
-        <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
-          <AuthorPage author={author} from={from} />
-          <BookSection books={books}>
-            <SectionHeader alt="" src={BookIcon} title="Books by Author" />
-          </BookSection>
-        </div>
+    <div className="w-full flex justify-center bg-background">
+      <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
+        <AuthorPage author={author} from={from} />
+        <BookSection books={books}>
+          <SectionHeader alt="" src={BookIcon} title="Books by Author" />
+        </BookSection>
       </div>
-    </Suspense>
+    </div>
   );
 }

@@ -45,7 +45,7 @@ export function GenreManagementList({ genres }: ManagementListProps) {
   return (
     <div className="w-full flex bg-background">
       <div className="w-full gap-4 flex flex-col mt-5">
-        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-3">
+        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {genres.map((genre) => (
             <div key={genre._id}>
               <ItemCard name="genre">

@@ -3,7 +3,6 @@ import { getGenresById } from "@/lib/modules/genres/genres";
 import { getReviewsByBookId } from "@/lib/modules/reviews/reviews";
 import { auth } from "@/src/auth";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { BookPage } from "./components/bookPage";
 
 export async function generateStaticParams() {
@@ -25,9 +24,5 @@ export default async function Book({ params }: { params: Promise<{ id: string }>
     getReviewsByBookId(book._id),
   ]);
 
-  return (
-    <Suspense fallback={<p>Wait...</p>}>
-      <BookPage book={book} genres={genres} session={session} reviews={reviews} />
-    </Suspense>
-  );
+  return <BookPage book={book} genres={genres} session={session} reviews={reviews} />;
 }

@@ -48,65 +48,58 @@ export function BookDirectory({
   if (!books || books.length === 0) return <p>No books found</p>;
 
   return (
-    <div className="w-full flex justify-center bg-background">
-      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">Books Directory</h2>
-        <p className="text-xl text-secondary">
-          Discover your next great read from our curated collection of timeless classics and modern
-          masterpieces
-        </p>
-        <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
-          <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
-            {genres && (
-              <div className="min-w-85 max-w-85">
-                <MultiSelect
-                  multiple
-                  name="genres"
-                  label="Filter by genres"
-                  items={genres}
-                  value={selected}
-                  onChange={updateFilters}
-                  placeholder="Select genres..."
-                />
-              </div>
-            )}
-            <SingleSelect<SortOption<IBookSerialized>>
-              items={bookSortOptions}
-              value={selectedSort}
-              onChange={setSelectedSort}
-              placeholder="Sort by..."
-              label="Sort Books"
-            />
-          </div>
-        </div>
-
-        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
-          {displayedBooks.map((book) => (
-            <div key={book._id}>
-              <ItemCard name="book">
-                <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                  <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
-                  <div className="flex items-center justify-between pt-2 pb-2">
-                    <Rating rating={book.rating} />
-                    {isAuthenticated ? <ItemCard.Favorite bookId={book._id} /> : null}
-                  </div>
-                  <ItemCard.Title content={book.title} className="truncate" />
-                  <div className="flex justify-between pb-2">
-                    <ItemCard.Information content={book.authorName} color="secondary" />
-                    <ItemCard.Information content={book.year} color="secondary" />
-                  </div>
-                  <LinkButton
-                    href={`${routes.books}/${book._id}?from=${encodeURIComponent(fromPath)}`}
-                  >
-                    View Information
-                  </LinkButton>
-                </div>
-              </ItemCard>
+    <>
+      <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
+        <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
+          {genres && (
+            <div className="min-w-85 max-w-85">
+              <MultiSelect
+                multiple
+                name="genres"
+                label="Filter by genres"
+                items={genres}
+                value={selected}
+                onChange={updateFilters}
+                placeholder="Select genres..."
+              />
             </div>
-          ))}
+          )}
+          <SingleSelect<SortOption<IBookSerialized>>
+            items={bookSortOptions}
+            value={selectedSort}
+            onChange={setSelectedSort}
+            placeholder="Sort by..."
+            label="Sort Books"
+          />
         </div>
-        {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
-    </div>
+
+      <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
+        {displayedBooks.map((book) => (
+          <div key={book._id}>
+            <ItemCard name="book">
+              <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
+                <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
+                <div className="flex items-center justify-between pt-2 pb-2">
+                  <Rating rating={book.rating} />
+                  {isAuthenticated ? <ItemCard.Favorite bookId={book._id} /> : null}
+                </div>
+                <ItemCard.Title content={book.title} className="truncate" />
+                <div className="flex justify-between pb-2">
+                  <ItemCard.Information content={book.authorName} color="secondary" />
+                  <ItemCard.Information content={book.year} color="secondary" />
+                </div>
+                <LinkButton
+                  href={`${routes.books}/${book._id}?from=${encodeURIComponent(fromPath)}`}
+                >
+                  View Information
+                </LinkButton>
+              </div>
+            </ItemCard>
+          </div>
+        ))}
+      </div>
+      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+    </>
   );
 }

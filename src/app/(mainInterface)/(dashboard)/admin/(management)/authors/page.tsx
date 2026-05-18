@@ -1,6 +1,7 @@
 import AuthorsContent from "@/src/app/(mainInterface)/(public)/components/authorsContent/authorsContent";
 import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
 import { Suspense } from "react";
+import { ItemsSkeleton } from "../../../../components/itemsSkeleton/itemsSkeleton";
 import { AuthorManagementList } from "../components/authorManagementList/authorManagementList";
 
 export interface AuthorsProps {
@@ -9,7 +10,15 @@ export interface AuthorsProps {
 
 export default function AuthorsManagement({ searchParams }: AuthorsProps) {
   return (
-    <Suspense fallback={<div>Loading authors...</div>}>
+    <Suspense
+      fallback={
+        <ItemsSkeleton
+          className="h-[250px]"
+          gridClassName="grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-4"
+          itemsNumber={ITEMS_PER_PAGE.TWELVE}
+        />
+      }
+    >
       <AuthorsContent searchParams={searchParams} itemsPerPage={ITEMS_PER_PAGE.TWELVE}>
         {(data) => <AuthorManagementList {...data} />}
       </AuthorsContent>
