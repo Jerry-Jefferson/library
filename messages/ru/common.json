@@ -12,15 +12,24 @@
     "saveChanges": "Сохранить изменения",
     "loading": "{entity} загружаются",
     "deletion": "Удаление {entity}",
+    "editing": "Редактирование {entity}",
+    "entry": "запись {entity}",
+    "newEntry": "Добавить новую",
     "edit": "Редактировать",
     "delete": "Удалить",
+    "add": "Добавить",
     "wantToDelete": "Вы уверены, что хотите удалить",
+    "requiredField": "Это поле обязательно для заполнения",
     "userMessages": {
       "unauthorized": "Вы должны войти в аккаунт",
       "invalidData": "Некорректные данные",
       "wentWrong": "Что-то пошло не так",
       "tryAgainLater": "Пожалуйста, попробуйте позже",
       "notFound": "Ничего не найдено"
+    },
+    "imageUploader": {
+      "clickToUpload": "Нажмите, чтобы загрузить",
+      "upTo": "png, jpeg, webp до 10 МБ"
     }
   }
 }

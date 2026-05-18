@@ -18,6 +18,7 @@ import { useMemo, useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
 import { BookCreationForm } from "../../../book/components/bookCreation/bookCreationForm";
+import { useTranslations } from "next-intl";
 
 export interface ManagementListProps {
   books: IBookSerialized[];
@@ -37,6 +38,9 @@ export function ManagementList({
 }: ManagementListProps) {
   const { modal, openModal, closeModal } = useModalQuery();
   const [selectedBook, setSelectedBook] = useState<IBookSerialized | null>(null);
+  const tCommon = useTranslations("Common");
+  const tEntity = useTranslations("Entities");
+  const tBooks = useTranslations("Books");
 
   function handleOpen(book: IBookSerialized, modalType: ModalType) {
     setSelectedBook(book);
@@ -51,7 +55,7 @@ export function ManagementList({
         return;
       }
       closeModal();
-      toast.success(result.message);
+      toast.success(tBooks(`userMessages.${result.message}`));
       setSelectedBook(null);
     } catch (error) {
       console.error(error);
@@ -77,7 +81,15 @@ export function ManagementList({
     if (!selectedSort) return books;
     return [...books].sort(selectedSort.comparator);
   }, [books, selectedSort]);
-  if (!books || books.length === 0) return <p>No books found</p>;
+
+  const localizedSortOptions = useMemo(() => {
+    return bookSortOptions.map((option) => ({
+      ...option,
+      title: tBooks(`sortOptions.${option._id}`),
+    }));
+  }, [tBooks]);
+
+  if (!books || books.length === 0) return <p>{tBooks("noBooks")}</p>;
 
   return (
     <div className="w-full flex bg-background">
@@ -89,20 +101,26 @@ export function ManagementList({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label="Filter by genres"
+                  label={tCommon("filterBy", {
+                    entity: tEntity("genres.filter"),
+                  })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder="Select genres..."
+                  placeholder={tCommon("select", {
+                    entity: tEntity("genres.genres"),
+                  })}
                 />
               </div>
             )}
             <SingleSelect<SortOption<IBookSerialized>>
-              items={bookSortOptions}
+              items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder="Sort by..."
-              label="Sort Books"
+              placeholder={tCommon("sort")}
+              label={tCommon("sortBy", {
+                entity: tEntity("books.sort"),
+              })}
             />
           </div>
         </div>
@@ -142,22 +160,32 @@ export function ManagementList({
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
       {modal === "delete" && selectedBook && (
-        <ModalWindow header="Book deletion" handleCancel={closeModal}>
+        <ModalWindow
+          header={tCommon("deletion", {
+            entity: tEntity("books.select"),
+          })}
+          handleCancel={closeModal}
+        >
           <DeleteMessage
             handleCancel={closeModal}
-            cancelButton="Cancel"
-            acceptButton="Delete"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("delete")}
             handleDelete={() => handleDelete(selectedBook._id)}
             entity={selectedBook}
           />
         </ModalWindow>
       )}
       {modal === "edit" && selectedBook && (
-        <ModalWindow header={`${selectedBook.title} editing`} handleCancel={closeModal}>
+        <ModalWindow
+          header={tCommon("editing", {
+            entity: tEntity("books.select"),
+          })}
+          handleCancel={closeModal}
+        >
           <BookCreationForm
             handleCancel={closeModal}
-            cancelButton="Cancel"
-            acceptButton="Save"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("edit")}
             editionData={selectedBook}
             genres={genres || []}
             authors={authors || []}

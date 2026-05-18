@@ -1,7 +1,9 @@
+"use client";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { TextError } from "../../../input/textError";
 import SingleSelect from "../../singleSelect";
 import { SelectItemType, VariantType } from "../../types";
+import { useTranslations } from "next-intl";
 
 interface FormSingleSelectProps<T extends FieldValues, Item extends SelectItemType> {
   name: Path<T>;
@@ -19,6 +21,7 @@ export function FormSingleSelect<T extends FieldValues, Item extends SelectItemT
   label,
   variant = "primary",
 }: FormSingleSelectProps<T, Item>) {
+  const t = useTranslations("Common");
   return (
     <Controller
       name={name}
@@ -38,7 +41,7 @@ export function FormSingleSelect<T extends FieldValues, Item extends SelectItemT
               }}
               variant={variant}
             />
-            <TextError errorMessage={error?.message} />
+            <TextError errorMessage={error ? t("requiredField") : ""} />
           </div>
         );
       }}

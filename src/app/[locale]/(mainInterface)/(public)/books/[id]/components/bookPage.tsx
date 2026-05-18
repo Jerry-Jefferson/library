@@ -12,7 +12,6 @@ import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 import { IReviewSerialized } from "@/src/models/review";
-import { BACK_PATHS_LABELS, DEFAULT_LABEL } from "@/src/shared/constants/backPathsLabels";
 import { routes } from "@/src/shared/constants/routes";
 import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { formatDate } from "@/src/shared/utils/formatDate";
@@ -172,7 +171,10 @@ export function BookPage({
         </ModalWindow>
       )}
       {modal === "edit" && selectedReview && book && (
-        <ModalWindow header={`Editing review for: ${book.title}`} handleCancel={handleCloseModal}>
+        <ModalWindow
+          header={`${tBooks("editReview")}: ${book.title}`}
+          handleCancel={handleCloseModal}
+        >
           <ReviewForm
             handleCancel={handleCloseModal}
             cancelButton={tCommon("cancel")}

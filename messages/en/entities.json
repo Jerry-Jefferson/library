@@ -3,7 +3,8 @@
     "books": {
       "filter": "books",
       "sort": "books",
-      "select": "books"
+      "select": "books",
+      "entry": "book"
     },
     "authors": {
       "filter": "authors",

@@ -3,7 +3,8 @@
     "books": {
       "filter": "книгам",
       "sort": "книги",
-      "select": "книги"
+      "select": "книги",
+      "entry": "о книге"
     },
     "authors": {
       "filter": "авторам",

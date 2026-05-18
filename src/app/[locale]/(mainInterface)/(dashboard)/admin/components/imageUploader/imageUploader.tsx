@@ -3,6 +3,7 @@
 import UploadCloud from "@/public/cloudUpload.png";
 import { TextError } from "@/src/components/client/input/textError";
 import { DEFAULT_AVATAR } from "@/src/shared/constants/defaultAvatar";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import { FieldValues, Path, PathValue, UseFormSetValue, UseFormWatch } from "react-hook-form";
@@ -21,7 +22,7 @@ export function ImageUploader<T extends FieldValues>({
   errorMessage,
 }: ImageUploaderProps<T>) {
   const fileValue = watch(name);
-
+  const t = useTranslations("Common");
   const preview = useMemo(() => {
     if ((fileValue as unknown) instanceof File) {
       return URL.createObjectURL(fileValue);
@@ -72,9 +73,11 @@ export function ImageUploader<T extends FieldValues>({
               <Image fill alt="upload a cover" src={UploadCloud} sizes="56px" />
             </div>
             <div className="text-center">
-              <p className="text-sm text-foreground font-medium">Click to upload</p>
+              <p className="text-sm text-foreground font-medium">
+                {t("imageUploader.clickToUpload")}
+              </p>
               <p className="text-xs text-secondary truncate max-w-[150px]">
-                png, jpeg, webp up to 10MB
+                {t("imageUploader.upTo")}
               </p>
             </div>
           </>

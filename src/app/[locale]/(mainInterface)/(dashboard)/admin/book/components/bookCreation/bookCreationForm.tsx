@@ -14,6 +14,7 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ImageUploader } from "../../../components/imageUploader/imageUploader";
+import { useTranslations } from "next-intl";
 
 const bookFields = {
   name: "title",
@@ -56,7 +57,7 @@ export function BookCreationForm({
   acceptButton,
 }: BookCreationFormProps) {
   const isEditMode = Boolean(editionData?._id);
-
+  const t = useTranslations("Books");
   const selectableAuthors = useMemo(
     () => authors.map((author) => ({ _id: author._id, title: author.name })),
     [authors]
@@ -98,11 +99,11 @@ export function BookCreationForm({
       }
 
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
 
-      toast.success(result.message);
+      toast.success(t(`userMessages.${result.message}`));
 
       if (isEditMode) {
         handleCancel?.();
@@ -111,7 +112,7 @@ export function BookCreationForm({
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Something went wrong");
+      toast.error(t(`userMessages.wentWrong`));
     }
   };
 
@@ -134,15 +135,19 @@ export function BookCreationForm({
             name="title"
             type="text"
             register={register}
-            label="Title"
-            errorMessage={errors.title?.message}
+            label={t("formFields.title")}
+            errorMessage={
+              errors.title?.message ? t(`booksValidation.${errors.title.message}`) : undefined
+            }
           />
           <FormInput
             name="year"
             type="text"
             register={register}
-            label="Year"
-            errorMessage={errors.year?.message}
+            label={t("formFields.year")}
+            errorMessage={
+              errors.year?.message ? t(`booksValidation.${errors.year.message}`) : undefined
+            }
           />
         </div>
         <div className="flex flex-col justify-between gap-6 sm:flex-row">
@@ -150,22 +155,26 @@ export function BookCreationForm({
             name="authorId"
             control={control}
             items={selectableAuthors}
-            label="Author"
+            label={t("formFields.author")}
             variant="secondary"
           />
           <FormMultiselect
             name="genres"
             control={control}
             items={genres}
-            label="Genres"
+            label={t("formFields.genres")}
             variant="secondary"
           />
         </div>
         <TextArea
           name="description"
-          label="Synopsis"
+          label={t("synopsis")}
           register={register}
-          errorMessage={errors.description?.message}
+          errorMessage={
+            errors.description?.message
+              ? t(`booksValidation.${errors.description.message}`)
+              : undefined
+          }
         />
         <div className="flex justify-between gap-6">
           <Button
@@ -194,7 +203,9 @@ export function BookCreationForm({
             name="image"
             setValue={setValue}
             watch={watch}
-            errorMessage={errors.image?.message}
+            errorMessage={
+              errors.image?.message ? t(`booksValidation.${errors.image.message}`) : undefined
+            }
           />
         </div>
       </div>

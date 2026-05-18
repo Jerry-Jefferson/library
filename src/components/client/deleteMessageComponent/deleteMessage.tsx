@@ -57,7 +57,7 @@ export function DeleteMessage({
       <div className="flex flex-col items-center">
         <p>
           {tCommon("wantToDelete")}
-          {isReview ? <strong> {t("thisReview")}</strong> : <strong>{displayContent}</strong>}?
+          {isReview ? <strong> {t("thisReview")}</strong> : <strong> {displayContent}</strong>}?
         </p>
         <p className="text-secondary">{isWarning ? t("bookHasReviews") : null}</p>
       </div>

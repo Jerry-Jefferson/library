@@ -12,15 +12,24 @@
     "saveChanges": "Save changes",
     "loading": "Loading {entity}",
     "deletion": "{entity} deletion",
+    "editing": "{entity} editing",
+    "entry": "{entity} entry",
+    "newEntry": "Add new",
     "edit": "Edit",
     "delete": "Delete",
+    "add": "Add",
     "wantToDelete": "Are you sure you want to delete",
+    "requiredField": "This field is required",
     "userMessages": {
       "unauthorized": "You must be logged in",
       "invalidData": "Invalid data",
       "wentWrong": "Something went wrong",
       "tryAgainLater": "Please try again later",
       "notFound": "Not found"
+    },
+    "imageUploader": {
+      "clickToUpload": "Click to upload",
+      "upTo": "png, jpeg, webp up to 10MB"
     }
   }
 }

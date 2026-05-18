@@ -21,6 +21,33 @@
     "quoteIncoming": "A quote incoming...",
     "noReviews": "There are no reviews yet. Be first to leave one",
     "addReview": "Add review",
-    "editReview": "Editing review for:"
+    "editReview": "Editing review for:",
+    "formFields": {
+      "title": "Title",
+      "description": "Description",
+      "year": "Year",
+      "author": "Author",
+      "genres": "Genres"
+    },
+    "userMessages": {
+      "invalidBookData": "Invalid book data",
+      "bookCreated": "The book has been successfully added",
+      "bookUpdated": "The book has been successfully edited",
+      "bookDeleted": "The book has been successfully deleted",
+      "bookNotFound": "The book was not found",
+      "failedToCreateBook": "Failed to add a book",
+      "failedToUpdateBook": "Failed to edit a book",
+      "failedToDeleteBook": "Failed to delete the book"
+    },
+    "booksValidation": {
+      "titleRequired": "Enter the book's title",
+      "descriptionTooShort": "Write a longer synopsis",
+      "authorRequired": "Choose an author",
+      "yearInvalid": "Enter a valid year",
+      "yearFuture": "Year cannot be in the future",
+      "genresRequired": "Select at least one genre",
+      "imageTooLarge": "File must be less than 10MB",
+      "imageInvalidType": "Only .jpeg, .png, .webp are allowed"
+    }
   }
 }
