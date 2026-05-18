@@ -58,6 +58,7 @@ export function BookCreationForm({
 }: BookCreationFormProps) {
   const isEditMode = Boolean(editionData?._id);
   const t = useTranslations("Books");
+  const tCommon = useTranslations("Common");
   const selectableAuthors = useMemo(
     () => authors.map((author) => ({ _id: author._id, title: author.name })),
     [authors]
@@ -112,7 +113,7 @@ export function BookCreationForm({
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error(t(`userMessages.wentWrong`));
+      toast.error(tCommon(`userMessages.wentWrong`));
     }
   };
 

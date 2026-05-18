@@ -18,6 +18,7 @@ import { useMemo, useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
 import { AuthorCreationForm } from "../../../author/components/authorCreationForm/authorCreationForm";
+import { useTranslations } from "next-intl";
 
 export interface AuthorManagementListProps {
   genres: IGenreSerialized[] | null;
@@ -35,21 +36,30 @@ export function AuthorManagementList({
 }: AuthorManagementListProps) {
   const { modal, openModal, closeModal } = useModalQuery();
   const [selectedAuthor, setSelectedAuthor] = useState<IAuthorSerialized | null>(null);
-
+  const tCommon = useTranslations("Common");
+  const tEntity = useTranslations("Entities");
+  const tAuthors = useTranslations("Authors");
   function handleOpen(author: IAuthorSerialized, modalType: ModalType) {
     setSelectedAuthor(author);
     openModal(modalType);
   }
 
+  const localizedSortOptions = useMemo(() => {
+    return authorSortOptions.map((option) => ({
+      ...option,
+      title: tAuthors(`sortOptions.${option._id}`),
+    }));
+  }, [tAuthors]);
+
   async function handleDelete(id: string) {
     try {
       const result = await deleteAuthor(id);
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(tAuthors(`userMessages.${result.message}`));
         return;
       }
       closeModal();
-      toast.success(result.message);
+      toast.success(tAuthors(`userMessages.${result.message}`));
       setSelectedAuthor(null);
     } catch (error) {
       console.error(error);
@@ -77,7 +87,7 @@ export function AuthorManagementList({
     return [...authors].sort(selectedSort.comparator);
   }, [authors, selectedSort]);
 
-  if (!authors || authors.length === 0) return <p>No authors found</p>;
+  if (!authors || authors.length === 0) return <p>{tAuthors("noAuthors")}</p>;
   return (
     <div className="w-full flex bg-background">
       <div className="w-full gap-4 flex flex-col mt-3 m5-10">
@@ -88,20 +98,26 @@ export function AuthorManagementList({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label="Filter by genres"
+                  label={tCommon("filterBy", {
+                    entity: tEntity("genres.filter"),
+                  })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder="Select genres..."
+                  placeholder={tCommon("select", {
+                    entity: tEntity("genres.genres"),
+                  })}
                 />
               </div>
             )}
             <SingleSelect<SortOption<IAuthorSerialized>>
-              items={authorSortOptions}
+              items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder="Sort by..."
-              label="Sort Authors"
+              placeholder={tCommon("sort")}
+              label={tCommon("sortBy", {
+                entity: tEntity("authors.sort"),
+              })}
             />
           </div>
         </div>
@@ -112,7 +128,7 @@ export function AuthorManagementList({
             return (
               <div key={author._id} className="relative">
                 <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                  <Tooltip helpText={hasBooks ? "Author has books" : ""}>
+                  <Tooltip helpText={hasBooks ? tAuthors("hasBooks") : ""}>
                     <Button
                       size="small"
                       className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
@@ -144,22 +160,30 @@ export function AuthorManagementList({
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
       {modal === "delete" && selectedAuthor && (
-        <ModalWindow header="Author deletion" handleCancel={closeModal}>
+        <ModalWindow
+          header={tCommon("deletion", { entity: tEntity("authors.deleting") })}
+          handleCancel={closeModal}
+        >
           <DeleteMessage
             handleCancel={closeModal}
-            cancelButton="Cancel"
-            acceptButton="Delete"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("delete")}
             handleDelete={() => handleDelete(selectedAuthor._id)}
             entity={selectedAuthor}
           />
         </ModalWindow>
       )}
       {modal === "edit" && selectedAuthor && (
-        <ModalWindow header={`${selectedAuthor.name} editing`} handleCancel={closeModal}>
+        <ModalWindow
+          header={tCommon("editing", {
+            entity: tEntity("authors.select"),
+          })}
+          handleCancel={closeModal}
+        >
           <AuthorCreationForm
             handleCancel={closeModal}
-            cancelButton="Cancel"
-            acceptButton="Save"
+            cancelButton={tCommon("cancel")}
+            acceptButton={tCommon("saveChanges")}
             editionData={selectedAuthor}
           />
         </ModalWindow>

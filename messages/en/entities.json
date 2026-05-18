@@ -9,7 +9,9 @@
     "authors": {
       "filter": "authors",
       "sort": "authors",
-      "select": "authors"
+      "select": "authors",
+      "deleting": "author",
+      "entry": "author"
     },
     "genres": {
       "filter": "genre",

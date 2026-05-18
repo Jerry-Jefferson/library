@@ -9,6 +9,38 @@
       "books-asc": "Fewest books"
     },
     "present": "Present",
-    "biography": "Biography"
+    "biography": "Biography",
+    "noAuthors": "No authors found",
+    "hasBooks": "Author has books",
+    "formFields": {
+      "name": "Title",
+      "birthYear": "Birth Year",
+      "deathYear": "Death Year",
+      "isAlive": "Alive",
+      "biography": "Biography"
+    },
+    "userMessages": {
+      "invalidAuthorData": "Invalid author data",
+      "authorCreated": "The author has been successfully created",
+      "authorUpdated": "The author has been successfully edited",
+      "authorDeleted": "The author has been successfully deleted",
+      "authorNotFound": "The author was not found",
+      "authorHasBooks": "The author has books and cannot be deleted",
+      "failedToCreateAuthor": "Failed to create an author",
+      "failedToUpdateAuthor": "Failed to edit an author",
+      "failedToDeleteAuthor": "Failed to delete the author"
+    },
+    "authorsValidation": {
+      "nameRequired": "Enter the author's name",
+      "bioTooShort": "Write a biography",
+      "yearInvalid": "Enter a valid year",
+      "positiveNumber": "Enter a positive number",
+      "yearFuture": "Year cannot be in the future",
+      "deathYearRequired": "Add a death year if the author is no longer alive",
+      "aliveAuthorDeathYear": "Cannot have a death year if the author is alive",
+      "deathBeforeBirth": "Death year must be after birth year",
+      "imageTooLarge": "File must be less than 10MB",
+      "imageInvalidType": "Only .jpeg, .png, .webp are allowed"
+    }
   }
 }

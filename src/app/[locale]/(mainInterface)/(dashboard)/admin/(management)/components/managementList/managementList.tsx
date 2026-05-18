@@ -51,7 +51,7 @@ export function ManagementList({
     try {
       const result = await deleteBook(id);
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(tBooks(`userMessages.${result.message}`));
         return;
       }
       closeModal();

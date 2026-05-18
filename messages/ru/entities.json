@@ -9,7 +9,9 @@
     "authors": {
       "filter": "авторам",
       "sort": "авторов",
-      "select": "авторов"
+      "select": "авторов",
+      "deleting": "автора",
+      "entry": "об авторе"
     },
     "genres": {
       "filter": "жанрам",

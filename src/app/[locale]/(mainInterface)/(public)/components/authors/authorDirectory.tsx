@@ -58,7 +58,7 @@ export default function AuthorDirectory({
     }));
   }, [tAuthors]);
 
-  if (!authors || authors.length === 0) return <p>No authors found</p>;
+  if (!authors || authors.length === 0) return <p>{tAuthors("noAuthors")}</p>;
 
   return (
     <div className="w-full flex justify-center bg-background">

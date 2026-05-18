@@ -48,4 +48,28 @@ export const userMessages = {
     imageTooLarge: "imageTooLarge",
     imageInvalidType: "imageInvalidType",
   },
+  authors: {
+    invalidAuthorData: "invalidAuthorData",
+    authorCreated: "authorCreated",
+    authorUpdated: "authorUpdated",
+    authorDeleted: "authorDeleted",
+    authorNotFound: "authorNotFound",
+    authorHasBooks: "authorHasBooks",
+    failedToCreateAuthor: "failedToCreateAuthor",
+    failedToUpdateAuthor: "failedToUpdateAuthor",
+    failedToDeleteAuthor: "failedToDeleteAuthor",
+  },
+
+  authorsValidation: {
+    nameRequired: "nameRequired",
+    bioTooShort: "bioTooShort",
+    yearInvalid: "yearInvalid",
+    positiveNumber: "positiveNumber",
+    yearFuture: "yearFuture",
+    deathYearRequired: "deathYearRequired",
+    aliveAuthorDeathYear: "aliveAuthorDeathYear",
+    deathBeforeBirth: "deathBeforeBirth",
+    imageTooLarge: "imageTooLarge",
+    imageInvalidType: "imageInvalidType",
+  },
 } as const;

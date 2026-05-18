@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ImageUploader } from "../../../components/imageUploader/imageUploader";
+import { useTranslations } from "next-intl";
 
 const authorFields = {
   name: "name",
@@ -49,7 +50,8 @@ export function AuthorCreationForm({
   acceptButton,
 }: AuthorCreationFormProps) {
   const isEditMode = Boolean(editionData?._id);
-
+  const t = useTranslations("Authors");
+  const tCommon = useTranslations("Common");
   const {
     setValue,
     watch,
@@ -94,11 +96,11 @@ export function AuthorCreationForm({
       }
 
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(t(`userMessages.${result.message}`));
         return;
       }
 
-      toast.success(result.message);
+      toast.success(t(`userMessages.${result.message}`));
 
       if (isEditMode) {
         handleCancel?.();
@@ -107,7 +109,7 @@ export function AuthorCreationForm({
       }
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error("Something went wrong");
+      toast.error(tCommon(`userMessages.wentWrong`));
     }
   };
 
@@ -129,38 +131,50 @@ export function AuthorCreationForm({
           name="name"
           type="text"
           register={register}
-          label="Name"
-          errorMessage={errors.name?.message}
+          label={t("formFields.name")}
+          errorMessage={
+            errors.name?.message ? t(`authorsValidation.${errors.name.message}`) : undefined
+          }
         />
         <div className="flex justify-between gap-6">
           <FormInput
             name="birthYear"
             type="text"
             register={register}
-            label="Birth Year"
-            errorMessage={errors.birthYear?.message}
+            label={t("formFields.birthYear")}
+            errorMessage={
+              errors.birthYear?.message
+                ? t(`authorsValidation.${errors.birthYear.message}`)
+                : undefined
+            }
           />
           <FormInput
             name="deathYear"
             type="text"
             register={register}
-            label="Death Year"
+            label={t("formFields.deathYear")}
             disabled={isAlive}
-            errorMessage={errors.deathYear?.message}
+            errorMessage={
+              errors.deathYear?.message
+                ? t(`authorsValidation.${errors.deathYear.message}`)
+                : undefined
+            }
           />
           <FormCheckbox
             control={control}
             name="isAlive"
             variant="primary"
             size="medium"
-            label="Alive"
+            label={t("formFields.isAlive")}
           />
         </div>
         <TextArea
           name="bio"
-          label="Biography"
+          label={t("formFields.biography")}
           register={register}
-          errorMessage={errors.bio?.message}
+          errorMessage={
+            errors.bio?.message ? t(`authorsValidation.${errors.bio.message}`) : undefined
+          }
         />
         <div className="flex justify-between gap-6">
           <Button
