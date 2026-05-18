@@ -1,6 +1,7 @@
-import BookIcon from "@/public/book.png";
 import { getAuthorById, getAuthors } from "@/lib/modules/authors/authors";
 import { getBooksByAuthorId } from "@/lib/modules/books/books";
+import BookIcon from "@/public/book.png";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import { Suspense } from "react";
 import { BookSection } from "../../components/booksSection/bookSection";
 import { SectionHeader } from "../../components/booksSection/sectionHeader";
@@ -31,9 +32,11 @@ export default async function Author({
       <div className="w-full flex justify-center bg-background">
         <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
           <AuthorPage author={author} from={from} />
-          <BookSection books={books}>
-            <SectionHeader alt="" src={BookIcon} title="Books by Author" />
-          </BookSection>
+          <ErrorBoundary title="Section is unavailable now" message="Try again later">
+            <BookSection books={books}>
+              <SectionHeader alt="" src={BookIcon} title="Books by Author" />
+            </BookSection>
+          </ErrorBoundary>
         </div>
       </div>
     </Suspense>

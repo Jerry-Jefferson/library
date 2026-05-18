@@ -2,6 +2,7 @@
 
 import { deleteReview } from "@/lib/modules/reviews/review.actions";
 import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/deleteMessage";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
 import { VirtualizerList } from "@/src/components/client/virtualizerList/virtualizerList";
@@ -52,15 +53,17 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
           {userReviews && userReviews.length > 0 ? (
             <VirtualizerList items={userReviews} isWindowScroll columns={2}>
               {(review) => (
-                <ReviewDisplay
-                  review={review}
-                  rating={review.rating}
-                  date={formatDate(review.createdAt)}
-                  comment={review.comment}
-                  bookName={review.bookTitle}
-                  isDashboard
-                  handleOpen={handleOpen}
-                />
+                <ErrorBoundary title={review.bookTitle} message="The card went wild">
+                  <ReviewDisplay
+                    review={review}
+                    rating={review.rating}
+                    date={formatDate(review.createdAt)}
+                    comment={review.comment}
+                    bookName={review.bookTitle}
+                    isDashboard
+                    handleOpen={handleOpen}
+                  />
+                </ErrorBoundary>
               )}
             </VirtualizerList>
           ) : (

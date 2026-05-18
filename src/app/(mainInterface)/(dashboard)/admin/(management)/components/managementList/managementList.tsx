@@ -3,6 +3,7 @@
 import { deleteBook } from "@/lib/modules/books/books.actions";
 import { Button } from "@/src/components/client/button/button";
 import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/deleteMessage";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
@@ -110,38 +111,44 @@ export function ManagementList({
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-4">
           {displayedBooks.map((book) => (
-            <div key={book._id} className="relative">
-              <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                <Tooltip helpText="Delete">
-                  <Button
-                    size="small"
-                    className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                    onClick={() => handleOpen(book, "delete")}
-                  >
-                    <MdDelete className="text-sm md:text-base text-black" />
-                  </Button>
-                </Tooltip>
-                <Tooltip helpText="Edit">
-                  <Button
-                    size="small"
-                    className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                    onClick={() => handleOpen(book, "edit")}
-                  >
-                    <MdEdit className="text-sm md:text-base text-black" />
-                  </Button>
-                </Tooltip>
-              </div>
-              <ItemCard name="book">
-                <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                  <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
-                  <ItemCard.Title content={book.title} className="truncate" />
-                  <div className="flex justify-between pb-2">
-                    <ItemCard.Information content={book.authorName} color="secondary" />
-                    <ItemCard.Information content={book.year} color="secondary" />
-                  </div>
+            <ErrorBoundary key={book._id} title={book.title} message="The card went wild">
+              <div className="relative">
+                <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
+                  <Tooltip helpText="Delete">
+                    <Button
+                      size="small"
+                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                      onClick={() => handleOpen(book, "delete")}
+                    >
+                      <MdDelete className="text-sm md:text-base text-black" />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip helpText="Edit">
+                    <Button
+                      size="small"
+                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                      onClick={() => handleOpen(book, "edit")}
+                    >
+                      <MdEdit className="text-sm md:text-base text-black" />
+                    </Button>
+                  </Tooltip>
                 </div>
-              </ItemCard>
-            </div>
+                <ItemCard name="book">
+                  <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
+                    <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
+                    <ItemCard.Title content={book.title} className="truncate" />
+                    <div className="flex justify-between pb-2">
+                      <ItemCard.Information
+                        content={book.authorName}
+                        color="secondary"
+                        className="line-clamp-1"
+                      />
+                      <ItemCard.Information content={book.year} color="secondary" />
+                    </div>
+                  </div>
+                </ItemCard>
+              </div>
+            </ErrorBoundary>
           ))}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}

@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
 import { Rating } from "@/src/components/client/rating/rating";
@@ -82,7 +83,7 @@ export function BookDirectory({
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
           {displayedBooks.map((book) => (
-            <div key={book._id}>
+            <ErrorBoundary key={book._id} title={book.title} message="The card went wild">
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
@@ -102,7 +103,7 @@ export function BookDirectory({
                   </LinkButton>
                 </div>
               </ItemCard>
-            </div>
+            </ErrorBoundary>
           ))}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
