@@ -1,0 +1,22 @@
+{
+  "Dashboard": {
+    "navLinks": {
+      "home": "Home",
+      "books": "Books",
+      "authors": "Authors",
+      "favourites": "Favourites",
+      "reviews": "Reviews"
+    },
+    "authMenu": {
+      "dashboard": "Dashboard",
+      "quit": "Quit",
+      "signIn": "Sign in",
+      "signUp": "Sign up"
+    },
+    "main": {
+      "popular": "Popular Books",
+      "new": "New Arrivals",
+      "byAuthor": "By author"
+    }
+  }
+}

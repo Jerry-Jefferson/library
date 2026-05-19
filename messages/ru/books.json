@@ -1,0 +1,54 @@
+{
+  "Books": {
+    "booksDirectory": "Каталог книг",
+    "description": "Откройте для себя свою следующую замечательную книгу из нашей тщательно подобранной коллекции нестареющей классики и современных шедевров.",
+    "sortOptions": {
+      "title-asc": "Название А → Я",
+      "title-desc": "Название Я → А",
+      "year-desc": "Сначала новые",
+      "year-asc": "Сначала старые",
+      "rating-desc": "Высший рейтинг",
+      "rating-asc": "Низший рейтинг"
+    },
+    "noBooks": "Книги не найдены",
+    "noBook": "Книга не найдена",
+    "removeFromFavs": "Удалить из избранного",
+    "addToFavs": "Добавить в избранное",
+    "synopsis": "Описание",
+    "readerReviews": "Отзывы читателей",
+    "joinConversation": "Присоединяйтесь к обсуждению этой книги",
+    "writeReview": "Написать отзыв",
+    "quoteIncoming": "Цитата скоро появится...",
+    "featuredQuote": "ЦИТАТА",
+    "noReviews": "Пока нет отзывов. Станьте первым, кто оставит отзыв",
+    "addReview": "Добавить отзыв",
+    "editReview": "Редактирование отзыва для:",
+    "formFields": {
+      "title": "Название",
+      "description": "Описание",
+      "year": "Год",
+      "author": "Автор",
+      "genres": "Жанры"
+    },
+    "userMessages": {
+      "invalidBookData": "Некорректные данные книги",
+      "bookCreated": "Книга успешно добавлена",
+      "bookUpdated": "Книга успешно обновлена",
+      "bookDeleted": "Книга успешно удалена",
+      "bookNotFound": "Книга не найдена",
+      "failedToCreateBook": "Не удалось добавить книгу",
+      "failedToUpdateBook": "Не удалось обновить книгу",
+      "failedToDeleteBook": "Не удалось удалить книгу"
+    },
+    "booksValidation": {
+      "titleRequired": "Введите название книги",
+      "descriptionTooShort": "Напишите более подробное описание",
+      "authorRequired": "Выберите автора",
+      "yearInvalid": "Введите корректный год",
+      "yearFuture": "Год не может быть в будущем",
+      "genresRequired": "Выберите хотя бы один жанр",
+      "imageTooLarge": "Файл должен быть меньше 10 МБ",
+      "imageInvalidType": "Разрешены только .jpeg, .png, .webp"
+    }
+  }
+}

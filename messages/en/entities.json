@@ -1,0 +1,36 @@
+{
+  "Entities": {
+    "booksLabel": "Books",
+    "authorsLabel": "Authors",
+    "genresLabel": "Genres",
+    "bookLabel": "Book",
+    "authorLabel": "Author",
+    "genreLabel": "Genre",
+    "books": {
+      "filter": "books",
+      "sort": "books",
+      "select": "books",
+      "entry": "book"
+    },
+    "authors": {
+      "filter": "authors",
+      "sort": "authors",
+      "select": "authors",
+      "deleting": "author",
+      "entry": "author"
+    },
+    "genres": {
+      "filter": "genre",
+      "genres": "genres",
+      "entry": "genre",
+      "editing": "genre"
+    },
+    "favorites": {
+      "loading": "favorites"
+    },
+    "review": {
+      "loading": "reviews",
+      "deletion": "review"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { Logo } from "../logo/logo";
+import { useTranslations } from "next-intl";
 
 export type NavLink = {
   href: string;
@@ -14,6 +15,7 @@ export interface NavMenuProps {
 }
 
 export function NavMenu({ links }: NavMenuProps) {
+  const t = useTranslations("Dashboard.navLinks");
   return (
     <Disclosure as="nav" className="relative flex items-center">
       {({ open, close }) => (
@@ -32,7 +34,7 @@ export function NavMenu({ links }: NavMenuProps) {
                     transition-colors
                   "
                 >
-                  {link.label}
+                  {t(link.label)}
                 </Link>
               ))}
             </div>
@@ -61,7 +63,7 @@ export function NavMenu({ links }: NavMenuProps) {
                   transition-colors
                 "
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             ))}
           </DisclosurePanel>

@@ -26,7 +26,7 @@ export async function createAuthor(data: FormData) {
       const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
-        message: "Invalid author data",
+        message: "invalidAuthorData",
         errors: flattened.fieldErrors,
       };
     }
@@ -54,10 +54,10 @@ export async function createAuthor(data: FormData) {
 
     updateTag("authors");
 
-    return { success: true, message: "The author has been successfully created" };
+    return { success: true, message: "authorCreated" };
   } catch (error) {
     console.error("DB error while creating an author", error);
-    return { success: false, message: "Failed to create an author" };
+    return { success: false, message: "failedToCreateAuthor" };
   }
 }
 
@@ -78,14 +78,14 @@ export async function updateAuthor(id: string, data: FormData) {
       const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
-        message: "Invalid author data",
+        message: "invalidAuthorData",
         errors: flattened.fieldErrors,
       };
     }
 
     const author = await Author.findById(id);
 
-    if (!author) return { success: false, message: "The author wasn't found" };
+    if (!author) return { success: false, message: "authorNotFound" };
 
     const { image, ...otherData } = validatedData.data;
     author.set(otherData);
@@ -104,10 +104,10 @@ export async function updateAuthor(id: string, data: FormData) {
     updateTag("authors");
     updateTag(`author-${id}`);
 
-    return { success: true, message: "The author has been successfully edited" };
+    return { success: true, message: "authorUpdated" };
   } catch (error) {
     console.error("DB error while editing an author", error);
-    return { success: false, message: "Failed to edit an author" };
+    return { success: false, message: "failedToUpdateAuthor" };
   }
 }
 
@@ -116,18 +116,18 @@ export async function deleteAuthor(authorId: string) {
     await connectMongo();
 
     const hasBooks = await Book.exists({ authorId });
-    if (hasBooks) return { success: false, message: "The author has books and cannot be deleted" };
+    if (hasBooks) return { success: false, message: "authorHasBooks" };
 
     const result = await Author.findByIdAndDelete(authorId);
 
-    if (!result) return { success: false, message: "The author was not found" };
+    if (!result) return { success: false, message: "authorNotFound" };
 
     updateTag("authors");
     updateTag(`author-${authorId}`);
 
-    return { success: true, message: "The author has been successfully deleted" };
+    return { success: true, message: "authorDeleted" };
   } catch (error) {
     console.error("DB error in deleteAuthor", error);
-    return { success: false, message: "Failed to delete the author" };
+    return { success: false, message: "failedToDeleteAuthor" };
   }
 }

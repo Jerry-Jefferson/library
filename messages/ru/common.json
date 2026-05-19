@@ -1,0 +1,41 @@
+{
+  "Common": {
+    "filterBy": "Фильтровать по {entity}",
+    "sortBy": "Сортировать {entity}",
+    "sort": "Сортировать...",
+    "viewInfo": "Подробнее",
+    "select": "Выберите {entity}",
+    "back": "Назад",
+    "collapse": "Свернуть",
+    "readMore": "Читать далее",
+    "cancel": "Отмена",
+    "saveChanges": "Сохранить изменения",
+    "loading": "{entity} загружаются",
+    "deletion": "Удаление {entity}",
+    "editing": "Редактирование {entity}",
+    "entry": "запись {entity}",
+    "newEntry": "Добавить новую",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "add": "Добавить",
+    "wantToDelete": "Вы уверены, что хотите удалить",
+    "requiredField": "Это поле обязательно для заполнения",
+    "userMessages": {
+      "unauthorized": "Вы должны войти в аккаунт",
+      "invalidData": "Некорректные данные",
+      "wentWrong": "Что-то пошло не так",
+      "tryAgainLater": "Пожалуйста, попробуйте позже",
+      "notFound": "Ничего не найдено"
+    },
+    "imageUploader": {
+      "clickToUpload": "Нажмите, чтобы загрузить",
+      "upTo": "png, jpeg, webp до 10 МБ"
+    },
+    "fillAllFields": "Заполните все поля",
+    "sectionUnavailable": "Секция не доступна в данный момент",
+    "cardWentWild": "Карточка не загрузилась",
+    "mistake": "Произошла ошибка",
+    "retry": "Повторить",
+    "contentFailed": "Ошибка при загрузке"
+  }
+}

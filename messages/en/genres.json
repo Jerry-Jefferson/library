@@ -1,0 +1,21 @@
+{
+  "Genres": {
+    "noGenres": "No genres found",
+    "userMessages": {
+      "invalidGenreData": "Invalid genre data",
+      "genreExists": "Genre already exists",
+      "genreCreated": "The genre has been successfully added",
+      "genreUpdated": "The genre has been successfully edited",
+      "genreDeleted": "The genre has been successfully deleted",
+      "genreNotFound": "The genre was not found",
+      "failedToCreateGenre": "Failed to add a genre",
+      "failedToUpdateGenre": "Failed to edit a genre",
+      "failedToDeleteGenre": "Failed to delete the genre"
+    },
+    "genresValidation": {
+      "titleRequired": "Enter genre title",
+      "titleTooShort": "Genre title is too short"
+    },
+    "title": "Title"
+  }
+}

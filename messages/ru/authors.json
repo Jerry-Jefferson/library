@@ -1,0 +1,47 @@
+{
+  "Authors": {
+    "authorsDirectory": "Каталог авторов",
+    "description": "Познакомьтесь с талантливыми авторами нашей коллекции из более чем 50 000 книг.",
+    "sortOptions": {
+      "name-asc": "Имя А → Я",
+      "name-desc": "Имя Я → А",
+      "books-desc": "Больше всего книг",
+      "books-asc": "Меньше всего книг"
+    },
+    "present": "Настоящее время",
+    "biography": "Биография",
+    "noAuthors": "Авторы не найдены",
+    "hasBooks": "У этого автора есть книги",
+    "formFields": {
+      "name": "Имя",
+      "birthYear": "Год рождения",
+      "deathYear": "Год смерти",
+      "isAlive": "Жив",
+      "biography": "Биография"
+    },
+    "userMessages": {
+      "invalidAuthorData": "Некорректные данные автора",
+      "authorCreated": "Автор успешно создан",
+      "authorUpdated": "Автор успешно обновлен",
+      "authorDeleted": "Автор успешно удален",
+      "authorNotFound": "Автор не найден",
+      "authorHasBooks": "У автора есть книги, поэтому его нельзя удалить",
+      "failedToCreateAuthor": "Не удалось создать автора",
+      "failedToUpdateAuthor": "Не удалось обновить автора",
+      "failedToDeleteAuthor": "Не удалось удалить автора"
+    },
+
+    "authorsValidation": {
+      "nameRequired": "Введите имя автора",
+      "bioTooShort": "Напишите биографию",
+      "yearInvalid": "Введите корректный год",
+      "positiveNumber": "Введите положительное число",
+      "yearFuture": "Год не может быть в будущем",
+      "deathYearRequired": "Добавьте год смерти, если автор не жив",
+      "aliveAuthorDeathYear": "У живого автора не может быть года смерти",
+      "deathBeforeBirth": "Год смерти должен быть позже года рождения",
+      "imageTooLarge": "Файл должен быть меньше 10 МБ",
+      "imageInvalidType": "Разрешены только .jpeg, .png, .webp"
+    }
+  }
+}
