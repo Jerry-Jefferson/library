@@ -4,9 +4,9 @@ import { ReactNode } from "react";
 import { Avatar } from "./avatar";
 import { Badge } from "./badge";
 import { CardContext } from "./cardContext";
+import { Favorite } from "./favorite";
 import { Information } from "./information";
 import { Title } from "./title";
-import { Favorite } from "./favorite";
 
 export interface ItemCardProps {
   children: ReactNode;

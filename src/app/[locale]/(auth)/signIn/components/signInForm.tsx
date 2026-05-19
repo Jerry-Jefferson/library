@@ -2,6 +2,7 @@
 
 import { signin } from "@/src/actions/auth/signin";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -26,7 +27,7 @@ const defaultSignInValues = {
 
 export function SignInForm() {
   const navigate = useRouter();
-  const t = useTranslations("Auth");
+  const t = useTranslations("");
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || routes.home;
 
@@ -51,10 +52,10 @@ export function SignInForm() {
     try {
       const result = await signin({ email, password });
       if (!result.success) {
-        toast.error(t(`userMessages.${result.message}`));
+        toast.error(t(`Auth.userMessages.${result.message}`));
         return;
       }
-      toast.success(t(`userMessages.${result.message}`));
+      toast.success(t(`Auth.userMessages.${result.message}`));
       reset();
       navigate.push(callbackUrl);
     } catch (error) {
@@ -65,59 +66,63 @@ export function SignInForm() {
   return (
     <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
-        <h1 className="text-2xl">{t("signIn.welcomeBack")}</h1>
-        <p className="text-secondary text-md sm:text-xl">{t("signIn.signInToAccess")}</p>
+        <h1 className="text-2xl">{t("Auth.signIn.welcomeBack")}</h1>
+        <p className="text-secondary text-md sm:text-xl">{t("Auth.signIn.signInToAccess")}</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <FormInput
           name="email"
           type="email"
           register={register}
-          label={t("base.email")}
+          label={t("Auth.base.email")}
           errorMessage={
-            errors.email?.message ? t(`authValidation.${errors.email.message}`) : undefined
+            errors.email?.message ? t(`Auth.authValidation.${errors.email.message}`) : undefined
           }
         />
         <FormInput
           name="password"
           password
           register={register}
-          label={t("base.password")}
+          label={t("Auth.base.password")}
           errorMessage={
-            errors.password?.message ? t(`authValidation.${errors.password.message}`) : undefined
+            errors.password?.message
+              ? t(`Auth.authValidation.${errors.password.message}`)
+              : undefined
           }
         />
-        <Button
-          fullWidth
-          size="medium"
-          variant="primary"
-          disabled={!isValid}
-          isLoading={isSubmitting}
-        >
-          {t("signIn.signIn")}
-        </Button>
+        <Tooltip helpText={!isValid ? t("Common.fillAllFields") : ""}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid}
+            isLoading={isSubmitting}
+          >
+            {t("Auth.signIn.signIn")}
+          </Button>
+        </Tooltip>
       </form>
       <div>
         <div className="flex gap-4 justify-between">
           <p className="text-secondary text-xs md:text-sm lg:text-base">
-            {t("signIn.doNotHaveAccount")}
+            {t("Auth.signIn.doNotHaveAccount")}
           </p>
           <Link
             href={routes.signUp}
             className="text-primary text-xs md:text-sm lg:text-base hover:text-primary-hover focus:border-primary"
           >
-            {t("signIn.create")}
+            {t("Auth.signIn.create")}
           </Link>
         </div>
         <div className="flex gap-4 justify-between">
           <p className="text-secondary text-xs md:text-sm lg:text-base">
-            {t("passwordReset.forgotPassword")}
+            {t("Auth.passwordReset.forgotPassword")}
           </p>
           <Link
             href={routes.recovery}
             className="text-primary text-xs md:text-sm lg:text-base hover:text-primary-hover focus:border-primary"
           >
-            {t("signIn.recover")}
+            {t("Auth.signIn.recover")}
           </Link>
         </div>
       </div>

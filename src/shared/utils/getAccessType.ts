@@ -11,5 +11,5 @@ export function getAccessType(route: string): RouteGroup {
       paths.has(normalizedRoute) || prefixes?.some((p) => normalizedRoute.startsWith(p))
   );
 
-  return match?.type ?? ROUTE_ACCESS.PUBLIC;
+  return match?.type ?? ROUTE_ACCESS.PRIVATE;
 }

@@ -31,6 +31,12 @@
     "imageUploader": {
       "clickToUpload": "Нажмите, чтобы загрузить",
       "upTo": "png, jpeg, webp до 10 МБ"
-    }
+    },
+    "fillAllFields": "Заполните все поля",
+    "sectionUnavailable": "Секция не доступна в данный момент",
+    "cardWentWild": "Карточка не загрузилась",
+    "mistake": "Произошла ошибка",
+    "retry": "Повторить",
+    "contentFailed": "Ошибка при загрузке"
   }
 }

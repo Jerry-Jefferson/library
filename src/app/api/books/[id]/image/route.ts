@@ -1,9 +1,13 @@
 import { connectMongo } from "@/lib/mongoose";
 import { Book } from "@/src/models/book";
 import { StatusCodes } from "http-status-codes";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+type RouteContext = {
+  params: Promise<{ id: string }>;
+};
+
+export async function GET(request: NextRequest, { params }: RouteContext) {
   await connectMongo();
   const { id } = await params;
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
 import MultiSelect from "@/src/components/client/select/multiSelect";
@@ -30,9 +31,7 @@ export default function AuthorDirectory({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const tCommon = useTranslations("Common");
-  const tEntity = useTranslations("Entities");
-  const tAuthors = useTranslations("Authors");
+  const t = useTranslations("");
 
   const updateFilters = (value: IGenreSerialized[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -54,17 +53,17 @@ export default function AuthorDirectory({
   const localizedSortOptions = useMemo(() => {
     return authorSortOptions.map((option) => ({
       ...option,
-      title: tAuthors(`sortOptions.${option._id}`),
+      title: t(`Authors.sortOptions.${option._id}`),
     }));
-  }, [tAuthors]);
+  }, [t]);
 
-  if (!authors || authors.length === 0) return <p>{tAuthors("noAuthors")}</p>;
+  if (!authors || authors.length === 0) return <p>{t("Authors.noAuthors")}</p>;
 
   return (
     <div className="w-full flex justify-center bg-background">
       <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">{tAuthors("authorsDirectory")}</h2>
-        <p className="text-xl text-secondary">{tAuthors("description")}</p>
+        <h2 className="text-6xl font-bold">{t("Authors.authorsDirectory")}</h2>
+        <p className="text-xl text-secondary">{t("Authors.description")}</p>
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
@@ -72,14 +71,14 @@ export default function AuthorDirectory({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label={tCommon("filterBy", {
-                    entity: tEntity("genres.filter"),
+                  label={t("Common.filterBy", {
+                    entity: t("Entities.genres.filter"),
                   })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder={tCommon("select", {
-                    entity: tEntity("genres.genres"),
+                  placeholder={t("Common.select", {
+                    entity: t("Entities.genres.genres"),
                   })}
                 />
               </div>
@@ -88,9 +87,9 @@ export default function AuthorDirectory({
               items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder={tCommon("sort")}
-              label={tCommon("sortBy", {
-                entity: tEntity("authors.sort"),
+              placeholder={t("Common.sort")}
+              label={t("Common.sortBy", {
+                entity: t("Entities.authors.sort"),
               })}
             />
           </div>
@@ -98,29 +97,37 @@ export default function AuthorDirectory({
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
           {displayedAuthors.map((author: IAuthorSerialized) => (
-            <ItemCard key={author._id} name="Author">
-              <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
-                <div className="flex flex-col items-center gap-4 grow">
-                  <ItemCard.Avatar src={author.image} alt={author.name} view="circle" />
-                  <ItemCard.Title
-                    content={author.name}
-                    className="font-bold text-center truncate"
-                  />
-                  <ItemCard.Information
-                    color="secondary"
-                    content={author.bio}
-                    className="text-center whitespace-normal line-clamp-2"
-                  />
+            <ErrorBoundary
+              key={author._id}
+              title={author.name}
+              message={t("Common.cardWentWild")}
+              retryLabel={t("Common.retry")}
+              failedLabel={t("Common.contentFailed")}
+            >
+              <ItemCard name="Author">
+                <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
+                  <div className="flex flex-col items-center gap-4 grow">
+                    <ItemCard.Avatar src={author.image} alt={author.name} view="circle" />
+                    <ItemCard.Title
+                      content={author.name}
+                      className="font-bold text-center truncate"
+                    />
+                    <ItemCard.Information
+                      color="secondary"
+                      content={author.bio}
+                      className="text-center whitespace-normal line-clamp-2"
+                    />
+                  </div>
+                  <LinkButton
+                    href={`${routes.authors}/${author._id}?from=${encodeURIComponent(
+                      `${pathname}?${searchParams.toString()}`
+                    )}`}
+                  >
+                    {t("Common.viewInfo")}
+                  </LinkButton>
                 </div>
-                <LinkButton
-                  href={`${routes.authors}/${author._id}?from=${encodeURIComponent(
-                    `${pathname}?${searchParams.toString()}`
-                  )}`}
-                >
-                  {tCommon("viewInfo")}
-                </LinkButton>
-              </div>
-            </ItemCard>
+              </ItemCard>
+            </ErrorBoundary>
           ))}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}

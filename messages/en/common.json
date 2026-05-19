@@ -32,6 +32,11 @@
       "clickToUpload": "Click to upload",
       "upTo": "png, jpeg, webp up to 10MB"
     },
-    "adminLinks": {}
+    "fillAllFields": "Fill in all the fields",
+    "sectionUnavailable": "Section is unavailable now",
+    "cardWentWild": "The card went wild",
+    "mistake": "There has been a mistake",
+    "retry": "Retry",
+    "contentFailed": "Content failed"
   }
 }

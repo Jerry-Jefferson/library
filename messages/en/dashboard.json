@@ -9,7 +9,9 @@
     },
     "authMenu": {
       "dashboard": "Dashboard",
-      "quit": "Quit"
+      "quit": "Quit",
+      "signIn": "Sign in",
+      "signUp": "Sign up"
     },
     "main": {
       "popular": "Popular Books",

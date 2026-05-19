@@ -3,12 +3,14 @@
 import { deleteBook } from "@/lib/modules/books/books.actions";
 import { Button } from "@/src/components/client/button/button";
 import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/deleteMessage";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
 import Pagination from "@/src/components/client/pagination/pagination";
 import MultiSelect from "@/src/components/client/select/multiSelect";
 import SingleSelect from "@/src/components/client/select/singleSelect";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
@@ -38,9 +40,7 @@ export function ManagementList({
 }: ManagementListProps) {
   const { modal, openModal, closeModal } = useModalQuery();
   const [selectedBook, setSelectedBook] = useState<IBookSerialized | null>(null);
-  const tCommon = useTranslations("Common");
-  const tEntity = useTranslations("Entities");
-  const tBooks = useTranslations("Books");
+  const t = useTranslations("");
 
   function handleOpen(book: IBookSerialized, modalType: ModalType) {
     setSelectedBook(book);
@@ -51,11 +51,11 @@ export function ManagementList({
     try {
       const result = await deleteBook(id);
       if (!result.success) {
-        toast.error(tBooks(`userMessages.${result.message}`));
+        toast.error(t(`Books.userMessages.${result.message}`));
         return;
       }
       closeModal();
-      toast.success(tBooks(`userMessages.${result.message}`));
+      toast.success(t(`Books.userMessages.${result.message}`));
       setSelectedBook(null);
     } catch (error) {
       console.error(error);
@@ -85,15 +85,15 @@ export function ManagementList({
   const localizedSortOptions = useMemo(() => {
     return bookSortOptions.map((option) => ({
       ...option,
-      title: tBooks(`sortOptions.${option._id}`),
+      title: t(`Books.sortOptions.${option._id}`),
     }));
-  }, [tBooks]);
+  }, [t]);
 
-  if (!books || books.length === 0) return <p>{tBooks("noBooks")}</p>;
+  if (!books || books.length === 0) return <p>{t("Books.noBooks")}</p>;
 
   return (
     <div className="w-full flex bg-background">
-      <div className="w-full gap-4 flex flex-col mt-3 m5-10">
+      <div className="w-full gap-4 flex flex-col mt-3">
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
@@ -101,14 +101,14 @@ export function ManagementList({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label={tCommon("filterBy", {
-                    entity: tEntity("genres.filter"),
+                  label={t("Common.filterBy", {
+                    entity: t("Entities.genres.filter"),
                   })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder={tCommon("select", {
-                    entity: tEntity("genres.genres"),
+                  placeholder={t("Common.select", {
+                    entity: t("Entities.genres.genres"),
                   })}
                 />
               </div>
@@ -117,9 +117,9 @@ export function ManagementList({
               items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder={tCommon("sort")}
-              label={tCommon("sortBy", {
-                entity: tEntity("books.sort"),
+              placeholder={t("Common.sort")}
+              label={t("Common.sortBy", {
+                entity: t("Entities.books.sort"),
               })}
             />
           </div>
@@ -127,49 +127,65 @@ export function ManagementList({
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-4">
           {displayedBooks.map((book) => (
-            <div key={book._id} className="relative">
-              <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                <Button
-                  size="small"
-                  className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                  onClick={() => handleOpen(book, "delete")}
-                >
-                  <MdDelete className="text-sm md:text-base text-black" />
-                </Button>
-                <Button
-                  size="small"
-                  className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
-                  onClick={() => handleOpen(book, "edit")}
-                >
-                  <MdEdit className="text-sm md:text-base text-black" />
-                </Button>
-              </div>
-              <ItemCard name="book">
-                <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                  <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
-                  <ItemCard.Title content={book.title} className="truncate" />
-                  <div className="flex justify-between pb-2">
-                    <ItemCard.Information content={book.authorName} color="secondary" />
-                    <ItemCard.Information content={book.year} color="secondary" />
-                  </div>
+            <ErrorBoundary
+              key={book._id}
+              title={book.title}
+              message={t("Common.cardWentWild")}
+              retryLabel={t("Common.retry")}
+              failedLabel={t("Common.contentFailed")}
+            >
+              <div className="relative">
+                <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
+                  <Tooltip helpText={t("Common.delete")}>
+                    <Button
+                      size="small"
+                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                      onClick={() => handleOpen(book, "delete")}
+                    >
+                      <MdDelete className="text-sm md:text-base text-black" />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip helpText={t("Common.edit")}>
+                    <Button
+                      size="small"
+                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all hover:scale-110"
+                      onClick={() => handleOpen(book, "edit")}
+                    >
+                      <MdEdit className="text-sm md:text-base text-black" />
+                    </Button>
+                  </Tooltip>
                 </div>
-              </ItemCard>
-            </div>
+                <ItemCard name="book">
+                  <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
+                    <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
+                    <ItemCard.Title content={book.title} className="truncate" />
+                    <div className="flex justify-between pb-2">
+                      <ItemCard.Information
+                        content={book.authorName}
+                        color="secondary"
+                        className="line-clamp-1"
+                      />
+                      <ItemCard.Information content={book.year} color="secondary" />
+                    </div>
+                  </div>
+                </ItemCard>
+              </div>
+            </ErrorBoundary>
           ))}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
       </div>
       {modal === "delete" && selectedBook && (
         <ModalWindow
-          header={tCommon("deletion", {
-            entity: tEntity("books.select"),
+          header={t("Common.deletion", {
+            entity: t("Entity.books.select"),
           })}
           handleCancel={closeModal}
         >
           <DeleteMessage
             handleCancel={closeModal}
-            cancelButton={tCommon("cancel")}
-            acceptButton={tCommon("delete")}
+            cancelButton={t("Common.cancel")}
+            acceptButton={t("Common.delete")}
             handleDelete={() => handleDelete(selectedBook._id)}
             entity={selectedBook}
           />
@@ -177,15 +193,15 @@ export function ManagementList({
       )}
       {modal === "edit" && selectedBook && (
         <ModalWindow
-          header={tCommon("editing", {
-            entity: tEntity("books.select"),
+          header={t("Common.editing", {
+            entity: t("Entities.books.select"),
           })}
           handleCancel={closeModal}
         >
           <BookCreationForm
             handleCancel={closeModal}
-            cancelButton={tCommon("cancel")}
-            acceptButton={tCommon("edit")}
+            cancelButton={t("Common.cancel")}
+            acceptButton={t("Common.edit")}
             editionData={selectedBook}
             genres={genres || []}
             authors={authors || []}

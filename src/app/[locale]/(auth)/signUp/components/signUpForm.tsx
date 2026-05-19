@@ -5,6 +5,7 @@ import { signin } from "@/src/actions/auth/signin";
 import { signup } from "@/src/actions/auth/signup";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { RadioButton } from "@/src/components/server/radioButton/radioButton";
 import { routes } from "@/src/shared/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,7 +34,7 @@ const defaultSignUpValues = {
 
 export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
   const navigate = useRouter();
-  const t = useTranslations("Auth");
+  const t = useTranslations("");
   const {
     register,
     handleSubmit,
@@ -55,13 +56,13 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
     try {
       const result = await signup({ name, email, role, password });
       if (!result.success) {
-        toast.error(t(`userMessages.${result.message}`));
+        toast.error(t(`Auth.userMessages.${result.message}`));
         return;
       }
-      toast.success(t(`userMessages.${result.message}`));
+      toast.success(t(`Auth.userMessages.${result.message}`));
       const signinResult = await signin({ email, password });
       if (!signinResult.success) {
-        toast.error(t(`userMessages.${result.message}`));
+        toast.error(t(`Auth.userMessages.${result.message}`));
         return;
       }
       reset();
@@ -74,30 +75,30 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
   return (
     <div className="flex flex-col gap-6 w-[70%] sm:w-[50%]">
       <div>
-        <h1 className="text-2xl">{t("signUp.createAccount")}</h1>
-        <p className="text-secondary text-md sm:text-xl">{t("signUp.startJourney")}</p>
+        <h1 className="text-2xl">{t("Auth.signUp.createAccount")}</h1>
+        <p className="text-secondary text-md sm:text-xl">{t("Auth.signUp.startJourney")}</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 sm:gap-6">
         <FormInput
           name="name"
           type="text"
           register={register}
-          label={t("base.name")}
+          label={t("Auth.base.name")}
           errorMessage={
-            errors.name?.message ? t(`authValidation.${errors.name.message}`) : undefined
+            errors.name?.message ? t(`Auth.authValidation.${errors.name.message}`) : undefined
           }
         />
         <FormInput
           name="email"
           type="email"
           register={register}
-          label={t("base.email")}
+          label={t("Auth.base.email")}
           errorMessage={
-            errors.email?.message ? t(`authValidation.${errors.email.message}`) : undefined
+            errors.email?.message ? t(`Auth.authValidation.${errors.email.message}`) : undefined
           }
         />
         <RadioButton
-          legend={t("signUp.chooseRole")}
+          legend={t("Auth.signUp.chooseRole")}
           name="role"
           options={roleOptions}
           register={register}
@@ -106,42 +107,46 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           name="password"
           password
           register={register}
-          label={t("base.password")}
+          label={t("Auth.base.password")}
           errorMessage={
-            errors.password?.message ? t(`authValidation.${errors.password.message}`) : undefined
+            errors.password?.message
+              ? t(`Auth.authValidation.${errors.password.message}`)
+              : undefined
           }
         />
         <FormInput
           name="confirmPassword"
           password
           register={register}
-          label={t("signUp.confirmPassword")}
+          label={t("Auth.signUp.confirmPassword")}
           errorMessage={
             errors.confirmPassword?.message
-              ? t(`authValidation.${errors.confirmPassword.message}`)
+              ? t(`Auth.authValidation.${errors.confirmPassword.message}`)
               : undefined
           }
         />
-        <Button
-          fullWidth
-          size="medium"
-          variant="primary"
-          disabled={!isValid}
-          isLoading={isSubmitting}
-        >
-          {t("signUp.createAccount")}
-        </Button>
+        <Tooltip helpText={!isValid ? t(`Common.fillAllFields`) : ""}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid}
+            isLoading={isSubmitting}
+          >
+            {t("Auth.signUp.createAccount")}
+          </Button>
+        </Tooltip>
       </form>
       <div>
         <div className="flex gap-4 justify-between">
           <p className="text-secondary text-xs md:text-sm lg:text-base">
-            {t("signUp.haveAnAccount")}
+            {t("Auth.signUp.haveAnAccount")}
           </p>
           <Link
             href={routes.signIn}
             className="text-primary hover:text-primary-hover focus:border-primary text-xs md:text-sm lg:text-base"
           >
-            {t("signUp.signInHere")}
+            {t("Auth.signUp.signInHere")}
           </Link>
         </div>
       </div>

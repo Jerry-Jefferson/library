@@ -38,6 +38,10 @@ export const userMessages = {
     failedToUpdateReview: "failedToUpdateReview",
     failedToDeleteReview: "failedToDeleteReview",
   },
+  reviewValidation: {
+    commentMin: "commentMin",
+    atLeastOneField: "atLeastOneField",
+  },
   books: {
     invalidBookData: "invalidBookData",
     bookCreated: "bookCreated",

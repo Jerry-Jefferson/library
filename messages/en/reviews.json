@@ -21,6 +21,11 @@
       "failedToCreateReview": "Failed to create review",
       "failedToUpdateReview": "Failed to update review",
       "failedToDeleteReview": "Failed to delete review"
-    }
+    },
+    "reviewValidation": {
+      "commentMin": "Comment must be at least 10 characters",
+      "atLeastOneField": "At least one field must be provided"
+    },
+    "userReview": "User Review"
   }
 }

@@ -9,6 +9,7 @@ import {
 import { Button } from "@/src/components/client/button/button";
 import { FormRating } from "@/src/components/client/rating/variants/formRating/formRating";
 import { TextArea } from "@/src/components/client/textArea/textArea";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -41,8 +42,7 @@ export function ReviewForm({
   bookId,
 }: ReviewFormProps) {
   const isEditMode = Boolean(editionData?._id);
-  const t = useTranslations("Reviews");
-  const tCommon = useTranslations("Common");
+  const t = useTranslations("");
   const {
     register,
     handleSubmit,
@@ -66,43 +66,49 @@ export function ReviewForm({
       }
 
       if (!result.success) {
-        toast.error(t(`userMessages.${result.message}`));
+        toast.error(t(`Reviews.userMessages.${result.message}`));
         return;
       }
 
-      toast.success(t(`userMessages.${result.message}`));
+      toast.success(t(`Reviews.userMessages.${result.message}`));
 
       handleCancel?.();
     } catch (error) {
       console.error("Form submission error:", error);
-      toast.error(tCommon(`userMessages.wentWrong`));
+      toast.error(t(`Common.userMessages.wentWrong`));
     }
   }
 
   return (
     <form className="flex flex-col gap-4 w-full p-2" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-secondary">{t("rateBook")}</h2>
+      <h2 className="text-secondary">{t("Reviews.rateBook")}</h2>
       <FormRating control={control} name="rating" errorMessage={errors.rating?.message} />
       <TextArea
-        label={t("yourThoughts")}
+        label={t("Reviews.yourThoughts")}
         register={register}
         name="comment"
-        errorMessage={errors.comment?.message}
+        errorMessage={
+          errors.comment?.message
+            ? t(`Reviews.reviewValidation.${errors.comment.message}`)
+            : undefined
+        }
       />
       <div className="flex items-center justify-center gap-4 p-4 bg-background border border-secondary rounded-md">
         <MdOutlineWarning className="text-4xl md:text-4xl lg:text-4xl text-primary" />
-        <p className="text-secondary">{t("publicReview")}</p>
+        <p className="text-secondary">{t("Reviews.publicReview")}</p>
       </div>
       <div className="flex justify-between gap-6">
-        <Button
-          fullWidth
-          size="medium"
-          variant="primary"
-          disabled={!isValid || isSubmitting || isSubmitSuccessful}
-          isLoading={isSubmitting}
-        >
-          {acceptButton}
-        </Button>
+        <Tooltip fullWidth helpText={!isValid ? t(`Common.fillAllFields`) : ""}>
+          <Button
+            fullWidth
+            size="medium"
+            variant="primary"
+            disabled={!isValid || isSubmitting || isSubmitSuccessful}
+            isLoading={isSubmitting}
+          >
+            {acceptButton}
+          </Button>
+        </Tooltip>
         <Button fullWidth size="medium" variant="secondary" type="button" onClick={handleCancel}>
           {cancelButton}
         </Button>

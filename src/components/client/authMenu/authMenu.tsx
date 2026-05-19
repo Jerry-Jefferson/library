@@ -15,6 +15,7 @@ export type UserActionsProps =
 
 export function AuthMenu(props: UserActionsProps) {
   const t = useTranslations("Dashboard.authMenu");
+  const tAuth = useTranslations("Auth");
   return (
     <div className="flex items-center gap-4">
       {props.logged ? (
@@ -33,7 +34,7 @@ export function AuthMenu(props: UserActionsProps) {
         <>
           {AUTH_BUTTONS.map((link) => (
             <LinkButton key={link.label} href={link.href}>
-              {link.label}
+              {t(link.label)}
             </LinkButton>
           ))}
         </>
