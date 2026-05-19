@@ -18,6 +18,7 @@
     "edit": "Edit",
     "delete": "Delete",
     "add": "Add",
+    "goBack": "Go back",
     "wantToDelete": "Are you sure you want to delete",
     "requiredField": "This field is required",
     "userMessages": {
