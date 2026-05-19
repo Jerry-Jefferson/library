@@ -8,7 +8,9 @@ import { cacheLife, cacheTag } from "next/cache";
 function serializeReview(review: IReview): IReviewSerialized {
   const user = review.userId;
   const userName = isUser(user) ? user.name : "Unknown user";
-  const userId = isUser(review.userId) ? review.userId._id.toString() : review.userId.toString();
+  const userId = isUser(review.userId)
+    ? review.userId._id.toString()
+    : (review.userId?.toString() ?? null);
 
   const book = review.bookId;
   const bookTitle = isBook(book) ? book.title : "";
