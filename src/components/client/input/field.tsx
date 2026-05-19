@@ -15,6 +15,7 @@ export function Field<T extends FieldValues>({
   disabled = false,
   register,
   className = "",
+  ...rest
 }: FieldProps<T>) {
   const { name } = useInput();
   return (
@@ -32,6 +33,7 @@ export function Field<T extends FieldValues>({
       `}
       type={type}
       {...register(name as Path<T>)}
+      {...rest}
     />
   );
 }
