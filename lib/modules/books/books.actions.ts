@@ -26,7 +26,7 @@ export async function createBook(data: FormData) {
       const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
-        message: "Invalid book data",
+        message: "invalidBookData",
         errors: flattened.fieldErrors,
       };
     }
@@ -52,10 +52,10 @@ export async function createBook(data: FormData) {
     updateTag("books");
     updateTag("authors");
 
-    return { success: true, message: "The book has been successfully added" };
+    return { success: true, message: "bookCreated" };
   } catch (error) {
     console.error("DB error while adding a book", error);
-    return { success: false, message: "Failed to add a book" };
+    return { success: false, message: "failedToCreateBook" };
   }
 }
 
@@ -77,14 +77,14 @@ export async function updateBook(id: string, data: FormData) {
       const flattened = z.flattenError(validatedData.error);
       return {
         success: false,
-        message: "Invalid book data",
+        message: "invalidBookData",
         errors: flattened.fieldErrors,
       };
     }
 
     const book = await Book.findById(id);
 
-    if (!book) return { success: false, message: "The book wasn't found" };
+    if (!book) return { success: false, message: "bookNotFound" };
 
     const { image, ...otherData } = validatedData.data;
     book.set(otherData);
@@ -103,10 +103,10 @@ export async function updateBook(id: string, data: FormData) {
     updateTag("books");
     updateTag(`book-${id}`);
 
-    return { success: true, message: "The book has been successfully edited" };
+    return { success: true, message: "bookUpdated" };
   } catch (error) {
     console.error("DB error while editing book", error);
-    return { success: false, message: "Failed to edit a book" };
+    return { success: false, message: "failedToUpdateBook" };
   }
 }
 
@@ -118,7 +118,7 @@ export async function deleteBook(id: string) {
 
     const result = await Book.findByIdAndDelete(id);
 
-    if (!result) return { success: false, message: "The book was not found" };
+    if (!result) return { success: false, message: "bookNotFound" };
 
     updateTag("books");
     updateTag(`book-${id}`);
@@ -126,9 +126,9 @@ export async function deleteBook(id: string) {
     updateTag("all-user-reviews");
     updateTag("authors");
 
-    return { success: true, message: "The book has been successfully deleted" };
+    return { success: true, message: "bookDeleted" };
   } catch (error) {
     console.error("DB error in deleteBook", error);
-    return { success: false, message: "Failed to delete the book" };
+    return { success: false, message: "failedToDeleteBook" };
   }
 }

@@ -25,7 +25,6 @@ export default function SingleSelect<T extends SelectItemType>({
 }: SingleSelectProps<T>) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-
   const debouncedQuery = useDebounce(query, 800);
 
   const filteredItems = useMemo(() => {

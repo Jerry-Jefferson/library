@@ -7,12 +7,15 @@ import { roles } from "@/src/shared/constants/roles";
 import { routes } from "@/src/shared/constants/routes";
 import { UserAvatar } from "../../client/userAvatar/userAvatar";
 import { Button } from "../button/button";
+import { useTranslations } from "next-intl";
 
 export type UserActionsProps =
   | { logged: true; userName: string; role: SessionRoles }
   | { logged: false };
 
 export function AuthMenu(props: UserActionsProps) {
+  const t = useTranslations("Dashboard.authMenu");
+  const tAuth = useTranslations("Auth");
   return (
     <div className="flex items-center gap-4">
       {props.logged ? (
@@ -20,18 +23,18 @@ export function AuthMenu(props: UserActionsProps) {
           <UserAvatar name={props.userName} />
           {props.role === roles.admin && (
             <LinkButton href={routes.admin} className="font-normal">
-              Dashboard
+              {t("dashboard")}
             </LinkButton>
           )}
           <Button fullWidth size="small" variant="primary" onClick={handleSignOut}>
-            Quit
+            {t("quit")}
           </Button>
         </>
       ) : (
         <>
           {AUTH_BUTTONS.map((link) => (
             <LinkButton key={link.label} href={link.href}>
-              {link.label}
+              {t(link.label)}
             </LinkButton>
           ))}
         </>

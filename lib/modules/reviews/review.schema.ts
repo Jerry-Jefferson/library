@@ -1,8 +1,9 @@
+import { userMessages } from "@/src/shared/constants/userMessages";
 import * as z from "zod/v4";
 
 export const baseReviewSchema = z.object({
   rating: z.number().min(1).max(5),
-  comment: z.string().min(10, "Comment must be at least 10 characters"),
+  comment: z.string().min(10, userMessages.reviewValidation.commentMin),
 });
 
 export type BaseReviewSchema = z.infer<typeof baseReviewSchema>;
@@ -21,7 +22,7 @@ export const reviewUpdateSchema = z
     comment: z.string().min(10).optional(),
   })
   .refine((data) => data.rating !== undefined || data.comment !== undefined, {
-    message: "At least one field must be provided",
+    message: userMessages.reviewValidation.atLeastOneField,
   });
 
 export type ReviewUpdateSchema = z.infer<typeof reviewUpdateSchema>;

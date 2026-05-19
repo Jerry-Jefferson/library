@@ -7,6 +7,7 @@ import { isMongoError } from "@/src/shared/types/typeGuards";
 import { revalidateTag, updateTag } from "next/cache";
 import { z } from "zod/v4";
 import { reviewCreationSchema, reviewUpdateSchema } from "./review.schema";
+import { userMessages } from "@/src/shared/constants/userMessages";
 
 export async function createReview(data: unknown) {
   try {
@@ -15,7 +16,7 @@ export async function createReview(data: unknown) {
     const session = await auth();
     const userId = session?.user?.id;
     if (!userId) {
-      return { success: false, message: "You must be logged in" };
+      return { success: false, message: userMessages.common.unauthorized };
     }
 
     const fullData = typeof data === "object" && data !== null ? { ...data, userId } : { userId };
@@ -25,7 +26,7 @@ export async function createReview(data: unknown) {
     if (!parsed.success) {
       return {
         success: false,
-        message: "Invalid review data",
+        message: userMessages.review.invalidReviewData,
         errors: z.treeifyError(parsed.error),
         errorMessage: z.prettifyError(parsed.error),
       };
@@ -40,19 +41,19 @@ export async function createReview(data: unknown) {
     updateTag(`book-${bookId}`);
     updateTag(`reviews-user-${userId}`);
 
-    return { success: true, message: "The review has been successfully sent" };
+    return { success: true, message: userMessages.review.reviewCreated };
   } catch (error) {
     if (isMongoError(error) && error.code === 11000) {
       return {
         success: false,
-        message: "You have written a review to this book",
+        message: userMessages.review.alreadyReviewed,
       };
     }
     console.error("DB error in createReview", error);
 
     return {
       success: false,
-      message: "Failed to create review",
+      message: userMessages.review.failedToCreateReview,
     };
   }
 }
@@ -66,7 +67,7 @@ export async function updateReview(data: unknown) {
     if (!parsed.success) {
       return {
         success: false,
-        message: "Invalid review data",
+        message: userMessages.review.invalidReviewData,
         errors: z.treeifyError(parsed.error),
         errorMessage: z.prettifyError(parsed.error),
       };
@@ -79,7 +80,7 @@ export async function updateReview(data: unknown) {
     if (!review) {
       return {
         success: false,
-        message: "Review not found",
+        message: userMessages.review.reviewNotFound,
       };
     }
 
@@ -92,13 +93,13 @@ export async function updateReview(data: unknown) {
     updateTag("books");
     updateTag(`reviews-user-${userId}`);
 
-    return { success: true, message: "The review has been successfully edited" };
+    return { success: true, message: userMessages.review.reviewUpdated };
   } catch (error) {
     console.error("DB error in updateReview", error);
 
     return {
       success: false,
-      message: "Failed to update review",
+      message: userMessages.review.failedToUpdateReview,
     };
   }
 }
@@ -112,7 +113,7 @@ export async function deleteReview(id: string) {
     if (!review) {
       return {
         success: false,
-        message: "Review not found",
+        message: userMessages.review.reviewNotFound,
       };
     }
 
@@ -127,14 +128,14 @@ export async function deleteReview(id: string) {
 
     return {
       success: true,
-      message: "Review deleted successfully",
+      message: userMessages.review.reviewDeleted,
     };
   } catch (error) {
     console.error("DB error in deleteReview", error);
 
     return {
       success: false,
-      message: "Failed to delete review",
+      message: userMessages.review.failedToDeleteReview,
     };
   }
 }

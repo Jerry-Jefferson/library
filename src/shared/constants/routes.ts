@@ -53,7 +53,7 @@ export interface BarLink {
 }
 
 export const adminBarLinks: BarLink[] = [
-  { href: routes.authorsManagement, label: "Authors" },
-  { href: routes.booksManagement, label: "Books" },
-  { href: routes.genresManagement, label: "Genres" },
+  { href: routes.authorsManagement, label: "authorsLabel" },
+  { href: routes.booksManagement, label: "booksLabel" },
+  { href: routes.genresManagement, label: "genresLabel" },
 ];

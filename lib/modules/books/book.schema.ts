@@ -1,33 +1,40 @@
+import { userMessages } from "@/src/shared/constants/userMessages";
 import * as z from "zod/v4";
 
 export const bookCreationSchema = z
   .object({
-    title: z.string().min(1, "Enter the book's title"),
-    description: z.string().min(10, "Write a longer synopsis"),
-    authorId: z.string({ message: "Choose an author" }),
+    title: z.string().min(1, userMessages.booksValidation.titleRequired),
+    description: z.string().min(10, userMessages.booksValidation.descriptionTooShort),
+    authorId: z.string({ message: userMessages.booksValidation.authorRequired }),
     year: z.coerce
-      .number<number>({ message: "Enter a valid year" })
-      .int({ message: "Enter a valid year" })
-      .min(1, "Enter a valid year")
-      .max(new Date().getFullYear(), "Year cannot be in the future")
+      .number<number>({ message: userMessages.booksValidation.yearInvalid })
+      .int({ message: userMessages.booksValidation.yearInvalid })
+      .min(1, userMessages.booksValidation.yearInvalid)
+      .max(new Date().getFullYear(), userMessages.booksValidation.yearFuture)
       .nullable(),
-    genres: z.array(z.string()).min(1, "Select at least one genre"),
+    genres: z.array(z.string()).min(1, userMessages.booksValidation.genresRequired),
     image: z.union([z.string(), z.instanceof(File)]).nullable(),
     quote: z.string().min(10, "Quote must be longer"),
   })
   .refine(
     (data) => {
-      if (!data.image || data.image instanceof File === false) return true;
+      if (!data.image || !(data.image instanceof File)) return true;
       return data.image.size <= 10 * 1024 * 1024;
     },
-    { message: "File must be less than 10MB", path: ["image"] }
+    {
+      message: userMessages.booksValidation.imageTooLarge,
+      path: ["image"],
+    }
   )
   .refine(
     (data) => {
-      if (!data.image || data.image instanceof File === false) return true;
+      if (!data.image || !(data.image instanceof File)) return true;
       return ["image/jpeg", "image/png", "image/webp"].includes(data.image.type);
     },
-    { message: "Only .jpeg, .png, .webp are allowed", path: ["image"] }
+    {
+      message: userMessages.booksValidation.imageInvalidType,
+      path: ["image"],
+    }
   );
 
 export type BookCreationSchema = z.infer<typeof bookCreationSchema>;
