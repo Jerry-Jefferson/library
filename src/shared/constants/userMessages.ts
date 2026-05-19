@@ -6,7 +6,6 @@ export const userMessages = {
     notFound: "notFound",
     unauthorized: "unauthorized",
   },
-
   auth: {
     invalidFormData: "invalidFormData",
     userExist: "userExist",
@@ -16,7 +15,18 @@ export const userMessages = {
     signedIn: "signedIn",
     signUpError: "signUpError",
   },
-
+  authValidation: {
+    invalidEmail: "invalidEmail",
+    passwordRequired: "passwordRequired",
+    nameMin: "nameMin",
+    nameMax: "nameMax",
+    nameInvalid: "nameInvalid",
+    passwordMin: "passwordMin",
+    passwordMax: "passwordMax",
+    passwordWeak: "passwordWeak",
+    confirmPasswordRequired: "confirmPasswordRequired",
+    passwordsMismatch: "passwordsMismatch",
+  },
   review: {
     alreadyReviewed: "alreadyReviewed",
     invalidReviewData: "invalidReviewData",
@@ -59,7 +69,6 @@ export const userMessages = {
     failedToUpdateAuthor: "failedToUpdateAuthor",
     failedToDeleteAuthor: "failedToDeleteAuthor",
   },
-
   authorsValidation: {
     nameRequired: "nameRequired",
     bioTooShort: "bioTooShort",

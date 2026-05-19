@@ -83,14 +83,18 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           type="text"
           register={register}
           label={t("base.name")}
-          errorMessage={errors.name?.message}
+          errorMessage={
+            errors.name?.message ? t(`authValidation.${errors.name.message}`) : undefined
+          }
         />
         <FormInput
           name="email"
           type="email"
           register={register}
           label={t("base.email")}
-          errorMessage={errors.email?.message}
+          errorMessage={
+            errors.email?.message ? t(`authValidation.${errors.email.message}`) : undefined
+          }
         />
         <RadioButton
           legend={t("signUp.chooseRole")}
@@ -103,14 +107,20 @@ export function SignUpForm({ roleOptions }: { roleOptions: roleOption[] }) {
           password
           register={register}
           label={t("base.password")}
-          errorMessage={errors.password?.message}
+          errorMessage={
+            errors.password?.message ? t(`authValidation.${errors.password.message}`) : undefined
+          }
         />
         <FormInput
           name="confirmPassword"
           password
           register={register}
           label={t("signUp.confirmPassword")}
-          errorMessage={errors.confirmPassword?.message}
+          errorMessage={
+            errors.confirmPassword?.message
+              ? t(`authValidation.${errors.confirmPassword.message}`)
+              : undefined
+          }
         />
         <Button
           fullWidth

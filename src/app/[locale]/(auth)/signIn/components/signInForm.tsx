@@ -74,14 +74,18 @@ export function SignInForm() {
           type="email"
           register={register}
           label={t("base.email")}
-          errorMessage={errors.email?.message}
+          errorMessage={
+            errors.email?.message ? t(`authValidation.${errors.email.message}`) : undefined
+          }
         />
         <FormInput
           name="password"
           password
           register={register}
           label={t("base.password")}
-          errorMessage={errors.password?.message}
+          errorMessage={
+            errors.password?.message ? t(`authValidation.${errors.password.message}`) : undefined
+          }
         />
         <Button
           fullWidth

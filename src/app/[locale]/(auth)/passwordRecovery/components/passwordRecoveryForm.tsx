@@ -52,7 +52,9 @@ export function PasswordRecoveryForm() {
           type="email"
           register={register}
           label={t("base.email")}
-          errorMessage={errors.email?.message}
+          errorMessage={
+            errors.email?.message ? t(`authValidation.${errors.email.message}`) : undefined
+          }
         />
         <Button
           fullWidth
