@@ -30,6 +30,7 @@
     "imageUploader": {
       "clickToUpload": "Click to upload",
       "upTo": "png, jpeg, webp up to 10MB"
-    }
+    },
+    "adminLinks": {}
   }
 }

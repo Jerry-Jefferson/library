@@ -3,14 +3,14 @@ import { routes } from "@/src/shared/constants/routes";
 export const sidebarLinks = [
   {
     href: routes.authorCreation,
-    label: "Add New Author",
+    label: "authorLabel",
   },
   {
     href: routes.bookCreation,
-    label: "Add New Book",
+    label: "bookLabel",
   },
   {
     href: routes.genreCreation,
-    label: "Add New Genre",
+    label: "genreLabel",
   },
 ];

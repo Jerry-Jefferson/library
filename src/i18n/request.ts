@@ -2,22 +2,25 @@ import { getRequestConfig } from "next-intl/server";
 import { hasLocale } from "next-intl";
 import { routing } from "./routing";
 
-export default getRequestConfig(async ({ locale }) => {
-  const validLocale = hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale;
+
+  const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
 
   return {
-    locale: validLocale,
+    locale,
     timeZone: "UTC",
+
     messages: {
-      ...(await import(`../../messages/${validLocale}/common.json`)).default,
-      ...(await import(`../../messages/${validLocale}/auth.json`)).default,
-      ...(await import(`../../messages/${validLocale}/dashboard.json`)).default,
-      ...(await import(`../../messages/${validLocale}/books.json`)).default,
-      ...(await import(`../../messages/${validLocale}/entities.json`)).default,
-      ...(await import(`../../messages/${validLocale}/authors.json`)).default,
-      ...(await import(`../../messages/${validLocale}/favorites.json`)).default,
-      ...(await import(`../../messages/${validLocale}/reviews.json`)).default,
-      ...(await import(`../../messages/${validLocale}/genres.json`)).default,
+      ...(await import(`../../messages/${locale}/common.json`)).default,
+      ...(await import(`../../messages/${locale}/auth.json`)).default,
+      ...(await import(`../../messages/${locale}/dashboard.json`)).default,
+      ...(await import(`../../messages/${locale}/books.json`)).default,
+      ...(await import(`../../messages/${locale}/entities.json`)).default,
+      ...(await import(`../../messages/${locale}/authors.json`)).default,
+      ...(await import(`../../messages/${locale}/favorites.json`)).default,
+      ...(await import(`../../messages/${locale}/reviews.json`)).default,
+      ...(await import(`../../messages/${locale}/genres.json`)).default,
     },
   };
 });

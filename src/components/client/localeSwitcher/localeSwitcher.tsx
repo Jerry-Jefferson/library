@@ -33,7 +33,6 @@ export default function LocaleSwitcher() {
                 onClick={() => {
                   router.replace(pathname, {
                     locale: lang.id,
-                    scroll: false,
                   });
                 }}
                 className="block w-full rounded-md px-3 py-2 text-left data-focus:bg-primary"

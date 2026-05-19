@@ -13,10 +13,12 @@ import { FiSidebar, FiX } from "react-icons/fi";
 
 import { Button } from "@/src/components/client/button/button";
 import { sidebarLinks } from "@/src/shared/constants/sidebarLinks";
+import { useTranslations } from "next-intl";
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const t = useTranslations("Common");
+  const tEntity = useTranslations("Entities");
   return (
     <>
       <Button
@@ -37,7 +39,7 @@ export function Sidebar() {
               href={link.href}
               className="text-[clamp(12px,5cqw+10px,20px)] hover:text-primary-hover transition-colors"
             >
-              {link.label}
+              {t("add")} {tEntity(link.label)}
             </Link>
           ))}
         </div>

@@ -30,16 +30,14 @@ export default async function RootLayout({ children, params }: Props) {
 
   setRequestLocale(locale);
 
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
     <html lang={locale}>
       <body>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Providers locale={locale} messages={messages}>
-            {children}
-          </Providers>
-        </Suspense>
+        <Providers locale={locale} messages={messages}>
+          {children}
+        </Providers>
       </body>
     </html>
   );

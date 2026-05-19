@@ -1,5 +1,11 @@
 {
   "Entities": {
+    "booksLabel": "Книги",
+    "authorsLabel": "Авторы",
+    "genresLabel": "Жанры",
+    "bookLabel": "Книгy",
+    "authorLabel": "Автора",
+    "genreLabel": "Жанр",
     "books": {
       "filter": "книгам",
       "sort": "книги",

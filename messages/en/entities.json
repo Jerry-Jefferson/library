@@ -1,5 +1,11 @@
 {
   "Entities": {
+    "booksLabel": "Books",
+    "authorsLabel": "Authors",
+    "genresLabel": "Genres",
+    "bookLabel": "Book",
+    "authorLabel": "Author",
+    "genreLabel": "Genre",
     "books": {
       "filter": "books",
       "sort": "books",
