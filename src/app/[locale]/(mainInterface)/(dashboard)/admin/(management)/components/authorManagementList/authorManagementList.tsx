@@ -3,6 +3,7 @@
 import { deleteAuthor } from "@/lib/modules/authors/authors.actions";
 import { Button } from "@/src/components/client/button/button";
 import { DeleteMessage } from "@/src/components/client/deleteMessageComponent/deleteMessage";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
@@ -36,9 +37,7 @@ export function AuthorManagementList({
 }: AuthorManagementListProps) {
   const { modal, openModal, closeModal } = useModalQuery();
   const [selectedAuthor, setSelectedAuthor] = useState<IAuthorSerialized | null>(null);
-  const tCommon = useTranslations("Common");
-  const tEntity = useTranslations("Entities");
-  const tAuthors = useTranslations("Authors");
+  const t = useTranslations("");
   function handleOpen(author: IAuthorSerialized, modalType: ModalType) {
     setSelectedAuthor(author);
     openModal(modalType);
@@ -47,19 +46,19 @@ export function AuthorManagementList({
   const localizedSortOptions = useMemo(() => {
     return authorSortOptions.map((option) => ({
       ...option,
-      title: tAuthors(`sortOptions.${option._id}`),
+      title: t(`Authors.sortOptions.${option._id}`),
     }));
-  }, [tAuthors]);
+  }, [t]);
 
   async function handleDelete(id: string) {
     try {
       const result = await deleteAuthor(id);
       if (!result.success) {
-        toast.error(tAuthors(`userMessages.${result.message}`));
+        toast.error(t(`Authors.userMessages.${result.message}`));
         return;
       }
       closeModal();
-      toast.success(tAuthors(`userMessages.${result.message}`));
+      toast.success(t(`Authors.userMessages.${result.message}`));
       setSelectedAuthor(null);
     } catch (error) {
       console.error(error);
@@ -87,10 +86,10 @@ export function AuthorManagementList({
     return [...authors].sort(selectedSort.comparator);
   }, [authors, selectedSort]);
 
-  if (!authors || authors.length === 0) return <p>{tAuthors("noAuthors")}</p>;
+  if (!authors || authors.length === 0) return <p>{t("Authors.noAuthors")}</p>;
   return (
     <div className="w-full flex bg-background">
-      <div className="w-full gap-4 flex flex-col mt-3 m5-10">
+      <div className="w-full gap-4 flex flex-col mt-3">
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
@@ -98,14 +97,14 @@ export function AuthorManagementList({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label={tCommon("filterBy", {
-                    entity: tEntity("genres.filter"),
+                  label={t("Common.filterBy", {
+                    entity: t("Entities.genres.filter"),
                   })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder={tCommon("select", {
-                    entity: tEntity("genres.genres"),
+                  placeholder={t("Common.select", {
+                    entity: t("Entities.genres.genres"),
                   })}
                 />
               </div>
@@ -114,9 +113,9 @@ export function AuthorManagementList({
               items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder={tCommon("sort")}
-              label={tCommon("sortBy", {
-                entity: tEntity("authors.sort"),
+              placeholder={t("Common.sort")}
+              label={t("Common.sortBy", {
+                entity: t("Entities.authors.sort"),
               })}
             />
           </div>
@@ -126,34 +125,43 @@ export function AuthorManagementList({
           {displayedAuthors.map((author) => {
             const hasBooks = Boolean(author.books.length);
             return (
-              <div key={author._id} className="relative">
-                <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
-                  <Tooltip helpText={hasBooks ? tAuthors("hasBooks") : ""}>
-                    <Button
-                      size="small"
-                      className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
-                      disabled={hasBooks}
-                      onClick={() => handleOpen(author, "delete")}
-                    >
-                      <MdDelete className="text-sm md:text-base text-black" />
-                    </Button>
-                  </Tooltip>
-
-                  <Button
-                    size="small"
-                    className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
-                    onClick={() => handleOpen(author, "edit")}
-                  >
-                    <MdEdit className="text-sm md:text-base text-black" />
-                  </Button>
-                </div>
-                <ItemCard name="author">
-                  <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
-                    <ItemCard.Avatar alt="author cover" src={author.image} view="rounded" />
-                    <ItemCard.Title content={author.name} className="truncate" />
+              <ErrorBoundary
+                key={author._id}
+                title={author.name}
+                message={t("Common.cardWentWild")}
+                retryLabel={t("Common.retry")}
+                failedLabel={t("Common.contentFailed")}
+              >
+                <div className="relative">
+                  <div className="absolute top-2 right-2 md:top-5 md:right-5 z-10 flex flex-col gap-2 md:gap-3">
+                    <Tooltip helpText={hasBooks ? t("Authors.hasBooks") : t("Common.delete")}>
+                      <Button
+                        size="small"
+                        className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
+                        disabled={hasBooks}
+                        onClick={() => handleOpen(author, "delete")}
+                      >
+                        <MdDelete className="text-sm md:text-base text-black" />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip helpText={t("Common.edit")}>
+                      <Button
+                        size="small"
+                        className="bg-fair shadow-lg shadow-black/40 p-2 md:p-3 transition-all enabled:hover:scale-110"
+                        onClick={() => handleOpen(author, "edit")}
+                      >
+                        <MdEdit className="text-sm md:text-base text-black" />
+                      </Button>
+                    </Tooltip>
                   </div>
-                </ItemCard>
-              </div>
+                  <ItemCard name="author">
+                    <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
+                      <ItemCard.Avatar alt="author cover" src={author.image} view="rounded" />
+                      <ItemCard.Title content={author.name} className="truncate" />
+                    </div>
+                  </ItemCard>
+                </div>
+              </ErrorBoundary>
             );
           })}
         </div>
@@ -161,13 +169,13 @@ export function AuthorManagementList({
       </div>
       {modal === "delete" && selectedAuthor && (
         <ModalWindow
-          header={tCommon("deletion", { entity: tEntity("authors.deleting") })}
+          header={t("Common.deletion", { entity: t("Entities.authors.deleting") })}
           handleCancel={closeModal}
         >
           <DeleteMessage
             handleCancel={closeModal}
-            cancelButton={tCommon("cancel")}
-            acceptButton={tCommon("delete")}
+            cancelButton={t("Common.cancel")}
+            acceptButton={t("Common.delete")}
             handleDelete={() => handleDelete(selectedAuthor._id)}
             entity={selectedAuthor}
           />
@@ -175,15 +183,15 @@ export function AuthorManagementList({
       )}
       {modal === "edit" && selectedAuthor && (
         <ModalWindow
-          header={tCommon("editing", {
-            entity: tEntity("authors.select"),
+          header={t("Common.editing", {
+            entity: t("Entities.authors.select"),
           })}
           handleCancel={closeModal}
         >
           <AuthorCreationForm
             handleCancel={closeModal}
-            cancelButton={tCommon("cancel")}
-            acceptButton={tCommon("saveChanges")}
+            cancelButton={t("Common.cancel")}
+            acceptButton={t("Common.saveChanges")}
             editionData={selectedAuthor}
           />
         </ModalWindow>

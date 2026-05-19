@@ -2,16 +2,19 @@
 
 import { bookCreationSchema, BookCreationSchema } from "@/lib/modules/books/book.schema";
 import { createBook, updateBook } from "@/lib/modules/books/books.actions";
+import { getBookQuote } from "@/src/actions/ai/getBookQuote";
 import { Button } from "@/src/components/client/button/button";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { FormMultiselect } from "@/src/components/client/select/variants/formMultiselect/formMultiselect";
 import { FormSingleSelect } from "@/src/components/client/select/variants/formSingleSelect/formSingleSelect";
 import { TextArea } from "@/src/components/client/textArea/textArea";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { IAuthorSerialized } from "@/src/models/author";
 import { IGenreSerialized } from "@/src/models/genre";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { RiAiGenerate2 } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { ImageUploader } from "../../../components/imageUploader/imageUploader";
 import { useTranslations } from "next-intl";
@@ -23,6 +26,7 @@ const bookFields = {
   genres: "genres",
   year: "year",
   image: "image",
+  quote: "quote",
 } as const;
 
 const defaultBookCreationValues = {
@@ -32,6 +36,7 @@ const defaultBookCreationValues = {
   [bookFields.genres]: [],
   [bookFields.year]: null,
   [bookFields.image]: null,
+  [bookFields.quote]: "",
 };
 
 export interface EditionData extends Omit<BookCreationSchema, "image"> {
@@ -57,6 +62,8 @@ export function BookCreationForm({
   acceptButton,
 }: BookCreationFormProps) {
   const isEditMode = Boolean(editionData?._id);
+
+  const [isLoading, setIsLoading] = useState(false);
   const t = useTranslations("Books");
   const tCommon = useTranslations("Common");
   const selectableAuthors = useMemo(
@@ -91,6 +98,7 @@ export function BookCreationForm({
       if (data.image instanceof File) {
         formData.append("image", data.image);
       }
+      formData.append("quote", data.quote);
 
       let result;
       if (isEditMode && editionData?._id) {
@@ -124,6 +132,30 @@ export function BookCreationForm({
       reset(defaultBookCreationValues);
     }
   };
+
+  const watchedTitle = watch("title");
+  const watchedAuthorId = watch("authorId");
+
+  const isAiDisabled = !watchedTitle || !watchedAuthorId || isLoading || isSubmitting;
+
+  async function handleAI() {
+    try {
+      setIsLoading(true);
+      const result = await getBookQuote(watchedTitle, watchedAuthorId);
+      if (result && result.success) {
+        setValue("quote", result.quote, {
+          shouldValidate: true,
+        });
+      } else {
+        toast.error(result?.message || "API Error");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <form
@@ -167,6 +199,26 @@ export function BookCreationForm({
             variant="secondary"
           />
         </div>
+        <div className="flex justify-between items-center gap-6">
+          <FormInput
+            name="quote"
+            type="text"
+            register={register}
+            label="Quote"
+            errorMessage={errors.quote?.message}
+            disabled={isLoading}
+          />
+          <Button
+            variant="icon"
+            size="small"
+            type="button"
+            className="p-2 md:p-3 border border-secondary enabled:hover:border-primary-hover"
+            disabled={isAiDisabled || (isEditMode && isSubmitSuccessful)}
+            onClick={handleAI}
+          >
+            <RiAiGenerate2 className="text-base md:text-2xl text-primary" />
+          </Button>
+        </div>
         <TextArea
           name="description"
           label={t("synopsis")}
@@ -178,15 +230,17 @@ export function BookCreationForm({
           }
         />
         <div className="flex justify-between gap-6">
-          <Button
-            fullWidth
-            size="medium"
-            variant="primary"
-            disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
-            isLoading={isSubmitting}
-          >
-            {acceptButton}
-          </Button>
+          <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="primary"
+              disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
+              isLoading={isSubmitting}
+            >
+              {acceptButton}
+            </Button>
+          </Tooltip>
           <Button
             fullWidth
             size="medium"

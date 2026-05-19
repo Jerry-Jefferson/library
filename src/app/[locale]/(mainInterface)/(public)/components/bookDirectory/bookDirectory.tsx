@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
 import { Rating } from "@/src/components/client/rating/rating";
@@ -24,9 +25,7 @@ export function BookDirectory({
   session,
 }: BooksRenderProps) {
   const isAuthenticated = Boolean(session?.user);
-  const tCommon = useTranslations("Common");
-  const tEntity = useTranslations("Entities");
-  const tBooks = useTranslations("Books");
+  const t = useTranslations("");
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -52,17 +51,17 @@ export function BookDirectory({
   const localizedSortOptions = useMemo(() => {
     return bookSortOptions.map((option) => ({
       ...option,
-      title: tBooks(`sortOptions.${option._id}`),
+      title: t(`Books.sortOptions.${option._id}`),
     }));
-  }, [tBooks]);
+  }, [t]);
 
-  if (!books || books.length === 0) return <p>{tBooks("noBooks")}</p>;
+  if (!books || books.length === 0) return <p>{t("Books.noBooks")}</p>;
 
   return (
     <div className="w-full flex justify-center bg-background">
       <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">{tBooks("booksDirectory")}</h2>
-        <p className="text-xl text-secondary">{tBooks("description")}</p>
+        <h2 className="text-6xl font-bold">{t("Books.booksDirectory")}</h2>
+        <p className="text-xl text-secondary">{t("Books.description")}</p>
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
@@ -70,14 +69,14 @@ export function BookDirectory({
                 <MultiSelect
                   multiple
                   name="genres"
-                  label={tCommon("filterBy", {
-                    entity: tEntity("genres.filter"),
+                  label={t("Common.filterBy", {
+                    entity: t("Entities.genres.filter"),
                   })}
                   items={genres}
                   value={selected}
                   onChange={updateFilters}
-                  placeholder={tCommon("select", {
-                    entity: tEntity("genres.genres"),
+                  placeholder={t("Common.select", {
+                    entity: t("Entities.genres.genres"),
                   })}
                 />
               </div>
@@ -86,9 +85,9 @@ export function BookDirectory({
               items={localizedSortOptions}
               value={selectedSort}
               onChange={setSelectedSort}
-              placeholder={tCommon("sort")}
-              label={tCommon("sortBy", {
-                entity: tEntity("books.sort"),
+              placeholder={t("Common.sort")}
+              label={t("Common.sortBy", {
+                entity: t("Entities.books.sort"),
               })}
             />
           </div>
@@ -96,7 +95,13 @@ export function BookDirectory({
 
         <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
           {displayedBooks.map((book) => (
-            <div key={book._id}>
+            <ErrorBoundary
+              key={book._id}
+              title={book.title}
+              message={t("Common.cardWentWild")}
+              retryLabel={t("Common.retry")}
+              failedLabel={t("Common.contentFailed")}
+            >
               <ItemCard name="book">
                 <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
                   <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
@@ -112,11 +117,11 @@ export function BookDirectory({
                   <LinkButton
                     href={`${routes.books}/${book._id}?from=${encodeURIComponent(fromPath)}`}
                   >
-                    {tCommon("viewInfo")}
+                    {t("Common.viewInfo")}
                   </LinkButton>
                 </div>
               </ItemCard>
-            </div>
+            </ErrorBoundary>
           ))}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}

@@ -6,6 +6,7 @@ import { Button } from "@/src/components/client/button/button";
 import { FormCheckbox } from "@/src/components/client/checkbox/variants/formCheckbox/formCheckbox";
 import { FormInput } from "@/src/components/client/input/variants/formInput/formInput";
 import { TextArea } from "@/src/components/client/textArea/textArea";
+import { Tooltip } from "@/src/components/client/tooltip/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -177,15 +178,17 @@ export function AuthorCreationForm({
           }
         />
         <div className="flex justify-between gap-6">
-          <Button
-            fullWidth
-            size="medium"
-            variant="primary"
-            disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
-            isLoading={isSubmitting}
-          >
-            {acceptButton}
-          </Button>
+          <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+            <Button
+              fullWidth
+              size="medium"
+              variant="primary"
+              disabled={!isValid || isSubmitting || (isEditMode && isSubmitSuccessful)}
+              isLoading={isSubmitting}
+            >
+              {acceptButton}
+            </Button>
+          </Tooltip>
           <Button
             fullWidth
             size="medium"

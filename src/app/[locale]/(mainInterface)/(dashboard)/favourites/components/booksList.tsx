@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { Rating } from "@/src/components/client/rating/rating";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
@@ -20,7 +21,13 @@ export default function BookList({ books }: BookListProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {visibleBooks.map((book) => (
-        <div key={book._id}>
+        <ErrorBoundary
+          key={book._id}
+          title={book.title}
+          message={t("cardWentWild")}
+          retryLabel={t("retry")}
+          failedLabel={t("contentFailed")}
+        >
           <ItemCard name="book">
             <div className="bg-card-back flex flex-col justify-between gap-2 p-4 rounded-xl h-full border border-neutral-dark">
               <ItemCard.Avatar alt="Book cover" src={book.image} view="rounded" />
@@ -44,7 +51,7 @@ export default function BookList({ books }: BookListProps) {
               </LinkButton>
             </div>
           </ItemCard>
-        </div>
+        </ErrorBoundary>
       ))}
     </div>
   );

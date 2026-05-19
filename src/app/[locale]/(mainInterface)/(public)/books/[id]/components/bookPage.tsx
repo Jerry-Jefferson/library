@@ -1,9 +1,11 @@
 "use client";
 
+import { QuoteDisplay } from "@/src/app/(mainInterface)/(public)/components/quoteDisplay/quoteDisplay";
 import { ReviewDisplay } from "@/src/app/[locale]/(mainInterface)/(dashboard)/reviews/components/reviewDisplay/reviewDisplay";
 import { ReviewForm } from "@/src/app/[locale]/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
+import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
 import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/useModalQuery";
@@ -34,9 +36,7 @@ export function BookPage({
   const isAuthenticated = Boolean(session?.user);
   const userId = session?.user.id;
   const hasReviewed = reviews?.find((userReview) => userReview.userId === session?.user.id);
-  const tBooks = useTranslations("Books");
-  const tCommon = useTranslations("Common");
-  const tReview = useTranslations("Reviews");
+  const t = useTranslations("");
   const [selectedReview, setSelectedReview] = useState<IReviewSerialized | null>(null);
 
   const { modal, openModal, closeModal } = useModalQuery();
@@ -58,7 +58,7 @@ export function BookPage({
     bookId: book._id,
   });
 
-  if (!book) return <p>{tBooks("noBook")}</p>;
+  if (!book) return <p>{t("Books.noBook")}</p>;
 
   return (
     <div className="w-full flex justify-center bg-background">
@@ -75,11 +75,11 @@ export function BookPage({
                   onClick={toggle}
                   className="font-bold"
                 >
-                  {fav ? tBooks("removeFromFavs") : tBooks("addToFavs")}
+                  {fav ? t("Books.removeFromFavs") : t("Books.addToFavs")}
                 </Button>
               ) : null}
               <LinkButton href={backPath} className="py-4">
-                {tCommon("back")}
+                {t("Common.back")}
               </LinkButton>
             </div>
             <div className="w-[65%] flex flex-col gap-6">
@@ -90,7 +90,7 @@ export function BookPage({
               <ItemCard.Badge genres={genres} />
               <div className="flex flex-col gap-4">
                 <h2 className="text-[clamp(12px,0.5rem+3cqw,24px)] font-bold">
-                  {tBooks("synopsis")}
+                  {t("Books.synopsis")}
                 </h2>
                 <Collapse>
                   {({ className, toggle, isShownFull, isTruncated, textRef }) => (
@@ -107,7 +107,7 @@ export function BookPage({
                           onClick={toggle}
                           className="hover:text-primary-hover text-primary text-[clamp(10px,0.5rem+1vw,16px)]"
                         >
-                          {isShownFull ? tCommon("collapse") : tCommon("readMore")}
+                          {isShownFull ? t("Common.collapse") : t("Common.readMore")}
                         </Button>
                       )}
                     </>
@@ -120,37 +120,54 @@ export function BookPage({
         <div className="flex flex-col gap-4">
           <div className="w-full flex justify-between">
             <div className="flex flex-col">
-              <p className="text-2xl">{tBooks("readerReviews")}</p>
-              <p className="text-secondary">{tBooks("joinConversation")}</p>
+              <p className="text-2xl">{t("Books.readerReviews")}</p>
+              <p className="text-secondary">{t("Books.joinConversation")}</p>
             </div>
             {isAuthenticated && !hasReviewed ? (
-              <Button variant="primary" size="small" onClick={() => openModal("review")}>
-                {tBooks("writeReview")}
+              <Button
+                variant="primary"
+                size="small"
+                onClick={() => openModal("review")}
+                className="font-bold"
+              >
+                {t("Books.writeReview")}
               </Button>
             ) : null}
           </div>
           <div className="flex flex-col sm:flex-row gap-8">
-            <div className="bg-card-back border border-primary-hover rounded-md w-full sm:w-[40%] h-[200px] sm:h-[500px] flex items-center justify-center">
-              {tBooks("quoteIncoming")}
-            </div>
+            <ErrorBoundary
+              title={t("Books.featuredQuote")}
+              message={t("Common.mistake")}
+              retryLabel={t("Common.retry")}
+              failedLabel={t("Common.contentFailed")}
+            >
+              <QuoteDisplay quote={book.quote} />
+            </ErrorBoundary>
             <div className="w-full sm:w-[60%] flex flex-col gap-4">
               {reviews && reviews.length > 0 ? (
                 <VirtualizerList items={reviews}>
                   {(review) => (
-                    <ReviewDisplay
-                      review={review}
-                      rating={review.rating}
-                      date={formatDate(review.createdAt)}
-                      comment={review.comment}
-                      userName={review.userName}
-                      userId={userId}
-                      handleOpen={(review) => handleOpen(review, "edit")}
-                    />
+                    <ErrorBoundary
+                      title={t("Reviews.userReview")}
+                      message={t("Common.cardWentWild")}
+                      retryLabel={t("Common.retry")}
+                      failedLabel={t("Common.contentFailed")}
+                    >
+                      <ReviewDisplay
+                        review={review}
+                        rating={review.rating}
+                        date={formatDate(review.createdAt)}
+                        comment={review.comment}
+                        userName={review.userName}
+                        userId={userId}
+                        handleOpen={(review) => handleOpen(review, "edit")}
+                      />
+                    </ErrorBoundary>
                   )}
                 </VirtualizerList>
               ) : (
                 <div className="flex items-center justify-center p-4 bg-background border border-secondary rounded-md">
-                  <p className="text-secondary">{tBooks("noReviews")}</p>
+                  <p className="text-secondary">{t("Books.noReviews")}</p>
                 </div>
               )}
             </div>
@@ -159,26 +176,26 @@ export function BookPage({
       </div>
       {modal === "review" && !selectedReview && book && (
         <ModalWindow
-          header={`${tReview("reviewing")}: ${book.title}`}
+          header={`${t("Reviews.reviewing")}: ${book.title}`}
           handleCancel={handleCloseModal}
         >
           <ReviewForm
             handleCancel={handleCloseModal}
-            cancelButton={tCommon("cancel")}
-            acceptButton={tBooks("addReview")}
+            cancelButton={t("Common.cancel")}
+            acceptButton={t("Books.addReview")}
             bookId={book._id}
           />
         </ModalWindow>
       )}
       {modal === "edit" && selectedReview && book && (
         <ModalWindow
-          header={`${tBooks("editReview")}: ${book.title}`}
+          header={`${t("Books.editReview")}: ${book.title}`}
           handleCancel={handleCloseModal}
         >
           <ReviewForm
             handleCancel={handleCloseModal}
-            cancelButton={tCommon("cancel")}
-            acceptButton={tCommon("saveChanges")}
+            cancelButton={t("Common.cancel")}
+            acceptButton={t("Common.saveChanges")}
             bookId={book._id}
             editionData={selectedReview}
           />

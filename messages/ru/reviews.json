@@ -21,6 +21,11 @@
       "failedToCreateReview": "Не удалось создать отзыв",
       "failedToUpdateReview": "Не удалось обновить отзыв",
       "failedToDeleteReview": "Не удалось удалить отзыв"
-    }
+    },
+    "reviewValidation": {
+      "commentMin": "Комменнтарий должен содержать не менее 10 символов",
+      "atLeastOneField": "Должно быть представлено хотя бы 1 поле"
+    },
+    "userReview": "Ревью пользователя"
   }
 }

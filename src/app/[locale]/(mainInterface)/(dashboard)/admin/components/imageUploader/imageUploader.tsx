@@ -58,7 +58,7 @@ export function ImageUploader<T extends FieldValues>({
       >
         <input type="file" className="hidden" onChange={handleChange} accept="image/*" />
         {fileValue ? (
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full  min-h-[100px]">
             <Image
               fill
               className="object-cover"

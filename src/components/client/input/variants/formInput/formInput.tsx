@@ -9,6 +9,7 @@ export interface CommonProps<T extends FieldValues> {
   label: string;
   disabled?: boolean;
   errorMessage?: string;
+  className?: string;
 }
 
 export type FormInputProps<T extends FieldValues> = CommonProps<T> &
@@ -22,13 +23,14 @@ export function FormInput<T extends FieldValues>({
   disabled = false,
   errorMessage,
   password = false,
+  className = "",
 }: FormInputProps<T>) {
   return (
     <Input name={name}>
       {password ? (
         <Input.PasswordField register={register} />
       ) : (
-        <Input.Field disabled={disabled} type={type} register={register} />
+        <Input.Field disabled={disabled} type={type} register={register} className={className} />
       )}
       <Input.Label label={label} />
       <Input.TextError errorMessage={errorMessage} />

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { Button } from "../button/button";
+import { Tooltip } from "../tooltip/tooltip";
 import { useInput } from "./useInput";
 
 export interface FieldProps<T extends FieldValues> {
@@ -29,17 +30,22 @@ export function PasswordField<T extends FieldValues>({ register }: FieldProps<T>
         type={show ? "text" : "password"}
         {...register(name as Path<T>)}
       />
-      <Button
-        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:opacity-70 transition-opacity"
-        onClick={() => setShow((prev) => !prev)}
-        type="button"
+      <Tooltip
+        helpText={show ? "Hide password" : "Show password"}
+        className="absolute right-3 top-1/2 -translate-y-1/2"
       >
-        {show ? (
-          <MdVisibility className="text-primary" size={24} />
-        ) : (
-          <MdVisibilityOff className="text-secondary" size={24} />
-        )}
-      </Button>
+        <Button
+          className="p-1 hover:opacity-70 transition-opacity"
+          onClick={() => setShow((prev) => !prev)}
+          type="button"
+        >
+          {show ? (
+            <MdVisibility className="text-primary" size={24} />
+          ) : (
+            <MdVisibilityOff className="text-secondary" size={24} />
+          )}
+        </Button>
+      </Tooltip>
     </div>
   );
 }
