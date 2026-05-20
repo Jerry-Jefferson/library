@@ -1,8 +1,8 @@
 "use client";
 
-import { QuoteDisplay } from "@/src/app/(mainInterface)/(public)/components/quoteDisplay/quoteDisplay";
 import { ReviewDisplay } from "@/src/app/[locale]/(mainInterface)/(dashboard)/reviews/components/reviewDisplay/reviewDisplay";
 import { ReviewForm } from "@/src/app/[locale]/(mainInterface)/(dashboard)/reviews/components/reviewForm/reviewForm";
+import { QuoteDisplay } from "@/src/app/[locale]/(mainInterface)/(public)/components/quoteDisplay/quoteDisplay";
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
 import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
@@ -18,7 +18,7 @@ import { routes } from "@/src/shared/constants/routes";
 import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { formatDate } from "@/src/shared/utils/formatDate";
 import { Session } from "next-auth";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -37,6 +37,7 @@ export function BookPage({
   const userId = session?.user.id;
   const hasReviewed = reviews?.find((userReview) => userReview.userId === session?.user.id);
   const t = useTranslations("");
+  const locale = useLocale();
   const [selectedReview, setSelectedReview] = useState<IReviewSerialized | null>(null);
 
   const { modal, openModal, closeModal } = useModalQuery();
@@ -156,7 +157,7 @@ export function BookPage({
                       <ReviewDisplay
                         review={review}
                         rating={review.rating}
-                        date={formatDate(review.createdAt)}
+                        date={formatDate(review.createdAt, locale)}
                         comment={review.comment}
                         userName={review.userName}
                         userId={userId}

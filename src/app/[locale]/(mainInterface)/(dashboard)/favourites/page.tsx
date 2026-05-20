@@ -1,4 +1,4 @@
-import { ItemsSkeleton } from "@/src/app/(mainInterface)/components/itemsSkeleton/itemsSkeleton";
+import { ItemsSkeleton } from "@/src/app/[locale]/(mainInterface)/components/itemsSkeleton/itemsSkeleton";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { FavoritesList } from "./components/favoritesList";

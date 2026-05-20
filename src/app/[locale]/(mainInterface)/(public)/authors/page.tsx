@@ -1,4 +1,5 @@
 import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
+import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ItemsSkeleton } from "../../components/itemsSkeleton/itemsSkeleton";
 import AuthorDirectory from "../components/authors/authorDirectory";
@@ -8,14 +9,13 @@ export interface AuthorsProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
 }
 
-export default function Authors({ searchParams }: AuthorsProps) {
+export default async function Authors({ searchParams }: AuthorsProps) {
+  const t = await getTranslations("Authors");
   return (
     <div className="w-full flex justify-center bg-background">
       <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">Authors Directory</h2>
-        <p className="text-xl text-secondary">
-          Meet the brilliant minds behind our collection of over 50,000 titles.
-        </p>
+        <h2 className="text-6xl font-bold">{t("authorsDirectory")}</h2>
+        <p className="text-xl text-secondary">{t("description")}</p>
         <Suspense
           fallback={
             <ItemsSkeleton

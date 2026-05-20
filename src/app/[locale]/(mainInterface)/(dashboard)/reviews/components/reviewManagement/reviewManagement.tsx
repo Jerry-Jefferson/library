@@ -8,7 +8,7 @@ import { ModalType, useModalQuery } from "@/src/components/client/modalWindow/us
 import { VirtualizerList } from "@/src/components/client/virtualizerList/virtualizerList";
 import { IReviewSerialized } from "@/src/models/review";
 import { formatDate } from "@/src/shared/utils/formatDate";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { ReviewDisplay } from "../reviewDisplay/reviewDisplay";
@@ -18,6 +18,8 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
   const { modal, openModal, closeModal } = useModalQuery();
   const [selectedReview, setSelectedReview] = useState<IReviewSerialized | null>(null);
   const t = useTranslations("");
+  const locale = useLocale();
+
   function handleOpen(review: IReviewSerialized, modalType: ModalType) {
     setSelectedReview(review);
     openModal(modalType);
@@ -27,7 +29,7 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
     try {
       const result = await deleteReview(id);
       if (!result.success) {
-        toast.success(t(`Reviews.userMessages.${result.message}`));
+        toast.error(t(`Reviews.userMessages.${result.message}`));
         return;
       }
       closeModal();
@@ -44,34 +46,34 @@ export function ReviewManagement({ userReviews }: { userReviews: IReviewSerializ
   };
   return (
     <>
-        <div className="w-full flex flex-col sm:flex-row gap-4">
-          {userReviews && userReviews.length > 0 ? (
-            <VirtualizerList items={userReviews} isWindowScroll columns={2}>
-              {(review) => (
-                <ErrorBoundary
-                  title={review.bookTitle}
-                  message={t("Common.cardWentWild")}
-                  retryLabel={t("Common.retry")}
-                  failedLabel={t("Common.contentFailed")}
-                >
+      <div className="w-full flex flex-col sm:flex-row gap-4">
+        {userReviews && userReviews.length > 0 ? (
+          <VirtualizerList items={userReviews} isWindowScroll columns={2}>
+            {(review) => (
+              <ErrorBoundary
+                title={review.bookTitle}
+                message={t("Common.cardWentWild")}
+                retryLabel={t("Common.retry")}
+                failedLabel={t("Common.contentFailed")}
+              >
                 <ReviewDisplay
                   review={review}
                   rating={review.rating}
-                  date={formatDate(review.createdAt)}
+                  date={formatDate(review.createdAt, locale)}
                   comment={review.comment}
                   bookName={review.bookTitle}
                   isDashboard
                   handleOpen={handleOpen}
                 />
-                </ErrorBoundary>
-              )}
-            </VirtualizerList>
-          ) : (
-            <div className="flex items-center justify-center p-4 bg-background border border-secondary rounded-md">
-              <p className="text-secondary">{t("Reviews.noReviewsWritten")}</p>
-            </div>
-          )}
-        </div>
+              </ErrorBoundary>
+            )}
+          </VirtualizerList>
+        ) : (
+          <div className="flex items-center justify-center p-4 bg-background border border-secondary rounded-md">
+            <p className="text-secondary">{t("Reviews.noReviewsWritten")}</p>
+          </div>
+        )}
+      </div>
       {modal === "delete" && selectedReview && (
         <ModalWindow
           header={t("Common.deletion", {
