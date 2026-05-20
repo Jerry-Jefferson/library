@@ -3,8 +3,17 @@ import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ReviewContent } from "./components/reviewContent/reviewContent";
 
-export default async function Reviews() {
-  const tReviews = await getTranslations("Reviews");
+interface ReviewsProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function Reviews({ params }: ReviewsProps) {
+  const { locale } = await params;
+
+  const tReviews = await getTranslations({
+    locale,
+    namespace: "Reviews",
+  });
 
   return (
     <div className="w-full flex justify-center bg-background">

@@ -96,7 +96,7 @@ export function GenreCreationForm({
           />
         </div>
         <div className="flex justify-between gap-6">
-          <Tooltip fullWidth helpText={!isValid ? t(`Common.fillAllFields`) : ""}>
+          <Tooltip fullWidth helpText={!isValid ? tCommon(`fillAllFields`) : ""}>
             <Button
               fullWidth
               size="medium"

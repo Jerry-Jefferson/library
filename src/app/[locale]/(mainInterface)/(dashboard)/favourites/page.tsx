@@ -3,8 +3,17 @@ import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { FavoritesList } from "./components/favoritesList";
 
-export default async function Favourites() {
-  const t = await getTranslations("Favorites");
+interface FavoritesProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function Favourites({ params }: FavoritesProps) {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Favorites",
+  });
 
   return (
     <div className="w-full flex justify-center bg-background">
