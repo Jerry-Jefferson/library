@@ -52,6 +52,7 @@
     "yearFuture": "Year cannot be in the future",
     "genresRequired": "Select at least one genre",
     "imageTooLarge": "File must be less than 10MB",
-    "imageInvalidType": "Only .jpeg, .png, .webp are allowed"
+    "imageInvalidType": "Only .jpeg, .png, .webp are allowed",
+    "quoteLength": "Quote must be longer"
   }
 }

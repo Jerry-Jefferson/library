@@ -178,7 +178,7 @@ export function ManagementList({
       {modal === "delete" && selectedBook && (
         <ModalWindow
           header={t("Common.deletion", {
-            entity: t("Entity.books.select"),
+            entity: t("Entities.books.select"),
           })}
           handleCancel={closeModal}
         >

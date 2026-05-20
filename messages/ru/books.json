@@ -51,7 +51,8 @@
       "yearFuture": "Год не может быть в будущем",
       "genresRequired": "Выберите хотя бы один жанр",
       "imageTooLarge": "Файл должен быть меньше 10 МБ",
-      "imageInvalidType": "Разрешены только .jpeg, .png, .webp"
+      "imageInvalidType": "Разрешены только .jpeg, .png, .webp",
+      "quoteLength": "Цитата должна быть длиннее"
     }
   }
 }

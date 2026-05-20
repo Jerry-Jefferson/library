@@ -205,7 +205,9 @@ export function BookCreationForm({
             type="text"
             register={register}
             label="Quote"
-            errorMessage={errors.quote?.message}
+            errorMessage={
+              errors.quote?.message ? t(`booksValidation.${errors.quote.message}`) : undefined
+            }
             disabled={isLoading}
           />
           <Button

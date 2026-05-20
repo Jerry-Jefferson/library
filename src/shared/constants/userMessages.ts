@@ -61,9 +61,10 @@ export const userMessages = {
     authorRequired: "authorRequired",
     yearInvalid: "yearInvalid",
     yearFuture: "yearFuture",
-    genresRequired: "genresRequired",
+    genresRequired: "Books.booksValidation.genresRequired",
     imageTooLarge: "imageTooLarge",
     imageInvalidType: "imageInvalidType",
+    quoteLength: "quoteLength",
   },
   authors: {
     invalidAuthorData: "invalidAuthorData",
