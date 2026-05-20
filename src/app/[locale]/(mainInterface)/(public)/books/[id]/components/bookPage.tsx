@@ -62,7 +62,12 @@ export function BookPage({
 
   if (!book)
     return (
-      <EmptyState title={t("Books.noBook")}>
+      <EmptyState
+        title={t("Books.noBook")}
+        path={routes.books}
+        buttonLabel={t("Common.toBooksPage")}
+      >
+        <span>{t("Common.or")}</span>
         <p className="text-secondary">{t("Common.tryToReload")}</p>
         <Button size="small" variant="primary" onClick={() => window.location.reload()}>
           {t("Common.reloadPage")}

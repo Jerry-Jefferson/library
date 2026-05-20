@@ -39,7 +39,10 @@
     "retry": "Retry",
     "contentFailed": "Content failed",
     "apiError": "API Error",
-    "tryToReload": "Or try to reload this page",
-    "reloadPage": "Reload page"
+    "or": "Or",
+    "tryToReload": "Try to reload this page",
+    "reloadPage": "Reload page",
+    "toBooksPage": "Go to the books page",
+    "toAuthorsPage": "Go to the authors page"
   }
 }

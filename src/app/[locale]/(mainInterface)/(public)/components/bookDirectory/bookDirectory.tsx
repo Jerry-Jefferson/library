@@ -60,10 +60,11 @@ export function BookDirectory({
     return (
       <EmptyState
         title={t("Books.noBooks")}
-        description={t("Books.booksAppearSoon")}
+        description={t("Books.booksAppear")}
         path={routes.authors}
-        buttonLabel={t("Books.toAuthorsPage")}
+        buttonLabel={t("Common.toAuthorsPage")}
       >
+        <span>{t("Common.or")}</span>
         <p className="text-secondary">{t("Common.tryToReload")}</p>
         <Button size="small" variant="primary" onClick={() => window.location.reload()}>
           {t("Common.reloadPage")}

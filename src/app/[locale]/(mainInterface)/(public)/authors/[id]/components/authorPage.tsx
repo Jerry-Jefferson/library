@@ -23,8 +23,13 @@ export default function AuthorPage({
     return (
       <EmptyState title={tAuthors("noAuthor")}>
         <LinkButton href={backPath} className="py-4">
-          {tCommon("back")}
+          {tCommon("toAuthorsPage")}
         </LinkButton>
+        <span>{tCommon("or")}</span>
+        <p className="text-secondary">{tCommon("tryToReload")}</p>
+        <Button size="medium" variant="primary" onClick={() => window.location.reload()}>
+          {tCommon("reloadPage")}
+        </Button>
       </EmptyState>
     );
 

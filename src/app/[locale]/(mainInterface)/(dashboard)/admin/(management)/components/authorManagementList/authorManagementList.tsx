@@ -90,13 +90,7 @@ export function AuthorManagementList({
 
   if (!authors || authors.length === 0)
     return (
-      <EmptyState
-        title={t("Authors.noAuthors")}
-        description={t("Authors.authorsAppearSoon")}
-        path={routes.books}
-        buttonLabel={t("Authors.toBooksPage")}
-      >
-        <p className="text-secondary">{t("Common.tryToReload")}</p>
+      <EmptyState title={t("Authors.noAuthors")} description={t("Common.tryToReload")}>
         <Button size="small" variant="primary" onClick={() => window.location.reload()}>
           {t("Common.reloadPage")}
         </Button>
