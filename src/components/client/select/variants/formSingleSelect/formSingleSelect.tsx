@@ -4,6 +4,7 @@ import { TextError } from "../../../input/textError";
 import SingleSelect from "../../singleSelect";
 import { SelectItemType, VariantType } from "../../types";
 import { useTranslations } from "next-intl";
+import { userMessages } from "@/src/shared/constants/userMessages";
 
 interface FormSingleSelectProps<T extends FieldValues, Item extends SelectItemType> {
   name: Path<T>;
@@ -21,7 +22,6 @@ export function FormSingleSelect<T extends FieldValues, Item extends SelectItemT
   label,
   variant = "primary",
 }: FormSingleSelectProps<T, Item>) {
-  const t = useTranslations("Common");
   return (
     <Controller
       name={name}
@@ -41,7 +41,7 @@ export function FormSingleSelect<T extends FieldValues, Item extends SelectItemT
               }}
               variant={variant}
             />
-            <TextError errorMessage={error ? t("requiredField") : ""} />
+            <TextError errorMessage={error ? userMessages.common.requiredField : ""} />
           </div>
         );
       }}

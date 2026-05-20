@@ -169,18 +169,14 @@ export function BookCreationForm({
             type="text"
             register={register}
             label={t("formFields.title")}
-            errorMessage={
-              errors.title?.message ? t(`booksValidation.${errors.title.message}`) : undefined
-            }
+            errorMessage={errors.title?.message}
           />
           <FormInput
             name="year"
             type="text"
             register={register}
             label={t("formFields.year")}
-            errorMessage={
-              errors.year?.message ? t(`booksValidation.${errors.year.message}`) : undefined
-            }
+            errorMessage={errors.year?.message}
           />
         </div>
         <div className="flex flex-col justify-between gap-6 sm:flex-row">
@@ -205,9 +201,7 @@ export function BookCreationForm({
             type="text"
             register={register}
             label="Quote"
-            errorMessage={
-              errors.quote?.message ? t(`booksValidation.${errors.quote.message}`) : undefined
-            }
+            errorMessage={errors.quote?.message}
             disabled={isLoading}
           />
           <Button
@@ -225,11 +219,7 @@ export function BookCreationForm({
           name="description"
           label={t("synopsis")}
           register={register}
-          errorMessage={
-            errors.description?.message
-              ? t(`booksValidation.${errors.description.message}`)
-              : undefined
-          }
+          errorMessage={errors.description?.message}
         />
         <div className="flex justify-between gap-6">
           <Tooltip fullWidth helpText={!isValid ? tCommon(`fillAllFields`) : ""}>
@@ -260,9 +250,7 @@ export function BookCreationForm({
             name="image"
             setValue={setValue}
             watch={watch}
-            errorMessage={
-              errors.image?.message ? t(`booksValidation.${errors.image.message}`) : undefined
-            }
+            errorMessage={errors.image?.message}
           />
         </div>
       </div>
