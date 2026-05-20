@@ -4,15 +4,32 @@ import { FormHeader } from "../components/formHeader/formHeader";
 import { BookCreationForm } from "./components/bookCreation/bookCreationForm";
 import { getTranslations } from "next-intl/server";
 
-export default async function Books() {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function Books({ params }: Props) {
+  const { locale } = await params;
+
   const genres = await getAllGenres();
   const authors = await getAuthors();
-  const t = await getTranslations("Common");
-  const tEntity = await getTranslations("Entities");
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Common",
+  });
+
+  const tEntity = await getTranslations({
+    locale,
+    namespace: "Entities",
+  });
+
   if (!genres || !authors) return null;
+
   return (
     <div className="flex flex-col gap-6">
-      <FormHeader entityLabel={tEntity("books.entry")} />
+      <FormHeader locale={locale} entityLabel={tEntity("books.entry")} />
+
       <BookCreationForm
         acceptButton={t("add")}
         cancelButton={t("cancel")}

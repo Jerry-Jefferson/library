@@ -147,11 +147,11 @@ export function BookCreationForm({
           shouldValidate: true,
         });
       } else {
-        toast.error(result?.message || "API Error");
+        toast.error(t(`userMessages.${result?.message}`) || tCommon("apiError"));
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong");
+      tCommon("wentWrong");
     } finally {
       setIsLoading(false);
     }
@@ -169,18 +169,14 @@ export function BookCreationForm({
             type="text"
             register={register}
             label={t("formFields.title")}
-            errorMessage={
-              errors.title?.message ? t(`booksValidation.${errors.title.message}`) : undefined
-            }
+            errorMessage={errors.title?.message}
           />
           <FormInput
             name="year"
             type="text"
             register={register}
             label={t("formFields.year")}
-            errorMessage={
-              errors.year?.message ? t(`booksValidation.${errors.year.message}`) : undefined
-            }
+            errorMessage={errors.year?.message}
           />
         </div>
         <div className="flex flex-col justify-between gap-6 sm:flex-row">
@@ -208,29 +204,27 @@ export function BookCreationForm({
             errorMessage={errors.quote?.message}
             disabled={isLoading}
           />
-          <Button
-            variant="icon"
-            size="small"
-            type="button"
-            className="p-2 md:p-3 border border-secondary enabled:hover:border-primary-hover"
-            disabled={isAiDisabled || (isEditMode && isSubmitSuccessful)}
-            onClick={handleAI}
-          >
-            <RiAiGenerate2 className="text-base md:text-2xl text-primary" />
-          </Button>
+          <Tooltip helpText={isAiDisabled ? "Fill in Title and Author fields" : "Generate quote"}>
+            <Button
+              variant="icon"
+              size="small"
+              type="button"
+              className="p-2 md:p-3 border border-secondary enabled:hover:border-primary-hover"
+              disabled={isAiDisabled || (isEditMode && isSubmitSuccessful)}
+              onClick={handleAI}
+            >
+              <RiAiGenerate2 className="text-base md:text-2xl text-primary" />
+            </Button>
+          </Tooltip>
         </div>
         <TextArea
           name="description"
           label={t("synopsis")}
           register={register}
-          errorMessage={
-            errors.description?.message
-              ? t(`booksValidation.${errors.description.message}`)
-              : undefined
-          }
+          errorMessage={errors.description?.message}
         />
         <div className="flex justify-between gap-6">
-          <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+          <Tooltip fullWidth helpText={!isValid ? tCommon(`fillAllFields`) : ""}>
             <Button
               fullWidth
               size="medium"
@@ -258,9 +252,7 @@ export function BookCreationForm({
             name="image"
             setValue={setValue}
             watch={watch}
-            errorMessage={
-              errors.image?.message ? t(`booksValidation.${errors.image.message}`) : undefined
-            }
+            errorMessage={errors.image?.message}
           />
         </div>
       </div>

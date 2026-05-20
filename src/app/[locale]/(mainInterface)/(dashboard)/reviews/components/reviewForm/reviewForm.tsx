@@ -87,11 +87,7 @@ export function ReviewForm({
         label={t("Reviews.yourThoughts")}
         register={register}
         name="comment"
-        errorMessage={
-          errors.comment?.message
-            ? t(`Reviews.reviewValidation.${errors.comment.message}`)
-            : undefined
-        }
+        errorMessage={errors.comment?.message}
       />
       <div className="flex items-center justify-center gap-4 p-4 bg-background border border-secondary rounded-md">
         <MdOutlineWarning className="text-4xl md:text-4xl lg:text-4xl text-primary" />

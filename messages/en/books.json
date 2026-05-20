@@ -22,7 +22,7 @@
     "featuredQuote": "FEATURED QUOTE",
     "noReviews": "There are no reviews yet. Be first to leave one",
     "addReview": "Add review",
-    "editReview": "Editing review for:",
+    "editReview": "Editing review for",
     "formFields": {
       "title": "Title",
       "description": "Description",
@@ -38,19 +38,21 @@
       "bookNotFound": "The book was not found",
       "failedToCreateBook": "Failed to add a book",
       "failedToUpdateBook": "Failed to edit a book",
-      "failedToDeleteBook": "Failed to delete the book"
-    },
-    "booksValidation": {
-      "titleRequired": "Enter the book's title",
-      "descriptionTooShort": "Write a longer synopsis",
-      "authorRequired": "Choose an author",
-      "yearInvalid": "Enter a valid year",
-      "yearFuture": "Year cannot be in the future",
-      "genresRequired": "Select at least one genre",
-      "imageTooLarge": "File must be less than 10MB",
-      "imageInvalidType": "Only .jpeg, .png, .webp are allowed"
-    },
-    "booksAppearSoon": "Books will be available soon. Check out the authors featured in our author catalog",
-    "toAuthorsPage": "Authors catalog"
+      "failedToDeleteBook": "Failed to delete the book",
+      "quoteGenerationPolicyViolation": "Failed to generate a quote due to security policy",
+      "featureUnavailableInRegion": "This feature is unavailable in your region",
+      "failedToGenerateQuote": "Failed to generate a quote"
+    }
+  },
+  "booksValidation": {
+    "titleRequired": "Enter the book's title",
+    "descriptionTooShort": "Write a longer synopsis",
+    "authorRequired": "Choose an author",
+    "yearInvalid": "Enter a valid year",
+    "yearFuture": "Year cannot be in the future",
+    "genresRequired": "Select at least one genre",
+    "imageTooLarge": "File must be less than 10MB",
+    "imageInvalidType": "Only .jpeg, .png, .webp are allowed",
+    "quoteLength": "Quote must be longer"
   }
 }

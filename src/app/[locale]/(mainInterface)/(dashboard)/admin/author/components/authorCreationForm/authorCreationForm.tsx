@@ -133,9 +133,7 @@ export function AuthorCreationForm({
           type="text"
           register={register}
           label={t("formFields.name")}
-          errorMessage={
-            errors.name?.message ? t(`authorsValidation.${errors.name.message}`) : undefined
-          }
+          errorMessage={errors.name?.message}
         />
         <div className="flex justify-between gap-6">
           <FormInput
@@ -143,11 +141,7 @@ export function AuthorCreationForm({
             type="text"
             register={register}
             label={t("formFields.birthYear")}
-            errorMessage={
-              errors.birthYear?.message
-                ? t(`authorsValidation.${errors.birthYear.message}`)
-                : undefined
-            }
+            errorMessage={errors.birthYear?.message}
           />
           <FormInput
             name="deathYear"
@@ -155,11 +149,7 @@ export function AuthorCreationForm({
             register={register}
             label={t("formFields.deathYear")}
             disabled={isAlive}
-            errorMessage={
-              errors.deathYear?.message
-                ? t(`authorsValidation.${errors.deathYear.message}`)
-                : undefined
-            }
+            errorMessage={errors.deathYear?.message}
           />
           <FormCheckbox
             control={control}
@@ -173,12 +163,10 @@ export function AuthorCreationForm({
           name="bio"
           label={t("formFields.biography")}
           register={register}
-          errorMessage={
-            errors.bio?.message ? t(`authorsValidation.${errors.bio.message}`) : undefined
-          }
+          errorMessage={errors.bio?.message}
         />
         <div className="flex justify-between gap-6">
-          <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+          <Tooltip fullWidth helpText={!isValid ? tCommon(`fillAllFields`) : ""}>
             <Button
               fullWidth
               size="medium"

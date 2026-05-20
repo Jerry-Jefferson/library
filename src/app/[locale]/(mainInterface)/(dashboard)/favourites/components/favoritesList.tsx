@@ -1,5 +1,5 @@
-import { auth } from "@/src/auth";
 import { getFavoriteBooks } from "@/lib/modules/books/books";
+import { auth } from "@/src/auth";
 import BooksList from "./booksList";
 import EmptyState from "@/src/components/client/emptyState/emptyState";
 import { getTranslations } from "next-intl/server";

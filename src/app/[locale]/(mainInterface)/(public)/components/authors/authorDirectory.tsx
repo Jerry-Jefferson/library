@@ -75,78 +75,71 @@ export default function AuthorDirectory({
     );
 
   return (
-    <div className="w-full flex justify-center bg-background">
-      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">{t("Authors.authorsDirectory")}</h2>
-        <p className="text-xl text-secondary">{t("Authors.description")}</p>
-        <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
-          <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
-            {genres && (
-              <div className="min-w-85 max-w-85">
-                <MultiSelect
-                  multiple
-                  name="genres"
-                  label={t("Common.filterBy", {
+    <>
+      <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
+        <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
+          {genres && (
+            <div className="min-w-85 max-w-85">
+              <MultiSelect
+                multiple
+                name="genres"
+                label={t("Common.filterBy", {
                     entity: t("Entities.genres.filter"),
                   })}
-                  items={genres}
-                  value={selected}
-                  onChange={updateFilters}
-                  placeholder={t("Common.select", {
+                items={genres}
+                value={selected}
+                onChange={updateFilters}
+                placeholder={t("Common.select", {
                     entity: t("Entities.genres.genres"),
                   })}
-                />
-              </div>
-            )}
-            <SingleSelect<SortOption<IAuthorSerialized>>
-              items={localizedSortOptions}
-              value={selectedSort}
-              onChange={setSelectedSort}
-              placeholder={t("Common.sort")}
-              label={t("Common.sortBy", {
+              />
+            </div>
+          )}
+          <SingleSelect<SortOption<IAuthorSerialized>>
+            items={authorSortOptions}
+            value={selectedSort}
+            onChange={setSelectedSort}
+            placeholder={t("Common.sort")}
+            label={t("Common.sortBy", {
                 entity: t("Entities.authors.sort"),
               })}
-            />
-          </div>
+          />
         </div>
+      </div>
 
-        <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
-          {displayedAuthors.map((author: IAuthorSerialized) => (
-            <ErrorBoundary
+      <div className="w-full gap-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
+        {displayedAuthors.map((author: IAuthorSerialized) => (
+          <ErrorBoundary
               key={author._id}
               title={author.name}
               message={t("Common.cardWentWild")}
               retryLabel={t("Common.retry")}
               failedLabel={t("Common.contentFailed")}
             >
-              <ItemCard name="Author">
-                <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
-                  <div className="flex flex-col items-center gap-4 grow">
-                    <ItemCard.Avatar src={author.image} alt={author.name} view="circle" />
-                    <ItemCard.Title
-                      content={author.name}
-                      className="font-bold text-center truncate"
-                    />
-                    <ItemCard.Information
-                      color="secondary"
-                      content={author.bio}
-                      className="text-center whitespace-normal line-clamp-2"
-                    />
-                  </div>
-                  <LinkButton
-                    href={`${routes.authors}/${author._id}?from=${encodeURIComponent(
-                      `${pathname}?${searchParams.toString()}`
-                    )}`}
-                  >
-                    {t("Common.viewInfo")}
-                  </LinkButton>
-                </div>
-              </ItemCard>
-            </ErrorBoundary>
-          ))}
-        </div>
-        {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+          <ItemCard name="Author">
+            <div className="bg-card-back flex flex-col justify-between gap-15 p-6 rounded-xl h-full border border-neutral-dark">
+              <div className="flex flex-col items-center gap-4 grow">
+                <ItemCard.Avatar src={author.image} alt={author.name} view="circle" />
+                <ItemCard.Title content={author.name} className="font-bold text-center truncate" />
+                <ItemCard.Information
+                  color="secondary"
+                  content={author.bio}
+                  className="text-center whitespace-normal line-clamp-2"
+                />
+              </div>
+              <LinkButton
+                href={`${routes.authors}/${author._id}?from=${encodeURIComponent(
+                  `${pathname}?${searchParams.toString()}`
+                )}`}
+              >
+                 {t("Common.viewInfo")}
+              </LinkButton>
+            </div>
+          </ItemCard>
+          </ErrorBoundary>
+        ))}
       </div>
-    </div>
+      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+    </>
   );
 }

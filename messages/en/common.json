@@ -38,6 +38,7 @@
     "mistake": "There has been a mistake",
     "retry": "Retry",
     "contentFailed": "Content failed",
+    "apiError": "API Error",
     "tryToReload": "Or try to reload this page",
     "reloadPage": "Reload page"
   }

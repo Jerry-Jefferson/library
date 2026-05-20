@@ -2,11 +2,10 @@ import { getAuthorById, getAuthors } from "@/lib/modules/authors/authors";
 import { getBooksByAuthorId } from "@/lib/modules/books/books";
 import BookIcon from "@/public/book.png";
 import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
-import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
 import { BookSection } from "../../components/booksSection/bookSection";
 import { SectionHeader } from "../../components/booksSection/sectionHeader";
 import AuthorPage from "./components/authorPage";
-import { getTranslations } from "next-intl/server";
 
 export async function generateStaticParams() {
   const authors = await getAuthors();
@@ -29,24 +28,20 @@ export default async function Author({
   const from = searchParam.from ?? "1";
   const t = await getTranslations("Common");
   return (
-    <Suspense fallback={<p>Wait...</p>}>
-      <div className="w-full flex justify-center bg-background">
-        <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
-          <AuthorPage author={author} from={from} />
-          <ErrorBoundary
-            title={t("sectionUnavailable")}
-            message={t("userMessages.tryAgainLater")}
-            retryLabel={t("retry")}
-            failedLabel={t("contentFailed")}
-          >
-            {author && (
-              <BookSection books={books}>
-                <SectionHeader alt="" src={BookIcon} title="byAuthor" />
-              </BookSection>
-            )}
-          </ErrorBoundary>
-        </div>
+    <div className="w-full flex justify-center bg-background">
+      <div className="w-4/5 gap-6 flex flex-col mt-10 mb-10">
+        <AuthorPage author={author} from={from} />
+        <ErrorBoundary
+          title={t("sectionUnavailable")}
+          message={t("userMessages.tryAgainLater")}
+          retryLabel={t("retry")}
+          failedLabel={t("contentFailed")}
+        >
+          <BookSection books={books}>
+            <SectionHeader alt="" src={BookIcon} title="byAuthor" />
+          </BookSection>
+        </ErrorBoundary>
       </div>
-    </Suspense>
+    </div>
   );
 }

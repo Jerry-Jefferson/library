@@ -22,7 +22,7 @@
     "featuredQuote": "ЦИТАТА",
     "noReviews": "Пока нет отзывов. Станьте первым, кто оставит отзыв",
     "addReview": "Добавить отзыв",
-    "editReview": "Редактирование отзыва для:",
+    "editReview": "Редактирование отзыва для",
     "formFields": {
       "title": "Название",
       "description": "Описание",
@@ -38,7 +38,10 @@
       "bookNotFound": "Книга не найдена",
       "failedToCreateBook": "Не удалось добавить книгу",
       "failedToUpdateBook": "Не удалось обновить книгу",
-      "failedToDeleteBook": "Не удалось удалить книгу"
+      "failedToDeleteBook": "Не удалось удалить книгу",
+      "quoteGenerationPolicyViolation": "Не удалось сгенерировать цитату из-за политики безопасности",
+      "featureUnavailableInRegion": "Эта функция недоступна в вашем регионе",
+      "failedToGenerateQuote": "Модель временно недоступна"
     },
     "booksValidation": {
       "titleRequired": "Введите название книги",
@@ -48,7 +51,8 @@
       "yearFuture": "Год не может быть в будущем",
       "genresRequired": "Выберите хотя бы один жанр",
       "imageTooLarge": "Файл должен быть меньше 10 МБ",
-      "imageInvalidType": "Разрешены только .jpeg, .png, .webp"
+      "imageInvalidType": "Разрешены только .jpeg, .png, .webp",
+      "quoteLength": "Цитата должна быть длиннее"
     },
     "booksAppearSoon": "Книги появятся чуть позже. Взгляните на авторов, представленных в нашем каталоге авторов",
     "toAuthorsPage": "Каталог авторов"

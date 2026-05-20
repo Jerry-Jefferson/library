@@ -2,12 +2,26 @@ import { getTranslations } from "next-intl/server";
 import { FormHeader } from "../components/formHeader/formHeader";
 import { AuthorCreationForm } from "./components/authorCreationForm/authorCreationForm";
 
-export default async function Author() {
-  const t = await getTranslations("Common");
-  const tEntity = await getTranslations("Entities");
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function Author({ params }: Props) {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Common",
+  });
+
+  const tEntity = await getTranslations({
+    locale,
+    namespace: "Entities",
+  });
+
   return (
     <div className="flex flex-col gap-6">
-      <FormHeader entityLabel={tEntity("authors.entry")} />
+      <FormHeader locale={locale} entityLabel={tEntity("authors.entry")} />
       <AuthorCreationForm acceptButton={t("add")} cancelButton={t("cancel")} />
     </div>
   );

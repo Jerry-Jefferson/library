@@ -1,5 +1,6 @@
 "use server";
 import { Author, IAuthor } from "@/src/models/author";
+import { userMessages } from "@/src/shared/constants/userMessages";
 import { ApiError, GoogleGenAI } from "@google/genai";
 import { StatusCodes } from "http-status-codes";
 
@@ -55,11 +56,11 @@ export async function getBookQuote(bookTitle: string, authorId: string) {
             continue;
           }
           if (error.status === StatusCodes.UNPROCESSABLE_ENTITY) {
-            return { success: false, message: "Failed to generate a quote due to security policy" };
+            return { success: false, message: userMessages.books.quoteGenerationPolicyViolation };
           }
           if (error.status === StatusCodes.BAD_REQUEST) {
             if (error.message.toLowerCase().includes("location")) {
-              return { success: false, message: "This feature is unavailable in your region" };
+              return { success: false, message: userMessages.books.featureUnavailableInRegion };
             }
           }
         }
@@ -68,6 +69,6 @@ export async function getBookQuote(bookTitle: string, authorId: string) {
     }
   } catch (error) {
     console.error("AI model error", error);
-    return { success: false, message: "Failed to generate a quote" };
+    return { success: false, message: userMessages.books.failedToGenerateQuote };
   }
 }

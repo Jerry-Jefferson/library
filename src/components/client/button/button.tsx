@@ -1,6 +1,7 @@
 "use client";
 
 import { ButtonHTMLAttributes } from "react";
+import { Spinner } from "../spinner/spinner";
 
 export type Size = "standard" | "small" | "medium" | "large";
 export type ButtonVariant = "custom" | "primary" | "secondary" | "icon";
@@ -49,7 +50,7 @@ export function Button({
       type={type}
       disabled={disabled || isLoading}
     >
-      {isLoading ? <p>Loading...</p> : children}
+      {isLoading ? <Spinner width="30px" color="grey" /> : children}
     </button>
   );
 }

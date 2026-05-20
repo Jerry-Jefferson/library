@@ -6,6 +6,7 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { Button } from "../button/button";
 import { Tooltip } from "../tooltip/tooltip";
 import { useInput } from "./useInput";
+import { useTranslations } from "next-intl";
 
 export interface FieldProps<T extends FieldValues> {
   register: UseFormRegister<T>;
@@ -13,6 +14,7 @@ export interface FieldProps<T extends FieldValues> {
 
 export function PasswordField<T extends FieldValues>({ register }: FieldProps<T>) {
   const [show, setShow] = useState(false);
+  const t = useTranslations("Auth");
   const { name } = useInput();
   return (
     <div className="relative w-full">
@@ -31,7 +33,7 @@ export function PasswordField<T extends FieldValues>({ register }: FieldProps<T>
         {...register(name as Path<T>)}
       />
       <Tooltip
-        helpText={show ? "Hide password" : "Show password"}
+        helpText={show ? t(`base.hidePassword`) : t(`base.showPassword`)}
         className="absolute right-3 top-1/2 -translate-y-1/2"
       >
         <Button
