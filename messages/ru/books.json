@@ -38,7 +38,10 @@
       "bookNotFound": "Книга не найдена",
       "failedToCreateBook": "Не удалось добавить книгу",
       "failedToUpdateBook": "Не удалось обновить книгу",
-      "failedToDeleteBook": "Не удалось удалить книгу"
+      "failedToDeleteBook": "Не удалось удалить книгу",
+      "quoteGenerationPolicyViolation": "Не удалось сгенерировать цитату из-за политики безопасности",
+      "featureUnavailableInRegion": "Эта функция недоступна в вашем регионе",
+      "failedToGenerateQuote": "Модель временно недоступна"
     },
     "booksValidation": {
       "titleRequired": "Введите название книги",

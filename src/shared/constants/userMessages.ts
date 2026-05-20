@@ -51,6 +51,9 @@ export const userMessages = {
     failedToCreateBook: "failedToCreateBook",
     failedToUpdateBook: "failedToUpdateBook",
     failedToDeleteBook: "failedToDeleteBook",
+    quoteGenerationPolicyViolation: "quoteGenerationPolicyViolation",
+    featureUnavailableInRegion: "featureUnavailableInRegion",
+    failedToGenerateQuote: "failedToGenerateQuote",
   },
   booksValidation: {
     titleRequired: "titleRequired",

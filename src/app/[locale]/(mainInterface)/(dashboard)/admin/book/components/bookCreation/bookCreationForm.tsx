@@ -147,11 +147,11 @@ export function BookCreationForm({
           shouldValidate: true,
         });
       } else {
-        toast.error(result?.message || "API Error");
+        toast.error(t(`userMessages.${result?.message}`) || tCommon("apiError"));
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong");
+      tCommon("wentWrong");
     } finally {
       setIsLoading(false);
     }
@@ -230,7 +230,7 @@ export function BookCreationForm({
           }
         />
         <div className="flex justify-between gap-6">
-          <Tooltip fullWidth helpText={!isValid ? t(`Common.fillAllFields`) : ""}>
+          <Tooltip fullWidth helpText={!isValid ? tCommon(`fillAllFields`) : ""}>
             <Button
               fullWidth
               size="medium"

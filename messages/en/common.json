@@ -36,6 +36,7 @@
     "cardWentWild": "The card went wild",
     "mistake": "There has been a mistake",
     "retry": "Retry",
-    "contentFailed": "Content failed"
+    "contentFailed": "Content failed",
+    "apiError": "API Error"
   }
 }

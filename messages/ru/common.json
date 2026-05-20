@@ -36,6 +36,7 @@
     "cardWentWild": "Карточка не загрузилась",
     "mistake": "Произошла ошибка",
     "retry": "Повторить",
-    "contentFailed": "Ошибка при загрузке"
+    "contentFailed": "Ошибка при загрузке",
+    "apiError": "Ошибка API"
   }
 }
