@@ -14,6 +14,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
 import { GenreCreationForm } from "../../../genre/components/genreCreation/genreCreationForm";
 import { useTranslations } from "next-intl";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
 
 export interface ManagementListProps {
   genres: IGenreSerialized[] | null;
@@ -42,7 +43,15 @@ export function GenreManagementList({ genres }: ManagementListProps) {
     }
   }
 
-  if (!genres || genres.length === 0) return <p>{t("Genres.noGenres")}</p>;
+  if (!genres || genres.length === 0)
+    return (
+      <EmptyState title={t("Genres.noGenres")}>
+        <p className="text-secondary">{t("Common.tryToReload")}</p>
+        <Button size="small" variant="primary" onClick={() => window.location.reload()}>
+          {t("Common.reloadPage")}
+        </Button>
+      </EmptyState>
+    );
 
   return (
     <div className="w-full flex bg-background">

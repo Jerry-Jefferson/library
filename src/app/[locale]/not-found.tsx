@@ -2,8 +2,10 @@ import { routes } from "@/src/shared/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 import NotFound from "../../../public/404.png";
+import { getTranslations } from "next-intl/server";
 
-export default function NotFoundPage() {
+export default async function NotFoundPage() {
+  const t = await getTranslations("Common");
   return (
     <div className="flex flex-col gap-4 h-screen items-center justify-center text-4xl text-foreground w-screen">
       <Image
@@ -11,9 +13,9 @@ export default function NotFoundPage() {
         loading="eager"
         src={NotFound}
       />
-      <p>Sorry, no page found</p>
+      <p>{t("noPageFound")}</p>
       <Link className="font-bold hover:text-primary" href={routes.home}>
-        Go back to home page
+        {t("toHomePage")}
       </Link>
     </div>
   );
