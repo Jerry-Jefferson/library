@@ -4,6 +4,7 @@ import { useFavorite } from "@/src/shared/hooks/useFavorite";
 import { MdFavorite } from "react-icons/md";
 import { Button } from "../button/button";
 import { Tooltip } from "../tooltip/tooltip";
+import { useTranslations } from "next-intl";
 
 export type FavoriteProps = {
   bookId: string;
@@ -11,9 +12,10 @@ export type FavoriteProps = {
 
 export function Favorite({ bookId }: FavoriteProps) {
   const { isFavorite, toggle } = useFavorite({ bookId });
+  const t = useTranslations("Books");
 
   return (
-    <Tooltip helpText={isFavorite ? "Remove from favorites" : "Add to favorites"}>
+    <Tooltip helpText={isFavorite ? t("removeFromFavs") : t("addToFavs")}>
       <Button
         onClick={toggle}
         variant="icon"
