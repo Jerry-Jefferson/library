@@ -53,9 +53,7 @@ export function PasswordRecoveryForm() {
           type="email"
           register={register}
           label={t("Auth.base.email")}
-          errorMessage={
-            errors.email?.message ? t(`Auth.authValidation.${errors.email.message}`) : undefined
-          }
+          errorMessage={errors.email?.message}
         />
         <Tooltip helpText={!isValid ? t(`Common.fillAllFields`) : ""}>
           <Button

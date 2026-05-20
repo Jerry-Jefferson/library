@@ -92,13 +92,11 @@ export function GenreCreationForm({
             type="text"
             register={register}
             label={t("title")}
-            errorMessage={
-              errors.title?.message ? t(`genresValidation.${errors.title.message}`) : undefined
-            }
+            errorMessage={errors.title?.message}
           />
         </div>
         <div className="flex justify-between gap-6">
-          <Tooltip fullWidth helpText={!isValid ? "Fill in all the fields" : ""}>
+          <Tooltip fullWidth helpText={!isValid ? t(`Common.fillAllFields`) : ""}>
             <Button
               fullWidth
               size="medium"

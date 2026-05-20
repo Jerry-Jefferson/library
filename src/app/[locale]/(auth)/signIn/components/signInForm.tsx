@@ -75,20 +75,14 @@ export function SignInForm() {
           type="email"
           register={register}
           label={t("Auth.base.email")}
-          errorMessage={
-            errors.email?.message ? t(`Auth.authValidation.${errors.email.message}`) : undefined
-          }
+          errorMessage={errors.email?.message}
         />
         <FormInput
           name="password"
           password
           register={register}
           label={t("Auth.base.password")}
-          errorMessage={
-            errors.password?.message
-              ? t(`Auth.authValidation.${errors.password.message}`)
-              : undefined
-          }
+          errorMessage={errors.password?.message}
         />
         <Tooltip helpText={!isValid ? t("Common.fillAllFields") : ""}>
           <Button
