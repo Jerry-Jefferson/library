@@ -89,7 +89,7 @@ export function AuthorManagementList({
   if (!authors || authors.length === 0) return <p>{t("Authors.noAuthors")}</p>;
   return (
     <div className="w-full flex bg-background">
-      <div className="w-full gap-4 flex flex-col mt-3">
+      <div className="w-full gap-4 flex flex-col">
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (

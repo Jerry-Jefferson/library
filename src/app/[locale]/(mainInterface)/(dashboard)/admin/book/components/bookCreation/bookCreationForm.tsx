@@ -204,16 +204,18 @@ export function BookCreationForm({
             errorMessage={errors.quote?.message}
             disabled={isLoading}
           />
-          <Button
-            variant="icon"
-            size="small"
-            type="button"
-            className="p-2 md:p-3 border border-secondary enabled:hover:border-primary-hover"
-            disabled={isAiDisabled || (isEditMode && isSubmitSuccessful)}
-            onClick={handleAI}
-          >
-            <RiAiGenerate2 className="text-base md:text-2xl text-primary" />
-          </Button>
+          <Tooltip helpText={isAiDisabled ? "Fill in Title and Author fields" : "Generate quote"}>
+            <Button
+              variant="icon"
+              size="small"
+              type="button"
+              className="p-2 md:p-3 border border-secondary enabled:hover:border-primary-hover"
+              disabled={isAiDisabled || (isEditMode && isSubmitSuccessful)}
+              onClick={handleAI}
+            >
+              <RiAiGenerate2 className="text-base md:text-2xl text-primary" />
+            </Button>
+          </Tooltip>
         </div>
         <TextArea
           name="description"

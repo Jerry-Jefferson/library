@@ -1,11 +1,10 @@
+import { routing } from "@/src/i18n/routing";
+import Providers from "@/src/providers/providers";
 import type { Metadata } from "next";
-import "../../app/globals.css";
 import { hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import { routing } from "@/src/i18n/routing";
 import { notFound } from "next/navigation";
-import Providers from "@/src/providers/providers";
-import { Suspense } from "react";
+import "../../app/globals.css";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

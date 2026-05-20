@@ -1,5 +1,5 @@
-import { auth } from "@/src/auth";
 import { getFavoriteBooks } from "@/lib/modules/books/books";
+import { auth } from "@/src/auth";
 import BooksList from "./booksList";
 
 export async function FavoritesList() {

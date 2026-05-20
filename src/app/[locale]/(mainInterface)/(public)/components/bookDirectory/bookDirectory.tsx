@@ -11,10 +11,10 @@ import { IBookSerialized } from "@/src/models/book";
 import { IGenreSerialized } from "@/src/models/genre";
 import { routes } from "@/src/shared/constants/routes";
 import { bookSortOptions, SortOption } from "@/src/shared/constants/sortOptions";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { BooksRenderProps } from "../booksContent/booksContent";
-import { useTranslations } from "next-intl";
 
 export function BookDirectory({
   books,
@@ -58,10 +58,7 @@ export function BookDirectory({
   if (!books || books.length === 0) return <p>{t("Books.noBooks")}</p>;
 
   return (
-    <div className="w-full flex justify-center bg-background">
-      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">{t("Books.booksDirectory")}</h2>
-        <p className="text-xl text-secondary">{t("Books.description")}</p>
+<>
         <div className="flex gap-5 w-full justify-center sm:justify-end mt-5">
           <div className="flex flex-col gap-3 max-w-[2/4] sm:flex-row">
             {genres && (
@@ -125,7 +122,6 @@ export function BookDirectory({
           ))}
         </div>
         {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
-      </div>
-    </div>
+    </>
   );
 }

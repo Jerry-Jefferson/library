@@ -1,3 +1,9 @@
+import { Spinner } from "@/src/components/client/spinner/spinner";
+
 export default function Loading() {
-  return <p>Loading...</p>;
+  return (
+    <div className="w-full h-screen flex justify-center items-center">
+      <Spinner width="100px" color="green" />
+    </div>
+  );
 }
