@@ -7,10 +7,15 @@ import BooksContent from "../components/booksContent/booksContent";
 
 export interface BooksProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
+  params: Promise<{ locale: string }>;
 }
 
-export default async function Books({ searchParams }: BooksProps) {
-  const t = await getTranslations("Books");
+export default async function Books({ params, searchParams }: BooksProps) {
+  const { locale } = await params;
+  const t = await getTranslations({
+    locale,
+    namespace: "Books",
+  });
 
   return (
     <div className="w-full flex justify-center bg-background">
