@@ -49,6 +49,8 @@
       "genresRequired": "Select at least one genre",
       "imageTooLarge": "File must be less than 10MB",
       "imageInvalidType": "Only .jpeg, .png, .webp are allowed"
-    }
+    },
+    "booksAppearSoon": "Books will be available soon. Check out the authors featured in our author catalog",
+    "toAuthorsPage": "Authors catalog"
   }
 }

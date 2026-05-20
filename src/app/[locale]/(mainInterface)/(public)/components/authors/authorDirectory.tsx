@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/src/components/client/button/button";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
 import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import Pagination from "@/src/components/client/pagination/pagination";
@@ -57,7 +59,20 @@ export default function AuthorDirectory({
     }));
   }, [t]);
 
-  if (!authors || authors.length === 0) return <p>{t("Authors.noAuthors")}</p>;
+  if (!authors || authors.length === 0)
+    return (
+      <EmptyState
+        title={t("Authors.noAuthors")}
+        description={t("Authors.authorsAppearSoon")}
+        path={routes.authors}
+        buttonLabel={t("Authors.toBooksPage")}
+      >
+        <p className="text-secondary">{t("Common.tryToReload")}</p>
+        <Button size="small" variant="primary" onClick={() => window.location.reload()}>
+          {t("Common.reloadPage")}
+        </Button>
+      </EmptyState>
+    );
 
   return (
     <div className="w-full flex justify-center bg-background">

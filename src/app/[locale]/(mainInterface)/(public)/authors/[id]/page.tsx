@@ -39,9 +39,11 @@ export default async function Author({
             retryLabel={t("retry")}
             failedLabel={t("contentFailed")}
           >
-            <BookSection books={books}>
-              <SectionHeader alt="" src={BookIcon} title="byAuthor" />
-            </BookSection>
+            {author && (
+              <BookSection books={books}>
+                <SectionHeader alt="" src={BookIcon} title="byAuthor" />
+              </BookSection>
+            )}
           </ErrorBoundary>
         </div>
       </div>

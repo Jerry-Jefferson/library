@@ -20,6 +20,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
 import { AuthorCreationForm } from "../../../author/components/authorCreationForm/authorCreationForm";
 import { useTranslations } from "next-intl";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
+import { routes } from "@/src/shared/constants/routes";
 
 export interface AuthorManagementListProps {
   genres: IGenreSerialized[] | null;
@@ -86,7 +88,20 @@ export function AuthorManagementList({
     return [...authors].sort(selectedSort.comparator);
   }, [authors, selectedSort]);
 
-  if (!authors || authors.length === 0) return <p>{t("Authors.noAuthors")}</p>;
+  if (!authors || authors.length === 0)
+    return (
+      <EmptyState
+        title={t("Authors.noAuthors")}
+        description={t("Authors.authorsAppearSoon")}
+        path={routes.books}
+        buttonLabel={t("Authors.toBooksPage")}
+      >
+        <p className="text-secondary">{t("Common.tryToReload")}</p>
+        <Button size="small" variant="primary" onClick={() => window.location.reload()}>
+          {t("Common.reloadPage")}
+        </Button>
+      </EmptyState>
+    );
   return (
     <div className="w-full flex bg-background">
       <div className="w-full gap-4 flex flex-col mt-3">

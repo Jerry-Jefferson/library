@@ -15,6 +15,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { BooksRenderProps } from "../booksContent/booksContent";
 import { useTranslations } from "next-intl";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
+import { Button } from "@/src/components/client/button/button";
 
 export function BookDirectory({
   books,
@@ -54,8 +56,20 @@ export function BookDirectory({
       title: t(`Books.sortOptions.${option._id}`),
     }));
   }, [t]);
-
-  if (!books || books.length === 0) return <p>{t("Books.noBooks")}</p>;
+  if (!books || books.length === 0)
+    return (
+      <EmptyState
+        title={t("Books.noBooks")}
+        description={t("Books.booksAppearSoon")}
+        path={routes.authors}
+        buttonLabel={t("Books.toAuthorsPage")}
+      >
+        <p className="text-secondary">{t("Common.tryToReload")}</p>
+        <Button size="small" variant="primary" onClick={() => window.location.reload()}>
+          {t("Common.reloadPage")}
+        </Button>
+      </EmptyState>
+    );
 
   return (
     <div className="w-full flex justify-center bg-background">

@@ -5,7 +5,6 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { routing } from "@/src/i18n/routing";
 import { notFound } from "next/navigation";
 import Providers from "@/src/providers/providers";
-import { Suspense } from "react";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

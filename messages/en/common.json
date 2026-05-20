@@ -37,6 +37,8 @@
     "cardWentWild": "The card went wild",
     "mistake": "There has been a mistake",
     "retry": "Retry",
-    "contentFailed": "Content failed"
+    "contentFailed": "Content failed",
+    "tryToReload": "Or try to reload this page",
+    "reloadPage": "Reload page"
   }
 }

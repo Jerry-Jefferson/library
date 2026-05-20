@@ -1,29 +1,33 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Button } from "../button/button";
 import { useTranslations } from "next-intl";
+import LinkButton from "../../server/linkButton/linkButton";
+import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
 
 type EmptyStateProps = {
-  title?: string;
+  title: string;
   description?: string;
-  backLabel?: string;
+  path?: string;
+  buttonLabel?: string;
+  children?: ReactNode;
 };
 
 export default function EmptyState({
-  title = "Ничего не найдено",
-  description = "Попробуйте изменить параметры поиска или вернитесь назад.",
+  title,
+  description,
+  path,
+  buttonLabel,
+  children,
 }: EmptyStateProps) {
-  const router = useRouter();
   const t = useTranslations("Common");
   return (
-    <div className="flex flex-col items-center justify-center min-h-[300px] text-center p-6">
-      <h2 className="text-xl font-semibold mb-2">{title}</h2>
-      <p className="text-gray-500 mb-6">{description}</p>
+    <div className="flex flex-col items-center justify-center min-h-100 text-center p-6 gap-4">
+      <h2 className="text-4xl font-semibold">{title}</h2>
+      {description ? <p className="text-secondary">{description}</p> : null}
 
-      <Button onClick={() => router.back()} variant="primary">
-        {t("goBack")}
-      </Button>
+      {path && <LinkButton href={path}>{buttonLabel ? buttonLabel : t("goBack")}</LinkButton>}
+      {children}
     </div>
   );
 }
