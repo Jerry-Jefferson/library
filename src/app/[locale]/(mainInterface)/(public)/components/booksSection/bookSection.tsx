@@ -9,6 +9,8 @@ import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import { EmblaCarousel } from "../emblaCarousel/emblaCarousel";
 import { useTranslations } from "next-intl";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
+import { Button } from "@/src/components/client/button/button";
 
 export const AUTHOR_PATH_REGEX = /^\/authors\/[^/]+$/;
 export const isAuthorPage = (pathname: string) => AUTHOR_PATH_REGEX.test(pathname);
@@ -20,7 +22,21 @@ export interface BookSectionProps {
 export function BookSection({ children, books }: BookSectionProps) {
   const pathname = usePathname();
   const t = useTranslations("");
-  if (!books || books.length === 0) return <p>{t("Books.noBooks")}</p>;
+  if (!books || books.length === 0)
+    return (
+      <EmptyState
+        title={t("Books.noBooks")}
+        description={t("Books.booksAppear")}
+        path={routes.authors}
+        buttonLabel={t("Common.toAuthorsPage")}
+      >
+        <span>{t("Common.or")}</span>
+        <p className="text-secondary">{t("Common.tryToReload")}</p>
+        <Button size="small" variant="primary" onClick={() => window.location.reload()}>
+          {t("Common.reloadPage")}
+        </Button>
+      </EmptyState>
+    );
 
   return (
     <section className="box-border flex flex-col gap-4 w-full">
