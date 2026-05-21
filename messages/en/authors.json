@@ -41,6 +41,9 @@
       "deathBeforeBirth": "Death year must be after birth year",
       "imageTooLarge": "File must be less than 10MB",
       "imageInvalidType": "Only .jpeg, .png, .webp are allowed"
-    }
+    },
+    "authorsAppearSoon": "Authors will appear a little later. In the meantime, take a look at the books featured in our catalog",
+    "toBooksPage": "Books catalog",
+    "noAuthor": "Author not found"
   }
 }

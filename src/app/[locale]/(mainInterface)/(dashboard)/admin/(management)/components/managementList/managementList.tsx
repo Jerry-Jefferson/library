@@ -21,6 +21,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
 import { BookCreationForm } from "../../../book/components/bookCreation/bookCreationForm";
 import { useTranslations } from "next-intl";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
+import { routes } from "@/src/shared/constants/routes";
 
 export interface ManagementListProps {
   books: IBookSerialized[];
@@ -89,7 +91,15 @@ export function ManagementList({
     }));
   }, [t]);
 
-  if (!books || books.length === 0) return <p>{t("Books.noBooks")}</p>;
+  if (!books || books.length === 0)
+    return (
+      <EmptyState title={t("Books.noBooks")}>
+        <p className="text-secondary">{t("Common.tryToReload")}</p>
+        <Button size="small" variant="primary" onClick={() => window.location.reload()}>
+          {t("Common.reloadPage")}
+        </Button>
+      </EmptyState>
+    );
 
   return (
     <div className="w-full flex bg-background">

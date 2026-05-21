@@ -42,17 +42,19 @@
       "quoteGenerationPolicyViolation": "Failed to generate a quote due to security policy",
       "featureUnavailableInRegion": "This feature is unavailable in your region",
       "failedToGenerateQuote": "Failed to generate a quote"
-    }
-  },
-  "booksValidation": {
-    "titleRequired": "Enter the book's title",
-    "descriptionTooShort": "Write a longer synopsis",
-    "authorRequired": "Choose an author",
-    "yearInvalid": "Enter a valid year",
-    "yearFuture": "Year cannot be in the future",
-    "genresRequired": "Select at least one genre",
-    "imageTooLarge": "File must be less than 10MB",
-    "imageInvalidType": "Only .jpeg, .png, .webp are allowed",
-    "quoteLength": "Quote must be longer"
+    },
+    "booksValidation": {
+      "titleRequired": "Enter the book's title",
+      "descriptionTooShort": "Write a longer synopsis",
+      "authorRequired": "Choose an author",
+      "yearInvalid": "Enter a valid year",
+      "yearFuture": "Year cannot be in the future",
+      "genresRequired": "Select at least one genre",
+      "imageTooLarge": "File must be less than 10MB",
+      "imageInvalidType": "Only .jpeg, .png, .webp are allowed",
+      "quoteLength": "Quote must be longer"
+    },
+    "booksAppear": "Books will appear soon. Take a look at the authors featured in our author catalog",
+    "toAuthorsPage": "Authors catalog"
   }
 }

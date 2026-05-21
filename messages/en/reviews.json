@@ -26,6 +26,8 @@
       "commentMin": "Comment must be at least 10 characters",
       "atLeastOneField": "At least one field must be provided"
     },
-    "userReview": "User Review"
+    "userReview": "User Review",
+    "shareYourThoughts": "Share your thoughts about a recently read book",
+    "booksButtonLabel": "Books catalog"
   }
 }

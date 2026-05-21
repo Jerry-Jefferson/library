@@ -2,6 +2,7 @@
 
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import LinkButton from "@/src/components/server/linkButton/linkButton";
 import { IAuthorSerialized } from "@/src/models/author";
@@ -18,7 +19,19 @@ export default function AuthorPage({
   const tAuthors = useTranslations("Authors");
   const tCommon = useTranslations("Common");
   const backPath = from ?? routes.authors;
-  if (!author) return <p>No author found</p>;
+  if (!author)
+    return (
+      <EmptyState title={tAuthors("noAuthor")}>
+        <LinkButton href={backPath} className="py-4">
+          {tCommon("toAuthorsPage")}
+        </LinkButton>
+        <span>{tCommon("or")}</span>
+        <p className="text-secondary">{tCommon("tryToReload")}</p>
+        <Button size="medium" variant="primary" onClick={() => window.location.reload()}>
+          {tCommon("reloadPage")}
+        </Button>
+      </EmptyState>
+    );
 
   return (
     <ItemCard name="book">

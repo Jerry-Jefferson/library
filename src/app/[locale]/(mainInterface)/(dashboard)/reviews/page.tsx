@@ -30,7 +30,7 @@ export default async function Reviews({ params }: ReviewsProps) {
             />
           }
         >
-          <ReviewContent />
+          <ReviewContent locale={locale} />
         </Suspense>
       </div>
     </div>

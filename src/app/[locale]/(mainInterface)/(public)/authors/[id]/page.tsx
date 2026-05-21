@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { BookSection } from "../../components/booksSection/bookSection";
 import { SectionHeader } from "../../components/booksSection/sectionHeader";
 import AuthorPage from "./components/authorPage";
+import { notFound } from "next/dist/client/components/not-found";
 
 export async function generateStaticParams() {
   const authors = await getAuthors();
@@ -22,7 +23,7 @@ export default async function Author({
 }) {
   const { id } = await params;
   const author = await getAuthorById(id);
-  if (!author) return null;
+  if (!author) return notFound();
   const books = await getBooksByAuthorId(author?.books);
   const searchParam = await searchParams;
   const from = searchParam.from ?? "1";
@@ -37,9 +38,11 @@ export default async function Author({
           retryLabel={t("retry")}
           failedLabel={t("contentFailed")}
         >
-          <BookSection books={books}>
-            <SectionHeader alt="" src={BookIcon} title="byAuthor" />
-          </BookSection>
+          {author && (
+            <BookSection books={books}>
+              <SectionHeader alt="" src={BookIcon} title="byAuthor" />
+            </BookSection>
+          )}
         </ErrorBoundary>
       </div>
     </div>

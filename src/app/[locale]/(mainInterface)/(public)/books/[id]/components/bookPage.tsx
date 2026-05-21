@@ -5,6 +5,7 @@ import { ReviewForm } from "@/src/app/[locale]/(mainInterface)/(dashboard)/revie
 import { QuoteDisplay } from "@/src/app/[locale]/(mainInterface)/(public)/components/quoteDisplay/quoteDisplay";
 import { Button } from "@/src/components/client/button/button";
 import { Collapse } from "@/src/components/client/collapse/collapse";
+import EmptyState from "@/src/components/client/emptyState/emptyState";
 import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
 import ItemCard from "@/src/components/client/itemCard/itemCard";
 import { ModalWindow } from "@/src/components/client/modalWindow/modalWindow";
@@ -59,7 +60,20 @@ export function BookPage({
     bookId: book._id,
   });
 
-  if (!book) return <p>{t("Books.noBook")}</p>;
+  if (!book)
+    return (
+      <EmptyState
+        title={t("Books.noBook")}
+        path={routes.books}
+        buttonLabel={t("Common.toBooksPage")}
+      >
+        <span>{t("Common.or")}</span>
+        <p className="text-secondary">{t("Common.tryToReload")}</p>
+        <Button size="small" variant="primary" onClick={() => window.location.reload()}>
+          {t("Common.reloadPage")}
+        </Button>
+      </EmptyState>
+    );
 
   return (
     <div className="w-full flex justify-center bg-background">

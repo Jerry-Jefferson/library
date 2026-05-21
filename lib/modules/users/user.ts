@@ -3,7 +3,7 @@
 import { auth } from "@/src/auth";
 import User from "@/src/models/user";
 import { Types } from "mongoose";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function toggleFavorite(bookId: string) {
   const session = await auth();
@@ -24,8 +24,8 @@ export async function toggleFavorite(bookId: string) {
 
   await user.save();
 
-  revalidateTag(`favorites:${userId}`, "max");
-  revalidateTag(`book:${bookId}`, "max");
+  revalidatePath("/en/favourites");
+  revalidatePath("/ru/favourites");
 
   return !isFavorite;
 }
