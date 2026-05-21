@@ -3,6 +3,31 @@ import { Suspense } from "react";
 import { ItemsSkeleton } from "../../../../components/itemsSkeleton/itemsSkeleton";
 import GenresContent from "../../genre/components/genresContent/genresContent";
 import { GenreManagementList } from "../components/genreManagementList/genreManagementList";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Genres",
+  });
+
+  return {
+    title: t("managementTitle"),
+    description: t("managementDescription"),
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 
 export default function GenresManagement() {
   return (

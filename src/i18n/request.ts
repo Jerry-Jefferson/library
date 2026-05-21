@@ -19,6 +19,8 @@ export default getRequestConfig(async ({ locale }) => {
       ...(await import(`../../messages/${validLocale}/favorites.json`)).default,
       ...(await import(`../../messages/${validLocale}/reviews.json`)).default,
       ...(await import(`../../messages/${validLocale}/genres.json`)).default,
+      ...(await import(`../../messages/${validLocale}/error.json`)).default,
+      ...(await import(`../../messages/${validLocale}/metadata.json`)).default,
     },
   };
 });

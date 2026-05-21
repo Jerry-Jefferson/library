@@ -2,9 +2,33 @@ import { ItemsSkeleton } from "@/src/app/[locale]/(mainInterface)/components/ite
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ReviewContent } from "./components/reviewContent/reviewContent";
+import { Metadata } from "next";
 
 interface ReviewsProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Reviews",
+  });
+
+  return {
+    title: t("yourReviews"),
+    description: t("myReviewsDescription"),
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
 }
 
 export default async function Reviews({ params }: ReviewsProps) {

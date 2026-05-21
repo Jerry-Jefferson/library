@@ -2,7 +2,7 @@ import { routing } from "@/src/i18n/routing";
 import Providers from "@/src/providers/providers";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import "../../app/globals.css";
 
@@ -10,15 +10,41 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  title: "Your library",
-  description: "Here you can see books and authors",
-};
-
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Metadata",
+  });
+
+  return {
+    title: {
+      default: t("title"),
+      template: `%s | ${t("title")}`,
+    },
+    description: t("description"),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+    },
+  };
+}
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;

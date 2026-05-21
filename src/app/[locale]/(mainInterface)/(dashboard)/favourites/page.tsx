@@ -4,9 +4,29 @@ import { auth } from "@/src/auth";
 import EmptyState from "@/src/components/client/emptyState/emptyState";
 import BooksList from "./components/booksList";
 import { routes } from "@/src/shared/constants/routes";
+import { Metadata } from "next";
 
 interface FavoritesProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: FavoritesProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Favorites",
+  });
+
+  return {
+    title: t("masterpieces"),
+    description: t("description"),
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
 }
 
 export default async function Favourites({ params }: FavoritesProps) {

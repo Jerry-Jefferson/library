@@ -4,10 +4,52 @@ import { Suspense } from "react";
 import { ItemsSkeleton } from "../../components/itemsSkeleton/itemsSkeleton";
 import { BookDirectory } from "../components/bookDirectory/bookDirectory";
 import BooksContent from "../components/booksContent/booksContent";
+import { Metadata } from "next";
 
 export interface BooksProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ genres?: string; page?: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const { genres, page } = await searchParams;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Books",
+  });
+
+  const title = genres ? `${t("booksDirectory")} - ${genres}` : t("booksDirectory");
+  const description = page ? `${t("description")} (page ${page})` : t("description");
+
+  return {
+    title: {
+      default: title,
+      template: `%s | ${t("booksDirectory")}`,
+    },
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
 }
 
 export default async function Books({ params, searchParams }: BooksProps) {
