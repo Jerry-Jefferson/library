@@ -4,6 +4,8 @@ import { auth } from "@/src/auth";
 import EmptyState from "@/src/components/client/emptyState/emptyState";
 import BooksList from "./components/booksList";
 import { routes } from "@/src/shared/constants/routes";
+import { Suspense } from "react";
+import { ItemsSkeleton } from "../../components/itemsSkeleton/itemsSkeleton";
 
 interface FavoritesProps {
   params: Promise<{ locale: string }>;
@@ -37,9 +39,18 @@ export default async function Favourites({ params }: FavoritesProps) {
             buttonLabel={t("toBookPage")}
           />
         ) : (
-          <>
+          <Suspense
+            fallback={
+              <ItemsSkeleton
+                className="h-[580px]"
+                gridClassName="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                itemsNumber={8}
+                withSort={false}
+              />
+            }
+          >
             <BooksList books={favoriteBooks} />
-          </>
+          </Suspense>
         )}
       </div>
     </div>
