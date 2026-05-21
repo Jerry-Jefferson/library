@@ -3,6 +3,35 @@ import { getAllGenres } from "@/lib/modules/genres/genres";
 import { FormHeader } from "../components/formHeader/formHeader";
 import { BookCreationForm } from "./components/bookCreation/bookCreationForm";
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Common",
+  });
+
+  const tEntity = await getTranslations({
+    locale,
+    namespace: "Entities",
+  });
+
+  return {
+    title: `${t("add")} ${tEntity("bookLabel")}`,
+    description: t("add"),
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 
 type Props = {
   params: Promise<{ locale: string }>;

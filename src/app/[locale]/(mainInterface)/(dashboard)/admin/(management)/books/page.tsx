@@ -4,6 +4,31 @@ import { Suspense } from "react";
 import { ItemsSkeleton } from "../../../../components/itemsSkeleton/itemsSkeleton";
 import { ManagementList } from "../components/managementList/managementList";
 
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Books",
+  });
+
+  return {
+    title: t("managementTitle"),
+    description: t("managementDescription"),
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 export interface BooksProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
 }

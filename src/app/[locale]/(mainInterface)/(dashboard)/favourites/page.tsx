@@ -6,9 +6,29 @@ import { getTranslations } from "next-intl/server";
 import BooksList from "./components/booksList";
 import { Suspense } from "react";
 import { ItemsSkeleton } from "../../components/itemsSkeleton/itemsSkeleton";
+import { Metadata } from "next";
 
 interface FavoritesProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: FavoritesProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Favorites",
+  });
+
+  return {
+    title: t("masterpieces"),
+    description: t("description"),
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
 }
 
 export default async function Favourites({ params }: FavoritesProps) {

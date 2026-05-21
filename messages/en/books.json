@@ -55,6 +55,10 @@
       "quoteLength": "Quote must be longer"
     },
     "booksAppear": "Books will appear soon. Take a look at the authors featured in our author catalog",
-    "toAuthorsPage": "Authors catalog"
+    "toAuthorsPage": "Authors catalog",
+    "notFoundTitle": "Book not found",
+    "notFoundDescription": "This book does not exist",
+    "managementTitle": "Books Management",
+    "managementDescription": "Manage and organize books in the library"
   }
 }

@@ -45,6 +45,14 @@
     },
     "authorsAppearSoon": "Авторы появятся чуть позже. А пока загляните в наш каталог книг",
     "toBooksPage": "Каталог книг",
-    "noAuthor": "Автор не найден"
+    "noAuthor": "Автор не найден",
+    "title": "Авторы",
+    "descriptionFiltered": "Авторы, отфильтрованные по жанрам",
+    "titleSuffix": "Автор",
+    "notFoundTitle": "Автор не найден",
+    "notFoundDescription": "Этот автор не существует",
+    "defaultDescription": "Информация об авторе",
+    "managementTitle": "Управление авторами",
+    "managementDescription": "Добавляйте, удаляйте и управляйте авторами"
   }
 }

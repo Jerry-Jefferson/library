@@ -16,6 +16,8 @@
       "titleRequired": "Enter genre title",
       "titleTooShort": "Genre title is too short"
     },
-    "title": "Title"
+    "title": "Title",
+    "managementTitle": "Genres Management",
+    "managementDescription": "Create, edit and manage book genres"
   }
 }

@@ -44,6 +44,14 @@
     },
     "authorsAppearSoon": "Authors will appear a little later. In the meantime, take a look at the books featured in our catalog",
     "toBooksPage": "Books catalog",
-    "noAuthor": "Author not found"
+    "noAuthor": "Author not found",
+    "title": "Authors",
+    "descriptionFiltered": "Filtered authors based on selected genres",
+    "titleSuffix": "Author",
+    "notFoundTitle": "Author not found",
+    "notFoundDescription": "This author does not exist",
+    "defaultDescription": "Learn more about this author",
+    "managementTitle": "Authors Management",
+    "managementDescription": "Manage and organize authors in the library"
   }
 }

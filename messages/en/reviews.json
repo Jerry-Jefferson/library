@@ -28,6 +28,8 @@
     },
     "userReview": "User Review",
     "shareYourThoughts": "Share your thoughts about a recently read book",
-    "booksButtonLabel": "Books catalog"
+    "booksButtonLabel": "Books catalog",
+    "myReviewsTitle": "My Reviews",
+    "myReviewsDescription": "Manage and edit your book reviews"
   }
 }

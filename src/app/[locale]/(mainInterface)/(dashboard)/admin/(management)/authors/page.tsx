@@ -3,8 +3,33 @@ import { Suspense } from "react";
 import { ItemsSkeleton } from "../../../../components/itemsSkeleton/itemsSkeleton";
 import { AuthorManagementList } from "../components/authorManagementList/authorManagementList";
 import AuthorsContent from "@/src/app/[locale]/(mainInterface)/(public)/components/authorsContent/authorsContent";
+import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
 export interface AuthorsProps {
   searchParams: Promise<{ genres?: string; page?: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Authors",
+  });
+
+  return {
+    title: t("managementTitle"),
+    description: t("managementDescription"),
+
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
 }
 
 export default function AuthorsManagement({ searchParams }: AuthorsProps) {

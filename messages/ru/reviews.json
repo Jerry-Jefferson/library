@@ -28,6 +28,8 @@
     },
     "userReview": "Ревью пользователя",
     "shareYourThoughts": "Поделитесь вашим мнением о недавно прочитанной книге",
-    "booksButtonLabel": "Каталог книг"
+    "booksButtonLabel": "Каталог книг",
+    "myReviewsTitle": "Мои отзывы",
+    "myReviewsDescription": "Управление вашими отзывами"
   }
 }
