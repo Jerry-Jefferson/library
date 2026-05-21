@@ -1,9 +1,9 @@
-import { getTranslations } from "next-intl/server";
 import { getFavoriteBooks } from "@/lib/modules/books/books";
 import { auth } from "@/src/auth";
 import EmptyState from "@/src/components/client/emptyState/emptyState";
-import BooksList from "./components/booksList";
 import { routes } from "@/src/shared/constants/routes";
+import { getTranslations } from "next-intl/server";
+import BooksList from "./components/booksList";
 import { Suspense } from "react";
 import { ItemsSkeleton } from "../../components/itemsSkeleton/itemsSkeleton";
 
