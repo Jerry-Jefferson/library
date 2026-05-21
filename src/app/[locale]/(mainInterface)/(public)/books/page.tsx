@@ -1,41 +1,34 @@
-import { ITEMS_PER_PAGE } from "@/src/shared/constants/itemsPerPage";
+import { routes } from "@/src/shared/constants/routes";
+import Image from "next/image";
+import Link from "next/link";
+import NotFound from "../../../public/404.png";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
-import { ItemsSkeleton } from "../../components/itemsSkeleton/itemsSkeleton";
-import { BookDirectory } from "../components/bookDirectory/bookDirectory";
-import BooksContent from "../components/booksContent/booksContent";
 
-export interface BooksProps {
-  searchParams: Promise<{ genres?: string; page?: string }>;
+interface Props {
   params: Promise<{ locale: string }>;
 }
 
-export default async function Books({ params, searchParams }: BooksProps) {
+export default async function NotFoundPage({ params }: Props) {
   const { locale } = await params;
+
   const t = await getTranslations({
     locale,
-    namespace: "Books",
+    namespace: "Common",
   });
 
   return (
-    <div className="w-full flex justify-center bg-background">
-      <div className="w-7/8 gap-4 flex flex-col mt-10 mb-10">
-        <h2 className="text-6xl font-bold">{t("booksDirectory")}</h2>
-        <p className="text-xl text-secondary">{t("description")}</p>
-        <Suspense
-          fallback={
-            <ItemsSkeleton
-              className="h-[520px]"
-              gridClassName="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4"
-              itemsNumber={ITEMS_PER_PAGE.EIGHT}
-            />
-          }
-        >
-          <BooksContent searchParams={searchParams}>
-            {(data) => <BookDirectory {...data} />}
-          </BooksContent>
-        </Suspense>
-      </div>
+    <div className="flex flex-col gap-4 h-screen items-center justify-center text-4xl text-foreground w-screen">
+      <Image
+        alt="a sad emoji face with a sign 404 in an app window"
+        loading="eager"
+        src={NotFound}
+      />
+
+      <p>{t("noPageFound")}</p>
+
+      <Link className="font-bold hover:text-primary" href={routes.home}>
+        {t("toHomePage")}
+      </Link>
     </div>
   );
 }
