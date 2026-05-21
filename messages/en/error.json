@@ -2,9 +2,9 @@
   "Error": {
     "title": "An ink-spill in the system",
     "description": "The manuscript has encountered a fatal tear. The archival binding has failed, leaving the current page illegible",
-    "copyErrorId": "Copy Error ID",
+    "copyFallback": "Please, describe your problem to support@example.com",
     "copied": "ID copied!",
-    "contact": "Please contact us at support@example.com",
-    "copyFallback": "Please, describe your problem to support@example.com"
+    "copyErrorId": "Support",
+    "contact": "Please contact us at support@example.com"
   }
 }

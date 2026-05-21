@@ -10,11 +10,11 @@ import { removeLocaleFromPathname } from "./shared/utils/removeLocaleFromPathnam
 const intlMiddleware = createMiddleware(routing);
 
 async function proxy(request: NextRequest & { auth: Session | null }) {
-  const { auth, nextUrl } = request;
-  const pathname = nextUrl.pathname;
-  const pathnameWithoutLocale = removeLocaleFromPathname(pathname);
+  const { auth: session, nextUrl } = request;
 
-  const userRole = auth?.user?.role;
+  const pathnameWithoutLocale = removeLocaleFromPathname(nextUrl.pathname);
+
+  const userRole = session?.user?.role;
 
   const accessType = getAccessType(pathnameWithoutLocale);
 
@@ -25,10 +25,7 @@ async function proxy(request: NextRequest & { auth: Session | null }) {
 
   const response = actions[accessType]();
 
-  if (response) {
-    return response;
-  }
-
+  if (response) return response;
   return intlMiddleware(request);
 }
 

@@ -23,7 +23,7 @@ export async function generateMetadata({
   });
 
   return {
-    title: `${t("add")} ${tEntity("books.entry")}`,
+    title: `${t("add")} ${tEntity("bookLabel")}`,
     description: t("add"),
 
     robots: {

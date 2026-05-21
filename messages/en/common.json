@@ -43,7 +43,9 @@
     "tryToReload": "Try to reload this page",
     "reloadPage": "Reload page",
     "toBooksPage": "Go to the books page",
+    "toHomePage": "Go back to home page",
     "toAuthorsPage": "Go to the authors page",
+    "noPageFound": "No page found",
     "toHomePage": " Go back to home page",
     "noPageFound": "Sorry, no page found",
     "accessDenied": "Access denied"

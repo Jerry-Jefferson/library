@@ -64,7 +64,7 @@ export default function AuthorDirectory({
       <EmptyState
         title={t("Authors.noAuthors")}
         description={t("Authors.authorsAppearSoon")}
-        path={routes.authors}
+        path={routes.books}
         buttonLabel={t("Authors.toBooksPage")}
       >
         <p className="text-secondary">{t("Common.tryToReload")}</p>

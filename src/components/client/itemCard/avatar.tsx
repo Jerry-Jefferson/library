@@ -1,5 +1,8 @@
+"use client";
+
 import { DEFAULT_AVATAR } from "@/src/shared/constants/defaultAvatar";
 import Image from "next/image";
+import { useCard } from "./useCard";
 
 export type AvatarType = "circle" | "rounded";
 
@@ -13,6 +16,7 @@ export interface AvatarProps {
 
 export function Avatar({ alt, src, view, width, height }: AvatarProps) {
   const circle = view === "circle";
+  const { name } = useCard();
 
   return (
     <div
@@ -29,7 +33,7 @@ export function Avatar({ alt, src, view, width, height }: AvatarProps) {
       <Image
         fill
         className="object-cover"
-        alt={alt}
+        alt={alt || name}
         src={src ?? DEFAULT_AVATAR}
         sizes="(min-width: 1024px) 100vw, (min-width: 768px) 25vw, (min-width: 640px) 50vw, 100vw"
       />

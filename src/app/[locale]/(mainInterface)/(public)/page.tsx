@@ -2,9 +2,9 @@ import { getNewBooks, getPopularBooks } from "@/lib/modules/books/books";
 import FireIcon from "@/public/fire32.png";
 import NewIcon from "@/public/new32.png";
 import { ErrorBoundary } from "@/src/components/client/errorBoundary/errorBoundary";
+import { getTranslations } from "next-intl/server";
 import { BookSection } from "./components/booksSection/bookSection";
 import { SectionHeader } from "./components/booksSection/sectionHeader";
-import { getTranslations } from "next-intl/server";
 
 export default async function Home() {
   const [newBooks, popularBooks] = await Promise.all([getNewBooks(20), getPopularBooks(20)]);

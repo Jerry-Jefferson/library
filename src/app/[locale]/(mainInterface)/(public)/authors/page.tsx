@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import { ItemsSkeleton } from "../../components/itemsSkeleton/itemsSkeleton";
 import AuthorDirectory from "../components/authors/authorDirectory";
 import AuthorsContent from "../components/authorsContent/authorsContent";
-import { getAuthorById } from "@/lib/modules/authors/authors";
 import { Metadata } from "next";
 
 export interface AuthorsProps {
@@ -14,59 +13,49 @@ export interface AuthorsProps {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
-  params: Promise<{ id: string; locale: string }>;
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{
+    genres?: string;
+    page?: string;
+    sort?: string;
+  }>;
 }): Promise<Metadata> {
-  const { id, locale } = await params;
+  const { locale } = await params;
+  const { genres, page } = await searchParams;
 
   const t = await getTranslations({
     locale,
     namespace: "Authors",
   });
 
-  const author = await getAuthorById(id);
+  const title = genres ? `${t("title")} - ${genres}` : t("authorsDirectory");
 
-  if (!author) {
-    return {
-      title: t("notFoundTitle"),
-      description: t("notFoundDescription"),
-      robots: {
-        index: false,
-        follow: false,
-      },
-    };
-  }
-
-  const description = author.bio?.slice(0, 160);
+  const description = genres
+    ? t("descriptionFiltered")
+    : page
+      ? `${t("description")} (page ${page})`
+      : t("description");
 
   return {
-    title: `${author.name} | ${t("titleSuffix")}`,
+    title: {
+      default: title,
+      template: `%s | ${t("title")}`,
+    },
+
     description,
 
     openGraph: {
-      title: author.name,
+      title,
       description,
-      type: "profile",
-      images: author.image
-        ? [
-            {
-              url: author.image,
-              width: 600,
-              height: 600,
-            },
-          ]
-        : [],
+      type: "website",
     },
 
     twitter: {
       card: "summary_large_image",
-      title: author.name,
+      title,
       description,
-      images: author.image ? [author.image] : [],
-    },
-
-    alternates: {
-      canonical: `/authors/${id}`,
     },
 
     robots: {

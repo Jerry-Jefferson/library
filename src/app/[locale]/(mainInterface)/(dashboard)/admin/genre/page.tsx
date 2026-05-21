@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 
   return {
-    title: `${t("add")} ${tEntity("genres.entry")}`,
+    title: `${t("add")} ${tEntity("genreLabel")}`,
     description: t("add"),
 
     robots: {
