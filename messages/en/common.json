@@ -43,6 +43,8 @@
     "tryToReload": "Try to reload this page",
     "reloadPage": "Reload page",
     "toBooksPage": "Go to the books page",
-    "toAuthorsPage": "Go to the authors page"
+    "toHomePage": "Go back to home page",
+    "toAuthorsPage": "Go to the authors page",
+    "noPageFound": "No page found"
   }
 }
